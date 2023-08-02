@@ -46,8 +46,8 @@ If you receive the following error, you can try **providing a cookie** and see i
 5. Go to [bing.com](https://bing.com)
 6. Open the extension
 7. Click "Export" on the bottom right, then "Export as JSON" (This saves your cookies to clipboard)
-8. Paste your cookies into a file `bing_cookies_*.json`.
-   - NOTE: The **cookies file name MUST follow the regex pattern `bing_cookies_*.json`**, so that they could be recognized by internal cookie processing mechanisms
+8. Paste your cookies into a file `bing_cookies.json`.
+   - NOTE: The **cookies file name MUST follow the regex pattern `bing_cookies.json`**, so that they could be recognized by internal cookie processing mechanisms
 
 ### Use cookies in code:
 
@@ -55,7 +55,7 @@ If you receive the following error, you can try **providing a cookie** and see i
 import json
 from re_edge_gpt import Chatbot
 
-cookies = json.loads(open("./path/to/bing_cookies.json", encoding="utf-8").read())  # might omit cookies option
+cookies = json.loads(open("./path/to/bing_cookies.json", encoding="utf-8").read())
 bot = await Chatbot.create(cookies=cookies)
 ```
 
@@ -74,15 +74,13 @@ bot = await Chatbot.create(cookies=cookies)
 ```
  $ python3 -m EdgeGPT.EdgeGPT -h
 
-        EdgeGPT - A demo of reverse engineering the Bing GPT chatbot
-        Repo: github.com/acheong08/EdgeGPT
-        By: Antonio Cheong
+        re_edge_gpt - A demo of reverse engineering the Bing GPT chatbot
 
         !help for help
 
         Type !exit to exit
 
-usage: EdgeGPT.py [-h] [--enter-once] [--search-result] [--no-stream] [--rich] [--proxy PROXY] [--wss-link WSS_LINK]
+usage: re_edge_gpt.py [-h] [--enter-once] [--search-result] [--no-stream] [--rich] [--proxy PROXY] [--wss-link WSS_LINK]
                   [--style {creative,balanced,precise}] [--prompt PROMPT] [--cookie-file COOKIE_FILE]
                   [--history-file HISTORY_FILE] [--locale LOCALE]
 
@@ -120,7 +118,7 @@ from re_edge_gpt import Chatbot, ConversationStyle
 cookies = json.loads(open(str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
 
 async def main():
-    bot = await Chatbot.create(cookies=cookies) # Passing cookies is "optional", as explained above
+    bot = await Chatbot.create(cookies=cookies)
     response = await bot.ask(prompt="Hello world", conversation_style=ConversationStyle.creative, simplify_response=True)
     print(json.dumps(response, indent=2)) # Returns
     """
@@ -142,6 +140,5 @@ if __name__ == "__main__":
 </details>
 
 ---
-Origin repo (archived): 
-https://github.com/acheong08/EdgeGPT
+> Origin repo (archived): https://github.com/acheong08/EdgeGPT
 ---
