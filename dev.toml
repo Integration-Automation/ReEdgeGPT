@@ -1,0 +1,41 @@
+# Rename to dev version
+# This is dev version
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "re_edge_gpt_dev"
+version = "0.0.01"
+authors = [
+    { name = "JE-Chen", email = "jechenmailman@gmail.com" },
+]
+dependencies = [
+    "aiohttp", "certifi", "httpx", "prompt_toolkit", "requests", "rich"
+]
+description = "Microsoft's Bing Chat AI"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: MacOS X",
+    "Environment :: X11 Applications",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/Integration-Automation/ReEdgeGPT"
+Code = "https://github.com/Integration-Automation/ReEdgeGPT"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
+[tool.setuptools.packages]
+find = { namespaces = false }

@@ -1,0 +1,6 @@
+aiohttp
+certifi
+httpx
+prompt_toolkit
+requests
+rich
