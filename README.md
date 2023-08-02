@@ -140,3 +140,8 @@ if __name__ == "__main__":
 ```
 
 </details>
+
+---
+Origin repo (archived): 
+https://github.com/acheong08/EdgeGPT
+---
