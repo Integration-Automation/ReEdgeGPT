@@ -7,7 +7,7 @@ from re_edge_gpt import ConversationStyle
 
 
 async def test_ask() -> None:
-    bot = await Chatbot.create(cookies=getenv("EDGE_COOKIES"))
+    bot = await Chatbot.create(cookies=json.loads(getenv("EDGE_COOKIES")))
     response = await bot.ask(
         prompt="find me some information about the new ai released by meta.",
         conversation_style=ConversationStyle.balanced,
