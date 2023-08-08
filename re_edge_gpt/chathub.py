@@ -151,40 +151,36 @@ class ChatHub:
                 if obj is None or not obj:
                     continue
                 response = json.loads(obj)
-                # print(response)
                 if response.get("type") == 1 and response["arguments"][0].get(
                         "messages",
                 ):
-                    if (
-                            (
-                                    response["arguments"][0]["messages"][0]["contentOrigin"]
-                                    != "Apology"
-                            )
-                            and not raw
-                    ):
-                        resp_txt = result_text + response["arguments"][0][
-                            "messages"
-                        ][0]["adaptiveCards"][0]["body"][0].get("text", "")
-                        resp_txt_no_link = result_text + response["arguments"][0][
-                            "messages"
-                        ][0].get("text", "")
-                        if response["arguments"][0]["messages"][0].get(
-                                "messageType",
-                        ):
-                            resp_txt = (
-                                    resp_txt
-                                    + response["arguments"][0]["messages"][0][
-                                        "adaptiveCards"
-                                    ][0]["body"][0]["inlines"][0].get("text")
-                                    + "\n"
-                            )
-                            result_text = (
-                                    result_text
-                                    + response["arguments"][0]["messages"][0][
-                                        "adaptiveCards"
-                                    ][0]["body"][0]["inlines"][0].get("text")
-                                    + "\n"
-                            )
+                    if ((response["arguments"][0]["messages"][0]["contentOrigin"] != "Apology") and not raw):
+                        try:
+                            resp_txt = result_text + response["arguments"][0][
+                                "messages"
+                            ][0]["adaptiveCards"][0]["body"][0].get("text", "")
+                            resp_txt_no_link = result_text + response["arguments"][0][
+                                "messages"
+                            ][0].get("text", "")
+                            if response["arguments"][0]["messages"][0].get(
+                                    "messageType",
+                            ):
+                                resp_txt = (
+                                        resp_txt
+                                        + response["arguments"][0]["messages"][0][
+                                            "adaptiveCards"
+                                        ][0]["body"][0]["inlines"][0].get("text")
+                                        + "\n"
+                                )
+                                result_text = (
+                                        result_text
+                                        + response["arguments"][0]["messages"][0][
+                                            "adaptiveCards"
+                                        ][0]["body"][0]["inlines"][0].get("text")
+                                        + "\n"
+                                )
+                        except KeyError:
+                            pass
                     if not raw:
                         yield False, resp_txt
                 elif response.get("type") == 2:
