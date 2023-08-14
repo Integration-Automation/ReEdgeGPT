@@ -5,8 +5,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "re_edge_gpt_dev"
-version = "0.0.03"
+name = "re_edge_gpt"
+version = "0.0.04"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },
 ]
@@ -14,10 +14,10 @@ dependencies = [
     "aiohttp", "certifi", "httpx", "prompt_toolkit", "requests", "rich"
 ]
 description = "Microsoft's Bing Chat AI"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { text = "MIT" }
 classifiers = [
-    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Win32 (MS Windows)",
     "Environment :: MacOS X",

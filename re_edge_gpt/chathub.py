@@ -151,10 +151,8 @@ class ChatHub:
                 if obj is None or not obj:
                     continue
                 response = json.loads(obj)
-                if response.get("type") == 1 and response["arguments"][0].get(
-                        "messages",
-                ):
-                    if ((response["arguments"][0]["messages"][0]["contentOrigin"] != "Apology") and not raw):
+                if response.get("type") == 1 and response["arguments"][0].get("messages"):
+                    if (response["arguments"][0]["messages"][0]["contentOrigin"] != "Apology") and not raw:
                         try:
                             resp_txt = result_text + response["arguments"][0][
                                 "messages"
@@ -189,10 +187,7 @@ class ChatHub:
                         raise Exception(
                             f"{response['item']['result']['value']}: {response['item']['result']['message']}",
                         )
-                    if (
-                            response["item"]["messages"][-1]["contentOrigin"] == "Apology"
-                            and resp_txt
-                    ):
+                    if response["item"]["messages"][-1]["contentOrigin"] == "Apology" and resp_txt:
                         response["item"]["messages"][-1]["text"] = resp_txt_no_link
                         response["item"]["messages"][-1]["adaptiveCards"][0]["body"][0][
                             "text"
