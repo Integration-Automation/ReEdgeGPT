@@ -19,4 +19,5 @@ async def test_ask() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(test_ask())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(test_ask())

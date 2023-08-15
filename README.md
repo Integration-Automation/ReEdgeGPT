@@ -139,6 +139,15 @@ if __name__ == "__main__":
 
 </details>
 
+# Q&A
+
+<summary>
+
+> * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
+> * A: Renew your cookies.
+
+</summary>
+
 ---
 > Origin repo (archived): https://github.com/acheong08/EdgeGPT
 ---
