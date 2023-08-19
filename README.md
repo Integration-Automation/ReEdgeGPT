@@ -18,7 +18,7 @@ python3 -m pip install re_edge_gpt --upgrade
 
 ## Requirements
 
-- python 3.8+
+- python 3.9+
 - A Microsoft Account with access to <https://bing.com/chat> (Optional, depending on your region)
 - Required in a supported country or region with New Bing (Chinese mainland VPN required)
 
