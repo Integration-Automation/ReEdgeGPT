@@ -31,5 +31,5 @@ jobs:
       run: python ./test/unit_test/test_bot/test_bot.py
     - name: Test Generation Image
       env:
-        EDGE_COOKIES: ${{ secrets.IMAGE_COOKIE }}
+        IMAGE_COOKIE: ${{ secrets.IMAGE_COOKIE }}
       run: python ./test/unit_test/test_generate_image/test_generation.py
