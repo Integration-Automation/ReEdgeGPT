@@ -6,12 +6,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "re_edge_gpt_dev"
-version = "0.0.04"
+version = "0.0.05"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },
 ]
 dependencies = [
-    "aiohttp", "certifi", "httpx", "prompt_toolkit", "requests", "rich"
+    "aiohttp", "certifi", "httpx", "prompt_toolkit", "requests", "rich", "regex"
 ]
 description = "Microsoft's Bing Chat AI"
 requires-python = ">=3.9"
