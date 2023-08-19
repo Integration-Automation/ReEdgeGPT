@@ -4,4 +4,4 @@ httpx
 prompt_toolkit
 requests
 rich
-re_edge_gpt
+re_edge_gpt_dev
