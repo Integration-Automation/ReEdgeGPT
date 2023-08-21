@@ -141,7 +141,7 @@ class ImageGen:
             if response.status_code != 302:
                 if self.debug_file:
                     self.debug(f"ERROR: {error_redirect}")
-                print(f"ERROR: {response.text}".encode("utf-8"))
+                print(f"ERROR: {response.text.encode('utf-8')}")
                 raise Exception(error_redirect)
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
@@ -314,7 +314,7 @@ class ImageGenAsync:
                 timeout=200,
             )
             if response.status_code != 302:
-                print(f"ERROR: {response.text}")
+                print(f"ERROR: {response.text.encode('utf-8')}")
                 raise Exception("Redirect failed")
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
