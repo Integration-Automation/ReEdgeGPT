@@ -148,9 +148,13 @@ if __name__ == "__main__":
 
 </details>
 
-<details open>
+<summary>
 
 # How to generate image
+
+</summary>
+
+<details open>
 
 ## Getting authentication
 > ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
