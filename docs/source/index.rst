@@ -1,4 +1,4 @@
-FrontEngine
+ReEdgeGPT
 ----
 
 .. toctree::

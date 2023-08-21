@@ -2,6 +2,10 @@
 
 _The reverse engineering the chat feature of the new version of Bing_
 
+[![Documentation Status](https://readthedocs.org/projects/reedgegpt/badge/?version=latest)](https://reedgegpt.readthedocs.io/en/latest/?badge=latest)
+
+[ReEdgeGPT Doc Click Here!](https://reedgegpt.readthedocs.io/en/latest/)
+
 <summary>
 
 # Setup
@@ -144,7 +148,7 @@ if __name__ == "__main__":
 
 </details>
 
-<summary>
+<details open>
 
 # How to generate image
 
@@ -214,16 +218,16 @@ if __name__ == "__main__":
     shutil.rmtree(test_output_dir)
 ```
 
-</summary>
+</details>
 
 # Q&A
 
-<summary>
+<details open>
 
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
 > * A: Renew your cookies.
 
-</summary>
+</details>
 
 ---
 > Origin repo (archived): https://github.com/acheong08/EdgeGPT
