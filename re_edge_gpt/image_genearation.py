@@ -97,6 +97,8 @@ class ImageGen:
         Fetches image links from Bing
         Parameters:
             prompt: str
+            :param prompt:
+            :param max_image_count:
         """
         if not self.quiet:
             print(sending_message)
