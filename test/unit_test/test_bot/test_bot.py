@@ -10,8 +10,7 @@ async def test_ask() -> None:
     bot = await Chatbot.create(cookies=json.loads(getenv("EDGE_COOKIES")))
     response = await bot.ask(
         prompt="find me some information about the new ai released by meta.",
-        conversation_style=ConversationStyle.balanced,
-        simplify_response=True,
+        conversation_style=ConversationStyle.balanced
     )
     await bot.close()
     print(json.dumps(response, indent=2))

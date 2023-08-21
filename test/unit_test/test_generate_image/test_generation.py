@@ -23,12 +23,21 @@ def test_save_images_sync():
 
 
 def test_generate_image_sync():
-    image_list = sync_gen.get_images("tree")
+    image_list = sync_gen.get_images("Big Ben")
+    print(image_list)
+    image_list = sync_gen.get_images("Кра́снаяпло́щадь")
+    print(image_list)
+    image_list = sync_gen.get_images("La Tour Eiffel")
     print(image_list)
 
 
+# Generate image list async
 async def test_generate_image_async():
-    image_list = await async_gen.get_images("tree")
+    image_list = sync_gen.get_images("Big Ben")
+    print(image_list)
+    image_list = await async_gen.get_images("Кра́снаяпло́щадь")
+    print(image_list)
+    image_list = await async_gen.get_images("La Tour Eiffel")
     print(image_list)
 
 
