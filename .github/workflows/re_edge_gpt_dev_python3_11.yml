@@ -27,7 +27,8 @@ jobs:
         pip install -r dev_requirements.txt
     - name: Set UTF8
       run: |
-       chcp 65001 #set code page to utf-8
+        chcp 65001 #set code page to utf-8
+        set PYTHONUTF8=1
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
