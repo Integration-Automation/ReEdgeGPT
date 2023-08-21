@@ -23,13 +23,13 @@ def test_save_images_sync():
 
 
 def test_generate_image_sync():
-    image_list = sync_gen.get_images("GoldenTree")
+    image_list = sync_gen.get_images("Big, Golden, Tree")
     print(image_list)
 
 
 # Generate image list async
 async def test_generate_image_async():
-    image_list = sync_gen.get_images("GoldenTree")
+    image_list = sync_gen.get_images("Big, Golden, Tree")
     print(image_list)
 
 
