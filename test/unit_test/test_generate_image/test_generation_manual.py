@@ -38,7 +38,7 @@ def test_generate_image_sync():
 # Generate image list async
 async def test_generate_image_async():
     print("Generate Big Ben image")
-    image_list = sync_gen.get_images("Big Ben")
+    image_list = await async_gen.get_images("Big Ben")
     print(image_list)
     print("Generate Кра́снаяпло́щадь image")
     image_list = await async_gen.get_images("Кра́снаяпло́щадь")

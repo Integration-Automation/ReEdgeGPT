@@ -5,3 +5,4 @@ ReEdgeGPT English Documentation
     :maxdepth: 4
 
     chat_example.rst
+    generate_image.rst
