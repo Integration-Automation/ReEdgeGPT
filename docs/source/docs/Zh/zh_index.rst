@@ -5,3 +5,4 @@ ReEdgeGPT 繁體中文 文件
     :maxdepth: 4
 
     chat_example.rst
+    generate_image.rst
