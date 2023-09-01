@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
 ## Getting authentication
 > ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
-> * Go to https://bing.com/.
+> * Go to https://bing.com/
 > * F12 to open console
 > * In the JavaScript console, type cookieStore.get("_U").then(result => console.log(result.value)) and press enter
 > * Copy the output. This is used in --U or auth_cookie.
