@@ -158,9 +158,9 @@ if __name__ == "__main__":
 
 ## Getting authentication
 > ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
-> * Go to https://bing.com/.
+> * Go to https://bing.com/
 > * F12 to open console
-> * In the JavaScript console, type cookieStore.get("_U").then(result => console.log(result.value)) and press enter
+> * In the JavaScript console, type **cookieStore.get("_U").then(result => console.log(result.value))** and press enter
 > * Copy the output. This is used in --U or auth_cookie.
 
 > ### Firefox
@@ -229,7 +229,10 @@ if __name__ == "__main__":
 <details open>
 
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
-> * A: Renew your cookies.
+> * A: Renew your cookie file.
+
+> * Q: Exception: conversationSignature
+> * A: Clear all your bing cookie and renew your cookie file.
 
 </details>
 
