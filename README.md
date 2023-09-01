@@ -229,7 +229,10 @@ if __name__ == "__main__":
 <details open>
 
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
-> * A: Renew your cookies.
+> * A: Renew your cookie file.
+
+> * Q: Exception: conversationSignature
+> * A: Clear all your bing cookie and renew your cookie file.
 
 </details>
 
