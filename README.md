@@ -233,6 +233,7 @@ if __name__ == "__main__":
 
 > * Q: Exception: conversationSignature
 > * A: Clear all your bing cookie and renew your cookie file.
+>   * Like : https://github.com/Integration-Automation/ReEdgeGPT/issues/17
 
 </details>
 
