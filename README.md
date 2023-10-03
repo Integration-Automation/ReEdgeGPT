@@ -47,7 +47,7 @@ If you receive the following error, you can try **providing a cookie** and see i
 2. Open [bing.com/chat](https://bing.com/chat)
 3. If you see a chat feature, you are good to continue...
 4. Install the cookie editor extension for [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
-5. Go to [bing.com](https://bing.com)
+5. Go to [bing.com/chat]([https://bing.com](https://bing.com/chat))
 6. Open the extension
 7. Click "Export" on the bottom right, then "Export as JSON" (This saves your cookies to clipboard)
 8. Paste your cookies into a file `bing_cookies.json`.
