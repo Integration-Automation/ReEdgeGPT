@@ -235,6 +235,9 @@ if __name__ == "__main__":
 > * A: Clear all your bing cookie and renew your cookie file.
 >   * Like : https://github.com/Integration-Automation/ReEdgeGPT/issues/17
 
+> * Q: ValueError: Invalid header value b'_U=***\n'
+> * A: Renew your image cookie.
+
 </details>
 
 ---
