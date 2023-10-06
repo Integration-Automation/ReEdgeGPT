@@ -6,6 +6,8 @@ _The reverse engineering the chat feature of the new version of Bing_
 
 [ReEdgeGPT Doc Click Here!](https://reedgegpt.readthedocs.io/en/latest/)
 
+If you have any problem watch bottom Q&A first.
+
 <summary>
 
 # Setup
