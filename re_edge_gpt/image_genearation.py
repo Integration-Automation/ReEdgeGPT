@@ -137,12 +137,11 @@ class ImageGen:
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GENCRE"
-            response = self.session.post(url, allow_redirects=False, timeout=200)
-            if response.status_code != 302:
-                if self.debug_file:
-                    self.debug(f"ERROR: {error_redirect}")
-                print(f"ERROR: {response.text.encode('utf-8')}")
-                raise Exception(error_redirect)
+            print("Waiting image creation")
+            while True:
+                response = self.session.post(url, allow_redirects=True, timeout=200)
+                if response.status_code != 302:
+                    print(".", end="", flush=True)
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
@@ -308,14 +307,15 @@ class ImageGenAsync:
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GENCRE"
-            response = await self.session.post(
-                url,
-                follow_redirects=False,
-                timeout=200,
-            )
-            if response.status_code != 302:
-                print(f"ERROR: {response.text.encode('utf-8')}")
-                raise Exception("Redirect failed")
+            print("Waiting image creation")
+            while True:
+                response = await self.session.post(
+                    url,
+                    follow_redirects=True,
+                    timeout=200,
+                )
+                if response.status_code != 302:
+                    print(".", end="", flush=True)
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
