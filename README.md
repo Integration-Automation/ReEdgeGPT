@@ -236,6 +236,7 @@ if __name__ == "__main__":
 > * Q: Exception: conversationSignature
 > * A: Clear all your bing cookie and renew your cookie file.
 >   * Like : https://github.com/Integration-Automation/ReEdgeGPT/issues/17
+>   * And: https://github.com/Integration-Automation/ReEdgeGPT/issues/22
 
 > * Q: ValueError: Invalid header value b'_U=***\n'
 > * A: Renew your image cookie.
