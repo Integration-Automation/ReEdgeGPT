@@ -7,7 +7,7 @@ import socket
 import sys
 import time
 from functools import partial
-from typing import Dict
+from typing import Dict, Mapping
 from typing import List
 from typing import Union
 
@@ -294,11 +294,11 @@ class ImageGenAsync:
         url_encoded_prompt = requests.utils.quote(prompt)
         # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
         url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GENCRE"
-        payload = f"q={url_encoded_prompt}&qs=ds"
+        # payload = f"q={url_encoded_prompt}&qs=ds"
         response = await self.session.post(
             url,
             follow_redirects=False,
-            data=payload,
+            data={"q": url_encoded_prompt, "qs": "ds"},
         )
         content = response.text
         if "this prompt has been blocked" in content.lower():

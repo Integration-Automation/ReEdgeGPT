@@ -33,3 +33,7 @@ jobs:
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
       run: python ./test/unit_test/test_bot/test_bot.py
+    - name: Test Generation Image
+      env:
+        IMAGE_COOKIE: ${{ secrets.IMAGE_COOKIE }}
+      run: python ./test/unit_test/test_generate_image/test_generation.py

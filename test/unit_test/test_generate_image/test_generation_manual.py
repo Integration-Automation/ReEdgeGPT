@@ -30,19 +30,10 @@ def test_generate_image_sync():
     print("Generate Кра́снаяпло́щадь image")
     image_list = sync_gen.get_images("Кра́снаяпло́щадь")
     print(image_list)
-    print("Generate La Tour Eiffel image")
-    image_list = sync_gen.get_images("La Tour Eiffel")
-    print(image_list)
 
 
 # Generate image list async
 async def test_generate_image_async():
-    print("Generate Big Ben image")
-    image_list = await async_gen.get_images("Big Ben")
-    print(image_list)
-    print("Generate Кра́снаяпло́щадь image")
-    image_list = await async_gen.get_images("Кра́снаяпло́щадь")
-    print(image_list)
     print("Generate La Tour Eiffel image")
     image_list = await async_gen.get_images("La Tour Eiffel")
     print(image_list)
