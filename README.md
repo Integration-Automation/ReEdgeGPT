@@ -6,6 +6,8 @@ _The reverse engineering the chat feature of the new version of Bing_
 
 [ReEdgeGPT Doc Click Here!](https://reedgegpt.readthedocs.io/en/latest/)
 
+If you have any problem watch bottom Q&A first.
+
 <summary>
 
 # Setup
@@ -234,6 +236,7 @@ if __name__ == "__main__":
 > * Q: Exception: conversationSignature
 > * A: Clear all your bing cookie and renew your cookie file.
 >   * Like : https://github.com/Integration-Automation/ReEdgeGPT/issues/17
+>   * And: https://github.com/Integration-Automation/ReEdgeGPT/issues/22
 
 > * Q: ValueError: Invalid header value b'_U=***\n'
 > * A: Renew your image cookie.

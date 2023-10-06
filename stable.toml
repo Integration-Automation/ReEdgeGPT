@@ -5,7 +5,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "re_edge_gpt_dev"
+name = "re_edge_gpt"
 version = "0.0.07"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },

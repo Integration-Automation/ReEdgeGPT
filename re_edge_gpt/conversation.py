@@ -55,6 +55,10 @@ class Conversation:
             raise Exception("Authentication failed")
         try:
             self.struct = response.json()
+            if self.struct.get("conversationSignature") is None:
+                self.struct["conversationSignature"] = response.headers["X-Sydney-Conversationsignature"]
+                self.struct["encryptedConversationSignature"] = response.headers[
+                    "X-Sydney-Encryptedconversationsignature"]
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
             raise Exception(
                 "Authentication failed. You have not been accepted into the beta.",
@@ -112,6 +116,10 @@ class Conversation:
             raise Exception("Authentication failed")
         try:
             self.struct = response.json()
+            if self.struct.get("conversationSignature") is None:
+                self.struct["conversationSignature"] = response.headers["X-Sydney-Conversationsignature"]
+                self.struct["encryptedConversationSignature"] = response.headers[
+                    "X-Sydney-Encryptedconversationsignature"]
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
             print(response.text)
             raise Exception(
