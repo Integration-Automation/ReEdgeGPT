@@ -291,7 +291,7 @@ class ImageGenAsync:
             print("Sending request...")
         url_encoded_prompt = requests.utils.quote(prompt)
         # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
-        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
+        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
         # payload = f"q={url_encoded_prompt}&qs=ds"
         response = await self.session.post(
             url,
@@ -305,7 +305,7 @@ class ImageGenAsync:
             )
         if response.status_code != 302:
             # if rt4 fails, try rt3
-            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
+            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = await self.session.post(
                 url,
                 follow_redirects=False,
