@@ -372,10 +372,7 @@ async def async_image_gen(
             quiet=quiet,
             all_cookies=all_cookies,
     ) as image_generator:
-        images = await image_generator.get_images(prompt)
-        await image_generator.save_images(
-            images, output_dir=output_dir, download_count=download_count
-        )
+        return await image_generator.get_images(prompt)
 
 
 def main():
