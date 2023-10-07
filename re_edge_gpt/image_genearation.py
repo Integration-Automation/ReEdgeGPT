@@ -92,7 +92,7 @@ class ImageGen:
         if self.debug_file:
             self.debug = partial(debug, self.debug_file)
 
-    def get_images(self, prompt: str) -> list:
+    def get_images(self, prompt: str) -> Union[list, None]:
         """
         Fetches image links from Bing
         Parameters:
@@ -107,7 +107,7 @@ class ImageGen:
         url_encoded_prompt = requests.utils.quote(prompt)
         payload = f"q={url_encoded_prompt}&qs=ds"
         # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
-        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GENCRE"
+        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
         response = self.session.post(
             url,
             allow_redirects=False,
@@ -136,14 +136,12 @@ class ImageGen:
             raise Exception(error_unsupported_lang)
         if response.status_code != 302:
             # if rt4 fails, try rt3
-            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GENCRE"
+            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = self.session.post(url, allow_redirects=False, timeout=200)
             if response.status_code != 302:
-                if self.debug_file:
-                    self.debug(f"ERROR: {error_redirect}")
-                print(f"ERROR: {response.text.encode('utf-8')}")
-                raise Exception(error_redirect)
-        # Get redirect URL
+                print("Image Creating Please Retry Later", end="", flush=True)
+                return
+                # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
         self.session.get(f"{BING_URL}{redirect_url}")
@@ -283,7 +281,7 @@ class ImageGenAsync:
     async def __aexit__(self, *excinfo) -> None:
         await self.session.aclose()
 
-    async def get_images(self, prompt: str) -> list:
+    async def get_images(self, prompt: str) -> Union[list, None]:
         """
         Fetches image links from Bing
         Parameters:
@@ -293,12 +291,12 @@ class ImageGenAsync:
             print("Sending request...")
         url_encoded_prompt = requests.utils.quote(prompt)
         # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
-        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GENCRE"
-        payload = f"q={url_encoded_prompt}&qs=ds"
+        url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
+        # payload = f"q={url_encoded_prompt}&qs=ds"
         response = await self.session.post(
             url,
             follow_redirects=False,
-            data=payload,
+            data={"q": url_encoded_prompt, "qs": "ds"},
         )
         content = response.text
         if "this prompt has been blocked" in content.lower():
@@ -307,15 +305,15 @@ class ImageGenAsync:
             )
         if response.status_code != 302:
             # if rt4 fails, try rt3
-            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GENCRE"
+            url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = await self.session.post(
                 url,
                 follow_redirects=False,
                 timeout=200,
             )
             if response.status_code != 302:
-                print(f"ERROR: {response.text.encode('utf-8')}")
-                raise Exception("Redirect failed")
+                print("Image Creating Please Retry Later", end="", flush=True)
+                return None
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
@@ -374,10 +372,7 @@ async def async_image_gen(
             quiet=quiet,
             all_cookies=all_cookies,
     ) as image_generator:
-        images = await image_generator.get_images(prompt)
-        await image_generator.save_images(
-            images, output_dir=output_dir, download_count=download_count
-        )
+        return await image_generator.get_images(prompt)
 
 
 def main():

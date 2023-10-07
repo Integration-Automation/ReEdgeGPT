@@ -29,7 +29,7 @@ def test_generate_image_sync():
 
 # Generate image list async
 async def test_generate_image_async():
-    image_list = sync_gen.get_images("Big, Golden, Tree")
+    image_list = await async_gen.get_images("Big, Golden, Tree")
     print(image_list)
 
 
