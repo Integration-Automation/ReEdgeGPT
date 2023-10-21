@@ -7,6 +7,7 @@ ReEdgeGPT
     docs/Eng/eng_index.rst
     docs/Zh/zh_index.rst
     docs/API/api_index.rst
+    QA.rst
 
 ----
 
