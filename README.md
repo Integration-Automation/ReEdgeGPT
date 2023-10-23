@@ -120,32 +120,41 @@ options:
 Use Async for the best experience, for example:
 
 ```python
-import asyncio, json
-
+import asyncio
+import json
 from pathlib import Path
-from re_edge_gpt import Chatbot, ConversationStyle
 
-cookies = json.loads(open(str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+from re_edge_gpt import Chatbot
+from re_edge_gpt import ConversationStyle
 
-async def main():
-    bot = await Chatbot.create(cookies=cookies)
-    response = await bot.ask(prompt="Hello world", conversation_style=ConversationStyle.creative, simplify_response=True)
-    print(json.dumps(response, indent=2)) # Returns
-    """
-{
-    "text": str,
-    "author": str,
-    "sources": list[dict],
-    "sources_text": str,
-    "suggestions": list[str],
-    "messages_left": int
-}
-    """
-    await bot.close()
+
+# If you are using jupyter pls install this package
+# from nest_asyncio import apply
+
+
+async def test_ask() -> None:
+   cookies = json.loads(open(
+      str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+   bot = await Chatbot.create(cookies=cookies)
+   response = await bot.ask(
+      prompt="find me some information about the new ai released by meta.",
+      conversation_style=ConversationStyle.balanced,
+      simplify_response=True,
+   )
+   await bot.close()
+   print(json.dumps(response, indent=2))
+   assert response
+
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+   # If you are using jupyter pls use nest_asyncio apply()
+   # apply()
+   try:
+      loop = asyncio.get_running_loop()
+   except RuntimeError:
+      loop = asyncio.get_event_loop()
+   loop.run_until_complete(test_ask())
+
 ```
 
 </details>
@@ -174,7 +183,6 @@ if __name__ == "__main__":
 > * copy the value from the _U
 
 ```python
-import asyncio
 import os
 import shutil
 from pathlib import Path
@@ -203,13 +211,6 @@ def test_generate_image_sync():
     image_list = sync_gen.get_images("tree")
     print(image_list)
 
-
-# Generate image list async
-async def test_generate_image_async():
-    image_list = await async_gen.get_images("tree")
-    print(image_list)
-
-
 if __name__ == "__main__":
     # Make dir to save image
     Path("test_output").mkdir(exist_ok=True)
@@ -217,9 +218,6 @@ if __name__ == "__main__":
     test_save_images_sync()
     # Generate image sync
     test_generate_image_sync()
-    # Generate image async
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(test_generate_image_async())
     # Remove dir
     shutil.rmtree(test_output_dir)
 ```
@@ -229,6 +227,9 @@ if __name__ == "__main__":
 # Q&A
 
 <details open>
+
+> * Q: RuntimeError: This event loop is already running
+> * A: If you are using Jupyter, pls use nest_asyncio.apply()
 
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
 > * A: Renew your cookie file.
