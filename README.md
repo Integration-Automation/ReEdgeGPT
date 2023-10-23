@@ -183,7 +183,6 @@ if __name__ == "__main__":
 > * copy the value from the _U
 
 ```python
-import asyncio
 import os
 import shutil
 from pathlib import Path
@@ -212,13 +211,6 @@ def test_generate_image_sync():
     image_list = sync_gen.get_images("tree")
     print(image_list)
 
-
-# Generate image list async
-async def test_generate_image_async():
-    image_list = await async_gen.get_images("tree")
-    print(image_list)
-
-
 if __name__ == "__main__":
     # Make dir to save image
     Path("test_output").mkdir(exist_ok=True)
@@ -226,9 +218,6 @@ if __name__ == "__main__":
     test_save_images_sync()
     # Generate image sync
     test_generate_image_sync()
-    # Generate image async
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(test_generate_image_async())
     # Remove dir
     shutil.rmtree(test_output_dir)
 ```
@@ -240,7 +229,7 @@ if __name__ == "__main__":
 <details open>
 
 > * Q: RuntimeError: This event loop is already running
-> * If you are using Jupyter, pls use nest_asyncio.apply()
+> * A: If you are using Jupyter, pls use nest_asyncio.apply()
 
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
 > * A: Renew your cookie file.

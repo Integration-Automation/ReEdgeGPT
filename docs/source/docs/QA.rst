@@ -5,6 +5,8 @@ Details
 
 .. code-block:: markdown
 
+    * Q: RuntimeError: This event loop is already running
+        * A: If you are using Jupyter, pls use nest_asyncio.apply()
     * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
         * A: Renew your cookie file.
     * Q: Exception: conversationSignature
