@@ -12,7 +12,6 @@ from typing import List
 from typing import Union
 
 import httpx
-import pkg_resources
 import regex
 import requests
 
@@ -359,8 +358,6 @@ class ImageGenAsync:
 
 async def async_image_gen(
         prompt: str,
-        download_count: int,
-        output_dir: str,
         u_cookie=None,
         debug_file=None,
         quiet=False,
@@ -425,7 +422,6 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print(pkg_resources.get_distribution("BingImageCreator").version)
         sys.exit()
 
     # Load auth cookie
