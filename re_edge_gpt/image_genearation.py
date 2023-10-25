@@ -138,7 +138,7 @@ class ImageGen:
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = self.session.post(url, allow_redirects=False, timeout=200)
             if response.status_code != 302:
-                print("Image Creating Please Retry Later", end="", flush=True)
+                print("Image create failed pls check cookie or old image still creating", flush=True)
                 return
                 # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
@@ -310,9 +310,9 @@ class ImageGenAsync:
                 follow_redirects=False,
                 timeout=200,
             )
-            if response.status_code != 302:
-                print("Image Creating Please Retry Later", end="", flush=True)
-                return None
+        if response.status_code != 302:
+            print("Image create failed pls check cookie or old image still creating", flush=True)
+            return None
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
