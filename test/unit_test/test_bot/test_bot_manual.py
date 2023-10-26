@@ -24,7 +24,7 @@ async def test_ask() -> None:
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
         # Raw response
-        print(response)
+        # print(response)
         assert response
     except Exception as error:
         raise error
