@@ -97,7 +97,6 @@ class ImageGen:
         Parameters:
             prompt: str
             :param prompt:
-            :param max_image_count:
         """
         if not self.quiet:
             print(sending_message)
