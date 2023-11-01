@@ -21,7 +21,7 @@ If you have any problem watch bottom Q&A first.
 ```bash
 python3 -m pip install re_edge_gpt --upgrade
 ```
-
+* Notice! EdgeGPT is rename to re_edge_gpt
 ## Requirements
 
 - python 3.9+
