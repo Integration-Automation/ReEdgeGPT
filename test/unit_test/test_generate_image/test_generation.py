@@ -1,6 +1,7 @@
 import asyncio
 import os
 import shutil
+import sys
 from pathlib import Path
 
 from re_edge_gpt import ImageGen, ImageGenAsync
@@ -34,9 +35,18 @@ async def test_generate_image_async():
 
 
 if __name__ == "__main__":
-    Path("test_output").mkdir(exist_ok=True)
-    test_save_images_sync()
-    test_generate_image_sync()
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(test_generate_image_async())
-    shutil.rmtree(test_output_dir)
+    loop = None
+    try:
+        Path("test_output").mkdir(exist_ok=True)
+        test_save_images_sync()
+        test_generate_image_sync()
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(test_generate_image_async())
+        shutil.rmtree(test_output_dir)
+    except Exception as error:
+        raise error
+    finally:
+        if loop is not None:
+            loop.close()
+        sys.exit(0)
+
