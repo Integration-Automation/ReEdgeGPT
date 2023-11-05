@@ -41,7 +41,6 @@ async def test_generate_image_async():
 
 
 if __name__ == "__main__":
-    loop = None
     try:
         # Make dir to save image
         Path("test_output").mkdir(exist_ok=True)
@@ -57,6 +56,4 @@ if __name__ == "__main__":
     except Exception as error:
         raise error
     finally:
-        if loop is not None:
-            loop.close()
         sys.exit(0)
