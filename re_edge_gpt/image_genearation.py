@@ -279,11 +279,12 @@ class ImageGenAsync:
     async def __aexit__(self, *excinfo) -> None:
         await self.session.aclose()
 
-    async def get_images(self, prompt: str) -> Union[list, None]:
+    async def get_images(self, prompt: str, timeout: int = 200) -> Union[list, None]:
         """
         Fetches image links from Bing
         Parameters:
-            prompt: str
+            :param prompt: str -> prompt to gen image
+            :param timeout: int -> timeout
         """
         if not self.quiet:
             print("Sending request...")
@@ -295,6 +296,7 @@ class ImageGenAsync:
             url,
             follow_redirects=False,
             data={"q": url_encoded_prompt, "qs": "ds"},
+            timeout=timeout
         )
         content = response.text
         if "this prompt has been blocked" in content.lower():
