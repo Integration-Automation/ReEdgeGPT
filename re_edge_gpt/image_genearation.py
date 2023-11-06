@@ -91,12 +91,13 @@ class ImageGen:
         if self.debug_file:
             self.debug = partial(debug, self.debug_file)
 
-    def get_images(self, prompt: str) -> Union[list, None]:
+    def get_images(self, prompt: str, timeout: int = 200, max_generate_time_sec: int = 60) -> Union[list, None]:
         """
         Fetches image links from Bing
         Parameters:
-            prompt: str
-            :param prompt:
+            :param prompt: str -> prompt to gen image
+            :param timeout: int -> timeout
+            :param max_generate_time_sec: time limit of generate image
         """
         if not self.quiet:
             print(sending_message)
@@ -110,7 +111,7 @@ class ImageGen:
             url,
             allow_redirects=False,
             data=payload,
-            timeout=200,
+            timeout=timeout,
         )
         # check for content waring message
         if "this prompt is being reviewed" in response.text.lower():
@@ -135,7 +136,7 @@ class ImageGen:
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
-            response = self.session.post(url, allow_redirects=False, timeout=200)
+            response = self.session.post(url, allow_redirects=False, timeout=timeout)
             if response.status_code != 302:
                 print("Image create failed pls check cookie or old image still creating", flush=True)
                 return
@@ -151,6 +152,7 @@ class ImageGen:
         if not self.quiet:
             print("Waiting for results...")
         start_wait = time.time()
+        time_sec = 0
         while True:
             if int(time.time() - start_wait) > 200:
                 if self.debug_file:
@@ -165,6 +167,9 @@ class ImageGen:
                 raise Exception(error_noresults)
             if not response.text or response.text.find("errorMessage") != -1:
                 time.sleep(1)
+                time_sec = time_sec + 1
+                if time_sec >= max_generate_time_sec:
+                    raise TimeoutError
                 continue
             else:
                 break
@@ -279,12 +284,13 @@ class ImageGenAsync:
     async def __aexit__(self, *excinfo) -> None:
         await self.session.aclose()
 
-    async def get_images(self, prompt: str, timeout: int = 200) -> Union[list, None]:
+    async def get_images(self, prompt: str, timeout: int = 200, max_generate_time_sec: int = 60) -> Union[list, None]:
         """
         Fetches image links from Bing
         Parameters:
             :param prompt: str -> prompt to gen image
             :param timeout: int -> timeout
+            :param max_generate_time_sec: time limit of generate image
         """
         if not self.quiet:
             print("Sending request...")
@@ -309,7 +315,7 @@ class ImageGenAsync:
             response = await self.session.post(
                 url,
                 follow_redirects=False,
-                timeout=200,
+                timeout=timeout,
             )
         if response.status_code != 302:
             print("Image create failed pls check cookie or old image still creating", flush=True)
@@ -323,6 +329,7 @@ class ImageGenAsync:
         # Poll for results
         if not self.quiet:
             print("Waiting for results...")
+        time_sec = 0
         while True:
             if not self.quiet:
                 print(".", end="", flush=True)
@@ -335,6 +342,9 @@ class ImageGenAsync:
                 break
 
             await asyncio.sleep(1)
+            time_sec = time_sec + 1
+            if time_sec >= max_generate_time_sec:
+                raise TimeoutError
             continue
         # Use regex to search for src=""
         image_links = regex.findall(r'src="([^"]+)"', content)
