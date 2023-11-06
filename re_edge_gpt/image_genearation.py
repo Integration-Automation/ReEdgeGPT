@@ -169,7 +169,7 @@ class ImageGen:
                 time.sleep(1)
                 time_sec = time_sec + 1
                 if time_sec >= max_generate_time_sec:
-                    raise TimeoutError
+                    raise TimeoutError("Out of generate time")
                 continue
             else:
                 break
@@ -344,7 +344,7 @@ class ImageGenAsync:
             await asyncio.sleep(1)
             time_sec = time_sec + 1
             if time_sec >= max_generate_time_sec:
-                raise TimeoutError
+                raise TimeoutError("Out of generate time")
             continue
         # Use regex to search for src=""
         image_links = regex.findall(r'src="([^"]+)"', content)
