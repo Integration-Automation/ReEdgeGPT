@@ -7,6 +7,7 @@ import httpx
 
 from .constants import HEADERS_INIT_CONVER
 from .exceptions import NotAllowedToAccess
+from .proxy import get_proxy
 
 
 class Conversation:
@@ -78,17 +79,7 @@ class Conversation:
             "conversationSignature": None,
             "result": {"value": "Success", "message": None},
         }
-        self.proxy = proxy
-        proxy = (
-                proxy
-                or os.environ.get("all_proxy")
-                or os.environ.get("ALL_PROXY")
-                or os.environ.get("https_proxy")
-                or os.environ.get("HTTPS_PROXY")
-                or None
-        )
-        if proxy is not None and proxy.startswith("socks5h://"):
-            proxy = "socks5://" + proxy[len("socks5h://"):]
+        self.proxy = get_proxy(proxy)
         transport = httpx.AsyncHTTPTransport(retries=900)
         # Convert cookie format to httpx format
         formatted_cookies = None

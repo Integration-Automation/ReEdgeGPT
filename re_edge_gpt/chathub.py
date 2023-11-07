@@ -18,6 +18,7 @@ from .constants import HEADERS
 from .constants import HEADERS_INIT_CONVER
 from .conversation import Conversation
 from .conversation_style import CONVERSATION_STYLE_TYPE
+from .proxy import get_proxy
 from .request import ChatHubRequest
 from .utilities import append_identifier
 from .utilities import get_ran_hex
@@ -50,19 +51,9 @@ class ChatHub:
             conversation_id=conversation.struct["conversationId"],
         )
         self.cookies = cookies
-        self.proxy: str = proxy
-        proxy = (
-                proxy
-                or os.environ.get("all_proxy")
-                or os.environ.get("ALL_PROXY")
-                or os.environ.get("https_proxy")
-                or os.environ.get("HTTPS_PROXY")
-                or None
-        )
-        if proxy is not None and proxy.startswith("socks5h://"):
-            proxy = "socks5://" + proxy[len("socks5h://"):]
+        self.proxy: str = get_proxy(proxy)
         self.session = httpx.AsyncClient(
-            proxies=proxy,
+            proxies=self.proxy,
             timeout=900,
             headers=HEADERS_INIT_CONVER,
         )

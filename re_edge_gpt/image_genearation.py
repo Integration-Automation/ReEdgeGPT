@@ -15,6 +15,8 @@ import httpx
 import regex
 import requests
 
+from re_edge_gpt.proxy import get_proxy
+
 take_ip_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 take_ip_socket.connect(("8.8.8.8", 80))
 FORWARDED_IP: str = take_ip_socket.getsockname()[0]
@@ -23,18 +25,18 @@ take_ip_socket.close()
 BING_URL = os.getenv("BING_URL", "https://www.bing.com")
 
 HEADERS = {
-    "accept": "text/html,application/xhtml+xml,application/"
-              "xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "accept-language": "en-US,en;q=0.9",
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,"
+              "image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.77",
+    "accept-language": "en,zh-TW;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6",
     "cache-control": "max-age=0",
     "content-type": "application/x-www-form-urlencoded",
     "referrer": "https://www.bing.com/images/create/",
     "origin": "https://www.bing.com",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/115.0.0.0 "
+                  "Chrome/119.0.0.0 "
                   "Safari/537.36 "
-                  "Edg/115.0.1901.188",
+                  "Edg/119.0.0.0",
     "x-forwarded-for": FORWARDED_IP,
 }
 
@@ -79,8 +81,18 @@ class ImageGen:
             debug_file: Union[str, None] = None,
             quiet: bool = False,
             all_cookies: List[Dict] = None,
+            proxy: str = None,
+            proxy_user: Dict[str, str] = None
     ) -> None:
+        if proxy_user is None:
+            proxy_user = {"http_user": "http", "https_user": "https"}
         self.session: requests.Session = requests.Session()
+        self.proxy: str = get_proxy(proxy)
+        if self.proxy is not None:
+            self.session.proxies.update({
+                proxy_user.get("http_user", "http"): self.proxy,
+                proxy_user.get("https_user", "https"): self.proxy
+            })
         self.session.headers = HEADERS
         self.session.cookies.set("_U", auth_cookie)
         if all_cookies:
@@ -169,7 +181,7 @@ class ImageGen:
                 time.sleep(1)
                 time_sec = time_sec + 1
                 if time_sec >= max_generate_time_sec:
-                    raise TimeoutError
+                    raise TimeoutError("Out of generate time")
                 continue
             else:
                 break
@@ -259,10 +271,13 @@ class ImageGenAsync:
             debug_file: Union[str, None] = None,
             quiet: bool = False,
             all_cookies: List[Dict] = None,
+            proxy: str = None
     ) -> None:
         if auth_cookie is None and not all_cookies:
             raise Exception("No auth cookie provided")
+        self.proxy: str = get_proxy(proxy)
         self.session = httpx.AsyncClient(
+            proxies=self.proxy,
             headers=HEADERS,
             trust_env=True,
         )
@@ -344,7 +359,7 @@ class ImageGenAsync:
             await asyncio.sleep(1)
             time_sec = time_sec + 1
             if time_sec >= max_generate_time_sec:
-                raise TimeoutError
+                raise TimeoutError("Out of generate time")
             continue
         # Use regex to search for src=""
         image_links = regex.findall(r'src="([^"]+)"', content)

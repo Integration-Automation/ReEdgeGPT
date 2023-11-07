@@ -9,14 +9,14 @@ from re_edge_gpt import ImageGenAsync
 test_output_dir = "test_output"
 # download a test image
 test_image_url = "https://picsum.photos/200"
-auth_cooker = open("bing_cookies.txt", "r+").read()
+auth_cooker = open("../test_generate_image/bing_cookies.txt", "r+").read()
 async_gen = ImageGenAsync(auth_cookie=auth_cooker)
 
 
 # Generate image list async
 async def test_generate_image_async():
-    print("Generate 🐱")
-    image_list = await async_gen.get_images("🐱")
+    print("Generate Pigeon")
+    image_list = await async_gen.get_images("Pigeon")
     print(image_list)
 
 
@@ -31,6 +31,6 @@ if __name__ == "__main__":
             # Remove dir
             shutil.rmtree(test_output_dir)
     except Exception as error:
-        raise error
+        print(repr(error), file=sys.stderr)
     finally:
         sys.exit(0)
