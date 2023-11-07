@@ -5,4 +5,6 @@ prompt_toolkit
 requests
 rich
 re_edge_gpt
+flask[async]
 regex
+gunicorn
