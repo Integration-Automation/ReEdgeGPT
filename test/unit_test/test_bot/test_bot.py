@@ -26,5 +26,10 @@ async def test_ask() -> None:
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
+    # If you are using jupyter pls use nest_asyncio apply()
+    # apply()
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.get_event_loop()
     loop.run_until_complete(test_ask())
