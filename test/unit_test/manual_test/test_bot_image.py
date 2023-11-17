@@ -17,7 +17,7 @@ async def test_ask() -> None:
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies)
         response = await bot.ask(
-            prompt="How about this image",
+            prompt="How about this URL image https://github.com/Integration-Automation/ReEdgeGPT/blob/main/images/modern_city.jpg",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )
