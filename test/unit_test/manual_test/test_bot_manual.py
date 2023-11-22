@@ -13,11 +13,11 @@ from re_edge_gpt import ConversationStyle
 async def test_ask() -> None:
     bot = None
     try:
-        cookies = json.loads(open(
+        cookies: list[dict] = json.loads(open(
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies)
         response = await bot.ask(
-            prompt="Deer soup",
+            prompt="How to get extract iron on mine",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )
