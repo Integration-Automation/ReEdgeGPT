@@ -238,6 +238,9 @@ if __name__ == "__main__":
 
 <details open>
 
+> * Q: Exception: Throttled: Request is throttled.
+>   * A: Bing's chat rate limit.
+>   * ![rate_limit.png](images/rate_limit.png)
 > * Q: RuntimeError: This event loop is already running
 >   * A: If you are using Jupyter, pls use nest_asyncio.apply()
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/30
@@ -259,7 +262,3 @@ if __name__ == "__main__":
 >   * A: Bing block your connect, Try to use proxy or clear cookie.
 
 </details>
-
----
-> Origin repo (archived): https://github.com/acheong08/EdgeGPT
----
