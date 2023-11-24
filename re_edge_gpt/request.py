@@ -31,13 +31,8 @@ class ChatHubRequest:
             webpage_context: Union[str, None] = None,
             search_result: bool = False,
             locale: str = guess_locale(),
+            image_url: str = None
     ) -> None:
-        options = [
-            "deepleo",
-            "enable_debug_commands",
-            "disable_emoji_spoken_text",
-            "enablemm",
-        ]
         if conversation_style:
             if not isinstance(conversation_style, ConversationStyle):
                 conversation_style = getattr(ConversationStyle, conversation_style)
@@ -65,7 +60,20 @@ class ChatHubRequest:
             "arguments": [
                 {
                     "source": "cib",
-                    "optionsSets": options,
+                    "optionsSets": [
+                        "nlu_direct_response_filter",
+                        "deepleo",
+                        "disable_emoji_spoken_text",
+                        "responsible_ai_policy_235",
+                        "enablemm",
+                        "iycapbing",
+                        "iyxapbing",
+                        "dv3sugg",
+                        "iyoloxap",
+                        "iyoloneutral",
+                        "gencontentv3",
+                        "nojbf",
+                    ],
                     "allowedMessageTypes": [
                         "ActionRequest",
                         "Chat",
@@ -79,30 +87,30 @@ class ChatHubRequest:
                         "AdsQuery",
                         "SemanticSerp",
                         "GenerateContentQuery",
-                        "SearchQuery",
+                        "SearchQuery"
                     ],
                     "sliceIds": [
                         "winmuid1tf",
-                        "styleoff",
-                        "ccadesk",
-                        "smsrpsuppv4cf",
-                        "ssrrcache",
-                        "contansperf",
-                        "crchatrev",
-                        "winstmsg2tf",
-                        "creatgoglt",
-                        "creatorv2t",
-                        "sydconfigoptt",
-                        "adssqovroff",
-                        "530pstho",
-                        "517opinion",
-                        "418dhlth",
-                        "512sprtic1s0",
-                        "emsgpr",
-                        "525ptrcps0",
+                        "newmma-prod",
+                        "imgchatgptv2",
+                        "tts2",
+                        "voicelang2",
+                        "anssupfotest",
+                        "emptyoson",
+                        "tempcacheread",
+                        "temptacache",
+                        "ctrlworkpay",
+                        "winlongmsg2tf",
+                        "628fabocs0",
+                        "531rai268s0",
+                        "602refusal",
+                        "621alllocs0",
+                        "621docxfmtho",
+                        "621preclsvn",
+                        "330uaug",
                         "529rweas0",
-                        "515oscfing2s0",
-                        "524vidansgs0",
+                        "0626snptrcs0",
+                        "619dagslnv1nr"
                     ],
                     "verbosity": "verbose",
                     "traceId": get_ran_hex(32),
@@ -119,6 +127,8 @@ class ChatHubRequest:
                         "messageType": "Chat",
                         "messageId": message_id,
                         "requestId": message_id,
+                        "imageUrl": image_url if image_url else None,
+                        "originalImageUrl": image_url if image_url else None,
                     },
                     "tone": conversation_style.name.capitalize(),  # Make first letter uppercase
                     "requestId": message_id,
