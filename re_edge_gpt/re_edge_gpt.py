@@ -94,6 +94,7 @@ class Chatbot:
             search_result: bool = False,
             locale: str = guess_locale(),
             simplify_response: bool = False,
+            attachment: dict[str, str] = None
     ):
         """
         Ask a question to the bot
@@ -115,6 +116,7 @@ class Chatbot:
                 webpage_context=webpage_context,
                 search_result=search_result,
                 locale=locale,
+                attachment=attachment,
         ):
             if final:
                 if not simplify_response:

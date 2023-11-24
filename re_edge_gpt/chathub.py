@@ -1,6 +1,5 @@
 import asyncio
 import json
-import os
 import ssl
 import sys
 from time import time
@@ -20,6 +19,7 @@ from .conversation import Conversation
 from .conversation_style import CONVERSATION_STYLE_TYPE
 from .proxy import get_proxy
 from .request import ChatHubRequest
+from .upload_image import upload_image, upload_image_url
 from .utilities import append_identifier
 from .utilities import get_ran_hex
 from .utilities import guess_locale
@@ -50,6 +50,7 @@ class ChatHub:
             client_id=conversation.struct["clientId"],
             conversation_id=conversation.struct["conversationId"],
         )
+        self.conversation_id = conversation.struct["conversationId"] or self.request.conversation_id
         self.cookies = cookies
         self.proxy: str = get_proxy(proxy)
         self.session = httpx.AsyncClient(
@@ -68,7 +69,7 @@ class ChatHub:
             conversation_signature: str = None,
             client_id: str = None,
     ) -> dict:
-        conversation_id = conversation_id or self.request.conversation_id
+        self.conversation_id = conversation_id or self.request.conversation_id
         conversation_signature = (
                 conversation_signature or self.request.conversation_signature
         )
@@ -101,6 +102,8 @@ class ChatHub:
             webpage_context: Union[str, None] = None,
             search_result: bool = False,
             locale: str = guess_locale(),
+            # Use for attachment
+            attachment: dict = None,
     ) -> Generator[bool, Union[dict, str], None]:
         """ """
         if self.encrypted_conversation_signature is not None:
@@ -119,6 +122,15 @@ class ChatHub:
             proxy=self.proxy,
         )
         await _initial_handshake(wss)
+        # Image
+        image_url = None
+        if attachment is not None:
+            if attachment.get("image_url") is not None:
+                response = await upload_image_url(**attachment, conversation_id=self.conversation_id)
+            else:
+                response = await upload_image(**attachment)
+            if response:
+                image_url = f"https://www.bing.com/images/blob?bcid={response}"
         # Construct a ChatHub request
         self.request.update(
             prompt=prompt,
@@ -126,6 +138,7 @@ class ChatHub:
             webpage_context=webpage_context,
             search_result=search_result,
             locale=locale,
+            image_url=image_url,
         )
         # Send request
         await wss.send_str(append_identifier(self.request.struct))
