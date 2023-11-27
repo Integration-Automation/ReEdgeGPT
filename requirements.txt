@@ -4,7 +4,7 @@ httpx
 prompt_toolkit
 requests
 rich
-re_edge_gpt
+re-edge-gpt
 regex
 PySide6
 qt-material
