@@ -19,11 +19,11 @@ def get_ran_hex(length: int = 32) -> str:
 
 def get_location_hint_from_locale(locale_str: str) -> Union[dict, None]:
     locale_str = locale_str.lower()
-    if locale == "en-gb":
+    if locale_str == "en-gb":
         hint = LocationHint.UK.value
-    elif locale == "en-ie":
+    elif locale_str == "en-ie":
         hint = LocationHint.EU.value
-    elif locale == "zh-cn":
+    elif locale_str == "zh-cn":
         hint = LocationHint.CHINA.value
     else:
         hint = LocationHint.USA.value

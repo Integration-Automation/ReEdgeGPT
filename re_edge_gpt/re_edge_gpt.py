@@ -40,50 +40,6 @@ class Chatbot:
         )
         return self
 
-    async def save_conversation(self, filename: str) -> None:
-        """
-        Save the conversation to a file
-        """
-        with open(filename, "w") as f:
-            conversation_id = self.chat_hub.request.conversation_id
-            conversation_signature = self.chat_hub.request.conversation_signature
-            client_id = self.chat_hub.request.client_id
-            invocation_id = self.chat_hub.request.invocation_id
-            f.write(
-                json.dumps(
-                    {
-                        "conversation_id": conversation_id,
-                        "conversation_signature": conversation_signature,
-                        "client_id": client_id,
-                        "invocation_id": invocation_id,
-                    },
-                ),
-            )
-
-    async def load_conversation(self, filename: str) -> None:
-        """
-        Load the conversation from a file
-        """
-        with open(filename) as f:
-            conversation = json.load(f)
-            self.chat_hub.request = ChatHubRequest(
-                conversation_signature=conversation["conversation_signature"],
-                client_id=conversation["client_id"],
-                conversation_id=conversation["conversation_id"],
-                invocation_id=conversation["invocation_id"],
-            )
-
-    async def get_conversation(self) -> dict:
-        """
-        Gets the conversation history from conversation_id (requires load_conversation)
-        """
-        return await self.chat_hub.get_conversation()
-
-    async def get_activity(self) -> dict:
-        """
-        Gets the recent activity (requires cookies)
-        """
-        return await self.chat_hub.get_activity()
 
     async def ask(
             self,
@@ -197,21 +153,6 @@ class Chatbot:
         Close the connection
         """
         await self.chat_hub.close()
-
-    async def delete_conversation(
-            self,
-            conversation_id: str = None,
-            conversation_signature: str = None,
-            client_id: str = None,
-    ) -> None:
-        """
-        Delete the chat in the server
-        """
-        await self.chat_hub.delete_conversation(
-            conversation_id=conversation_id,
-            conversation_signature=conversation_signature,
-            client_id=client_id,
-        )
 
     async def reset(self) -> None:
         """

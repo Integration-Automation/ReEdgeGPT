@@ -21,7 +21,6 @@ from .proxy import get_proxy
 from .request import ChatHubRequest
 from .upload_image import upload_image, upload_image_url
 from .utilities import append_identifier
-from .utilities import get_ran_hex
 from .utilities import guess_locale
 
 ssl_context = ssl.create_default_context()
@@ -62,36 +61,7 @@ class ChatHub:
             self.encrypted_conversation_signature = conversation.struct["encryptedConversationSignature"]
         else:
             self.encrypted_conversation_signature = None
-
-    async def get_conversation(
-            self,
-            conversation_id: str = None,
-            conversation_signature: str = None,
-            client_id: str = None,
-    ) -> dict:
-        self.conversation_id = conversation_id or self.request.conversation_id
-        conversation_signature = (
-                conversation_signature or self.request.conversation_signature
-        )
-        client_id = client_id or self.request.client_id
-        url = f"https://sydney.bing.com/sydney/GetConversation" \
-              f"?conversationId={conversation_id}" \
-              f"&source=cib&participantId={client_id}" \
-              f"&conversationSignature={conversation_signature}" \
-              f"&traceId={get_ran_hex()}"
-        response = await self.session.get(url)
-        return response.json()
-
-    async def get_activity(self) -> dict:
-        url = "https://www.bing.com/turing/conversation/chats"
-        headers = HEADERS_INIT_CONVER.copy()
-        if self.cookies is not None:
-            for cookie in self.cookies:
-                if cookie["name"] == "_U":
-                    headers["Cookie"] = f"SUID=A; _U={cookie['value']};"
-                    break
-        response = await self.session.get(url, headers=headers)
-        return response.json()
+        self.conversation = conversation
 
     async def ask_stream(
             self,
@@ -221,28 +191,20 @@ class ChatHub:
                     elif raw:
                         yield False, response
 
-    async def delete_conversation(
-            self,
-            conversation_id: str = None,
-            conversation_signature: str = None,
-            client_id: str = None,
-    ) -> None:
-        conversation_id = conversation_id or self.request.conversation_id
-        conversation_signature = (
-                conversation_signature or self.request.conversation_signature
-        )
-        client_id = client_id or self.request.client_id
-        url = "https://sydney.bing.com/sydney/DeleteSingleConversation"
-        await self.session.post(
-            url,
-            json={
-                "conversationId": conversation_id,
-                "conversationSignature": conversation_signature,
-                "participant": {"id": client_id},
-                "source": "cib",
-                "optionsSets": ["autosave"],
-            },
-        )
-
     async def close(self) -> None:
         await self.session.aclose()
+
+    async def get_conversation(self):
+        return {
+            "conversation_id": self.conversation_id,
+            "client_id": self.request.client_id,
+            "encrypted_conversation_signature": self.encrypted_conversation_signature,
+            "conversation_signature": self.request.conversation_signature,
+        }
+
+    async def set_conversation(self, conversation_dict: dict):
+        self.conversation.struct["conversationId"] = conversation_dict.get("conversation_id")
+        self.conversation.struct["client_id"] = conversation_dict.get("client_id")
+        self.conversation.struct[
+            "encrypted_conversation_signature"] = conversation_dict.get("encrypted_conversation_signature")
+        self.conversation.struct["conversation_signature"] = conversation_dict.get("conversation_signature")
