@@ -82,15 +82,15 @@ async def create_bot():
 ## Run from Command Line
 
 ```
- $ python3 -m EdgeGPT.EdgeGPT -h
+ $ python3 -m re_edge_gpt -h
 
-        re_edge_gpt - A demo of reverse engineering the Bing GPT chatbot
+        ReEdgeGPT - A demo of reverse engineering the Bing GPT chatbot
 
         !help for help
 
         Type !exit to exit
 
-usage: re_edge_gpt.py [-h] [--enter-once] [--search-result] [--no-stream] [--rich] [--proxy PROXY] [--wss-link WSS_LINK]
+usage: __main__.py [-h] [--enter-once] [--search-result] [--no-stream] [--rich] [--proxy PROXY] [--wss-link WSS_LINK]
                   [--style {creative,balanced,precise}] [--prompt PROMPT] [--cookie-file COOKIE_FILE]
                   [--history-file HISTORY_FILE] [--locale LOCALE]
 
@@ -260,3 +260,5 @@ if __name__ == "__main__":
 >   * See https://github.com/Integration-Automation/ReEdgeGPT/issues/22
 > * Q: UnauthorizedRequest: Token issued by https://sydney.bing.com/sydney is invalid
 >   * A: Bing block your connect, Try to use proxy or clear cookie.
+
+</details>
