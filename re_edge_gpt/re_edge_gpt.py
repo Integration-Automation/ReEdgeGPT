@@ -164,9 +164,3 @@ class Chatbot:
             proxy=self.proxy,
             cookies=self.chat_hub.cookies,
         )
-
-
-if __name__ == "__main__":
-    from .main import main
-
-    main()
