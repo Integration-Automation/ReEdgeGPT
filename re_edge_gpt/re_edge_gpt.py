@@ -7,6 +7,7 @@ from .chathub import *
 from .conversation import *
 from .request import *
 from .utilities import *
+from rich.markdown import Markdown
 
 
 class Chatbot:
@@ -99,13 +100,10 @@ class Chatbot:
                     for suggestion in message.get("suggestedResponses", [])
                 ]
                 adaptive_cards = message.get("adaptiveCards", [])
-                adaptive_text = (
-                    adaptive_cards[0]["body"][0].get("text") if adaptive_cards else None
-                )
                 sources = (
                     adaptive_cards[0]["body"][0].get("text") if adaptive_cards else None
                 )
-                sources_text = (
+                sources_link = (
                     adaptive_cards[0]["body"][-1].get("text")
                     if adaptive_cards
                     else None
@@ -114,13 +112,12 @@ class Chatbot:
                     "text": message["text"],
                     "author": message["author"],
                     "sources": sources,
-                    "sources_text": sources_text,
+                    "sources_link": sources_link,
                     "suggestions": suggestions,
                     "messages_left": messages_left,
                     "max_messages": response["item"]["throttling"][
                         "maxNumUserMessagesInConversation"
                     ],
-                    "adaptive_text": adaptive_text,
                 }
         return {}
 
