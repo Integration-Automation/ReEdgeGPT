@@ -5,6 +5,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY . /ReEdgeGPT_Flask
 # You need put your bing_cookies.json to Dockerfiles/Flask dir
 COPY Dockerfiles/Flask/bing_cookies.json /ReEdgeGPT_Flask
+# You need put your bing_cookies.txt to Dockerfiles/Flask dir
+COPY Dockerfiles/Flask/bing_cookies.txt /ReEdgeGPT_Flask
 # Flask init
 COPY Dockerfiles/Flask/main_flask.py /ReEdgeGPT_Flask
 COPY Dockerfiles/Flask/re_edge_gpt_blueprint.py /ReEdgeGPT_Flask
