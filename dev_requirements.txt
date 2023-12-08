@@ -4,4 +4,11 @@ httpx
 prompt_toolkit
 requests
 rich
-re_edge_gpt_dev
+re_edge_gpt
+flask[async]
+regex
+gunicorn
+apispec
+apispec-webframeworks
+marshmallow
+Flask-CORS

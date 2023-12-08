@@ -1,0 +1,25 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('swagger_blueprint.static', filename='css/swagger-ui.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('swagger_blueprint.static', filename='css/index-ui.css') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('swagger_blueprint.static', filename='image/favicon-32x32.png') }}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{ url_for('swagger_blueprint.static', filename='image/favicon-16x16.png') }}" sizes="16x16" />
+  </head>
+
+  <body>
+  <div id="swagger-ui" openapi-url="{{ url_for('swagger_blueprint.static', filename='openapi.yaml') }}"></div>
+    <script src="{{ url_for('swagger_blueprint.static', filename='javascript/swagger-ui-bundle.js') }}" charset="UTF-8"> </script>
+    <script src="{{ url_for('swagger_blueprint.static', filename='javascript/swagger-initializer.js') }}" charset="UTF-8"> </script>
+    <script src="{{ url_for('swagger_blueprint.static', filename='javascript/swagger-ui-standalone-preset.js') }}" charset="UTF-8"> </script>
+    <script>
+      window.onload = function() {
+        window.ui = SwaggerUIBundle({
+        url: document.getElementById("swagger-ui").getAttribute('openapi-url'),
+        dom_id: '#swagger-ui',
+      });};</script>
+  </body>
+</html>
