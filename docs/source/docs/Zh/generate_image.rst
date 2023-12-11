@@ -3,41 +3,48 @@ ReEdgeGPT 生成圖片
 
 .. code-block:: python
 
- import os
-    import shutil
+    import asyncio
+    import json
     from pathlib import Path
 
-    from re_edge_gpt import ImageGen, ImageGenAsync
-
-    # create a temporary output directory for testing purposes
-    test_output_dir = "test_output"
-    # download a test image
-    test_image_url = "https://picsum.photos/200"
-    auth_cooker = open("bing_cookies.txt", "r+").read()
-    sync_gen = ImageGen(auth_cookie=auth_cooker)
-    async_gen = ImageGenAsync(auth_cookie=auth_cooker)
+    from re_edge_gpt import Chatbot
+    from re_edge_gpt import ConversationStyle
 
 
-    def test_save_images_sync():
-        sync_gen.save_images([test_image_url], test_output_dir)
-        sync_gen.save_images([test_image_url], test_output_dir, file_name="test_image")
-        # check if the image was downloaded and saved correctly
-        assert os.path.exists(os.path.join(test_output_dir, "test_image_0.jpeg"))
-        assert os.path.exists(os.path.join(test_output_dir, "0.jpeg"))
+    # If you are using jupyter pls install this package
+    # from nest_asyncio import apply
 
 
-    # Generate image list sync
-    def test_generate_image_sync():
-        image_list = sync_gen.get_images("tree")
-        print(image_list)
+    async def test_ask() -> None:
+        bot = None
+        try:
+            cookies = json.loads(open(
+                str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+            bot = await Chatbot.create(cookies=cookies)
+            response = await bot.ask(
+                prompt="How about this city image https://github.com/Integration-Automation/ReEdgeGPT/blob/main/images/modern_city.jpg?raw=true",
+                conversation_style=ConversationStyle.balanced,
+                simplify_response=True
+            )
+            # If you are using non ascii char you need set ensure_ascii=False
+            print(json.dumps(response, indent=2, ensure_ascii=False))
+            # Raw response
+            # print(response)
+            assert response
+        except Exception as error:
+            raise error
+        finally:
+            if bot is not None:
+                await bot.close()
+
 
     if __name__ == "__main__":
-        # Make dir to save image
-        Path("test_output").mkdir(exist_ok=True)
-        # Save image
-        test_save_images_sync()
-        # Generate image sync
-        test_generate_image_sync()
-        # Remove dir
-        shutil.rmtree(test_output_dir)
+        # If you are using jupyter pls use nest_asyncio apply()
+        # apply()
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.get_event_loop()
+        loop.run_until_complete(test_ask())
+
 
