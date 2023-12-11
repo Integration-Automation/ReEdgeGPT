@@ -6,3 +6,5 @@ ReEdgeGPT 繁體中文 文件
 
     chat_example.rst
     generate_image.rst
+    chat_with_file.rst
+    save_conversation.rst

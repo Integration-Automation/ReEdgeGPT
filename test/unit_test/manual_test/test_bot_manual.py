@@ -17,7 +17,7 @@ async def test_ask() -> None:
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies)
         response = await bot.ask(
-            prompt="How to boil the eggs",
+            prompt="How do I know when my pizza is done?",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )

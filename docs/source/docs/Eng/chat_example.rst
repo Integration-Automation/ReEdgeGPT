@@ -18,11 +18,11 @@ ReEdgeGPT Chat Example
     async def test_ask() -> None:
         bot = None
         try:
-            cookies = json.loads(open(
+            cookies: list[dict] = json.loads(open(
                 str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
             bot = await Chatbot.create(cookies=cookies)
             response = await bot.ask(
-                prompt="How to boil the egg",
+                prompt="How do I know when my pizza is done?",
                 conversation_style=ConversationStyle.balanced,
                 simplify_response=True
             )
@@ -46,5 +46,3 @@ ReEdgeGPT Chat Example
         except RuntimeError:
             loop = asyncio.get_event_loop()
         loop.run_until_complete(test_ask())
-
-
