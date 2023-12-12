@@ -1,68 +1,68 @@
 # ReEdgeGPT
 
-_The reverse engineering the chat feature of the new version of Bing_
+_對 Bing 聊天功能的逆向工程_
 
 [![Documentation Status](https://readthedocs.org/projects/reedgegpt/badge/?version=latest)](https://reedgegpt.readthedocs.io/en/latest/?badge=latest)
 
 [ReEdgeGPT Doc Click Here!](https://reedgegpt.readthedocs.io/en/latest/)
 
-If you have any problem watch bottom Q&A first.
+如果你有任何問題請先觀看問題與解答。
 
-## Another README
+## 其他 README
 
 <details open>
 
-[繁體中文](/Readmes/zh_tw.md)
+[简体中文](/Readmes/zh_cn.md) / [繁體中文](/Readmes/zh_tw.md)
 
 </details>
 
 <summary>
 
-# Setup
+# 設定
 
 </summary>
 
 <details open>
 
-## Install package
+## 安裝
 
 ```bash
 python3 -m pip install re_edge_gpt --upgrade
 ```
-## Requirements
+## 環境需求
 
 - python 3.9+
-- A Microsoft Account with access to <https://bing.com/chat> (Optional, depending on your region)
-- Required in a supported country or region with New Bing (Chinese mainland VPN required)
+- 可以訪問此網址 <https://bing.com/chat> 的微軟帳號  (可選，主要看地區)
+- 可以使用 Bing 聊天功能的地區 (中國需使用 VPN)
 
-## Authentication
+## 驗證
 
-!!! POSSIBLY NOT REQUIRED ANYMORE !!!
+!!! 或許不再需要 !!!
 
-**In some regions**, Microsoft has made the chat feature **available** to everyone, so you might be able to **skip this step**. You can check this with a browser (with user-agent set to reflect Edge), by **trying to start a chat without logging in**.
+**某些地區**, Bing 聊天功能 **對每個人** 可用, 所以你可以 **跳過這個步驟**. 你可以嘗試 **不登入與 Bing 聊天**.
 
-It was also found that it might **depend on your IP address**. For example, if you try to access the chat features from an IP that is known to **belong to a datacenter range** (vServers, root servers, VPN, common proxies, ...), **you might be required to log in** while being able to access the features just fine from your home IP address.
+這主要依賴於 **你的 IP 位址** 例如 使用一些已知的 IP  **屬於某些資料中心** (vServers, root servers, VPN, common proxies, ...), **你可能被要求登入** 如果是家用 IP 則不需要
 
-If you receive the following error, you can try **providing a cookie** and see if it works then:
+如果你收到以下錯誤，你可以嘗試 **提供 cookie** 然後他就會開始運作。
 
 `Exception: Authentication failed. You have not been accepted into the beta.`
 
-### Collect cookies
+### 收集 Cookie
 
-- a) (Easy) Install the latest version of Microsoft Edge
-- b) (Advanced) Alternatively, you can use any browser and set the user-agent to look like you're using Edge (e.g., `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.51`). You can do this easily with an extension like "User-Agent Switcher and Manager" for [Chrome](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher/).
+- a) (簡單) 安裝最新版本的 Edge
+- b) (進階) 或者使用任何瀏覽器但設置 user-agent (例如 `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.51`)你可以使用 "User-Agent Switcher and Manager" 來簡單的做到這一點 [Chrome](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg) 或者 [Firefox](https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher/).
 
-1. Get a browser that looks like Microsoft Edge.
-2. Open [bing.com/chat](https://bing.com/chat)
-3. If you see a chat feature, you are good to continue...
-4. Install the cookie editor extension for [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
-5. Go to [bing.com/chat]([https://bing.com](https://bing.com/chat))
-6. Open the extension
-7. Click "Export" on the bottom right, then "Export as JSON" (This saves your cookies to clipboard)
-8. Paste your cookies into a file `bing_cookies.json`.
-   - NOTE: The **cookies file name MUST follow the regex pattern `bing_cookies.json`**, so that they could be recognized by internal cookie processing mechanisms
+1. 讓一個瀏覽器看起來像是 Edge.
+2. 開啟 [bing.com/chat](https://bing.com/chat)
+3. 如果有聊天功能則可以繼續
+4. 安裝 Cookie editor 擴充套件 [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) 或者 [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
+5. 開啟 [bing.com/chat]([https://bing.com](https://bing.com/chat))
+6. 打開擴充套件
+7. 點擊 "Export" 然後點擊 "Export as JSON" (這將會複製 Cookie 到你的剪貼版)
+8. 貼上 Cookie 到檔案 `bing_cookies.json`.
+   - 注意:  **Cookie 檔案 `bing_cookies.json` 必須遵守正確的 json 格式** 這樣才能正確讀取
 
-### Use cookies in code:
+### 在程式中使用 cookie:
 
 ```python
 import json
@@ -80,13 +80,13 @@ async def create_bot():
 
 <summary>
 
-# How to use Chatbot
+# 如何使用聊天機器人
 
 </summary>
 
 <details open>
 
-## Run from Command Line
+## 在命令列使用
 
 ```
  $ python3 -m re_edge_gpt -h
@@ -120,11 +120,11 @@ options:
 
 (China/US/UK/Norway has enhanced support for locale)
 
-## Run in Python
+## 使用 Python
 
-### 1. The `Chatbot` class and `asyncio` for more granular control
+### 1. `Chatbot` 類別 和 `asyncio` 可以進行更精細的控制
 
-Use Async for the best experience, for example:
+用 Async 來提升體驗 例如:
 
 ```python
 import asyncio
@@ -178,26 +178,26 @@ if __name__ == "__main__":
 
 <summary>
 
-# How to generate image
+# 如何產生圖片
 
 </summary>
 
 <details open>
 
-## Getting authentication
-> ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
-> * Go to https://bing.com/
-> * F12 to open console
-> * In the JavaScript console, type **cookieStore.get("_U").then(result => console.log(result.value))** and press enter
-> * Copy the output. This is used in --U or auth_cookie.
+## 取得驗證
+> ### Chromium 基礎的瀏覽器 (Edge, Opera, Vivaldi, Brave)
+> * 開啟 https://bing.com/
+> * 按 F12 打開 console
+> * 在 JavaScript console, 輸入 **cookieStore.get("_U").then(result => console.log(result.value))** 然後按 enter
+> * 複製輸出這將會用在 --U or auth_cookie.
 
 > ### Firefox
-> * Go to https://bing.com/.
-> * F12 to open developer tools
-> * navigate to the storage tab
-> * expand the cookies tab
-> * click on the https://bing.com cookie
-> * copy the value from the _U
+> * 開啟 https://bing.com/.
+> * 按　F12 開啟開發者工具
+> * 找到 storage 標籤
+> * 打開 cookies 標籤
+> * 點擊 https://bing.com cookie
+> * 複製 _U　的值
 
 ```python
 import os
@@ -241,31 +241,31 @@ if __name__ == "__main__":
 
 </details>
 
-# Q&A
+# 問題與舉達
 
 <details open>
 
 > * Q: Exception: Throttled: Request is throttled.
->   * A: Bing's chat rate limit.
+>   * A: 已達到　Bing　的聊天限制.
 >   * ![rate_limit.png](images/rate_limit.png)
 > * Q: RuntimeError: This event loop is already running
->   * A: If you are using Jupyter, pls use nest_asyncio.apply()
+>   * A: 如果你正在使用 Jupyter 請使用 nest_asyncio.apply()
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/30
-> * Q: json.dumps return non utf-8 char
+> * Q: json.dumps 回傳非 utf-8 字元
 >   * A: json.dumps(response, ensure_ascii=False)
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/32
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
->   * A: Renew your cookie file.
+>   * A: 重新取得你的 cookie 檔案.
 > * Q: Exception: conversationSignature
->   * A: Clear all your bing cookie and renew your cookie file.
+>   * A:清除你的 cookie 然後取得新的 cookie 檔案.
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/17
 >   * And: https://github.com/Integration-Automation/ReEdgeGPT/issues/22
 > * Q: ValueError: Invalid header value b'_U=***\n'
-> * A: Renew your image cookie.
-> * Q: Image blocking or redirect error
->   * A: Now we can't generate multi image on same time (Cause bing limit)
+> * A: 重新取得圖片產生的驗證 cookie.
+> * Q: 圖像產生卡住或重新導向錯誤
+>   * A: 我們不再能一次產生大量圖片 (因為 bing 的限制)
 >   * See https://github.com/Integration-Automation/ReEdgeGPT/issues/22
 > * Q: UnauthorizedRequest: Token issued by https://sydney.bing.com/sydney is invalid
->   * A: Bing block your connect, Try to use proxy or clear cookie.
+>   * A: Bing 阻止了你的連線, 嘗試使用代理或新 cookie.
 
 </details>
