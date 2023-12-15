@@ -5,7 +5,7 @@ from typing import Union
 
 import httpx
 
-from .constants import HEADERS_INIT_CONVER
+from .constants import HEADERS_INIT_CONVER, BUNDLE_VERSION
 from .exceptions import NotAllowedToAccess
 from .proxy import get_proxy
 
@@ -47,7 +47,7 @@ class Conversation:
         # Send GET request
         response = self.session.get(
             url=os.environ.get("BING_PROXY_URL")
-                or "https://edgeservices.bing.com/edgesvc/turing/conversation/create",
+                or "https://www.bing.com/turing/conversation/chat",
         )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
@@ -97,7 +97,7 @@ class Conversation:
             # Send GET request
             response = await client.get(
                 url=os.environ.get("BING_PROXY_URL")
-                    or "https://www.bing.com/turing/conversation/create",
+                    or f"https://www.bing.com/turing/conversation/create?bundleVersion={BUNDLE_VERSION}",
                 follow_redirects=True,
             )
         if response.status_code != 200:

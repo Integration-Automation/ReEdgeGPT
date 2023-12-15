@@ -32,7 +32,7 @@ HEADERS = {
     "sec-ms-gec-version": "1-119.0.2151.44",
     "x-ms-client-request-id": str(uuid.uuid4()),
     "x-ms-useragent": "azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.12.0 OS/Windows",
-    "Referer": "https://www.bing.com/search?",
+    "Referer": "https://www.bing.com/copilot",
     "Referrer-Policy": "origin-when-cross-origin",
     "x-forwarded-for": FORWARDED_IP,
 }
@@ -59,6 +59,8 @@ HEADERS_INIT_CONVER = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0",
-    "x-edge-shopping-flag": "1",
+    "x-edge-shopping-flag": "0",
     "x-forwarded-for": FORWARDED_IP,
 }
+
+BUNDLE_VERSION = "1.1381.8"

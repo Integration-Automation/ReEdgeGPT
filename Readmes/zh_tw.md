@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
 > * Q: Exception: Throttled: Request is throttled.
 >   * A: 已達到　Bing　的聊天限制.
->   * ![rate_limit.png](images/rate_limit.png)
+>   * ![rate_limit.png](../images/rate_limit.png)
 > * Q: RuntimeError: This event loop is already running
 >   * A: 如果你正在使用 Jupyter 請使用 nest_asyncio.apply()
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/30
