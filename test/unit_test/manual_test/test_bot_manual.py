@@ -27,7 +27,7 @@ async def test_ask() -> None:
         # print(response)
         assert response
     except Exception as error:
-        raise error
+        raise
     finally:
         if bot is not None:
             await bot.close()
