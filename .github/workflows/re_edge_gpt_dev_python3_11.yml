@@ -7,6 +7,8 @@ on:
     branches: [ "dev" ]
   schedule:
     - cron: "0 8 * * *"
+  pull_request_target:
+    types: [ ready_for_review, review_requested, edited]
 
 permissions:
   contents: read
