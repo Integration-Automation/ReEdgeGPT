@@ -10,3 +10,5 @@ PySide6
 qt-material
 gunicorn
 flask
+build
+twine
