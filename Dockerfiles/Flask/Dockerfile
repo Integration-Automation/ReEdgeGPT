@@ -19,10 +19,10 @@ COPY Dockerfiles/Flask/main_flask.py /ReEdgeGPT_Flask
 WORKDIR /ReEdgeGPT_Flask
 # Install dependency
 RUN apt-get update && \
-    apt-get install -y python3.10 python3-pip python3.10-venv &&\
-    python3 -m venv venv &&\
-    . venv/bin/activate &&\
-    pip install -r docker_requirements.txt
+    apt-get install -y python3.10 python3-pip python3.10-venv && \
+    python3 -m venv venv && \
+    . venv/bin/activate && \
+    pip install -r requirements.txt
 # Os path
 ENV PATH="/venv/bin:$PATH"
 # Open port 8888

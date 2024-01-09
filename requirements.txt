@@ -8,3 +8,5 @@ re-edge-gpt
 regex
 PySide6
 qt-material
+gunicorn
+flask
