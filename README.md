@@ -32,7 +32,7 @@ python3 -m pip install re_edge_gpt --upgrade
 ## Requirements
 
 - python 3.9+
-- A Microsoft Account with access to <https://bing.com/chat> (Optional, depending on your region)
+- A Microsoft Account with access to <https://copilot.microsoft.com/> (Optional, depending on your region)
 - Required in a supported country or region with New Bing (Chinese mainland VPN required)
 
 ## Authentication
@@ -53,10 +53,10 @@ If you receive the following error, you can try **providing a cookie** and see i
 - b) (Advanced) Alternatively, you can use any browser and set the user-agent to look like you're using Edge (e.g., `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.51`). You can do this easily with an extension like "User-Agent Switcher and Manager" for [Chrome](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher/).
 
 1. Get a browser that looks like Microsoft Edge.
-2. Open [bing.com/chat](https://bing.com/chat)
+2. Open [copilot](https://copilot.microsoft.com/)
 3. If you see a chat feature, you are good to continue...
 4. Install the cookie editor extension for [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
-5. Go to [bing.com/chat]([https://bing.com](https://bing.com/chat))
+5. Go to [copilot](https://copilot.microsoft.com/)
 6. Open the extension
 7. Click "Export" on the bottom right, then "Export as JSON" (This saves your cookies to clipboard)
 8. Paste your cookies into a file `bing_cookies.json`.
@@ -186,17 +186,17 @@ if __name__ == "__main__":
 
 ## Getting authentication
 > ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
-> * Go to https://bing.com/
+> * Go to https://copilot.microsoft.com/
 > * F12 to open console
 > * In the JavaScript console, type **cookieStore.get("_U").then(result => console.log(result.value))** and press enter
 > * Copy the output. This is used in --U or auth_cookie.
 
 > ### Firefox
-> * Go to https://bing.com/.
+> * Go to https://copilot.microsoft.com/
 > * F12 to open developer tools
 > * navigate to the storage tab
 > * expand the cookies tab
-> * click on the https://bing.com cookie
+> * click on the https://copilot.microsoft.com cookie
 > * copy the value from the _U
 
 ```python

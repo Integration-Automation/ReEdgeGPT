@@ -32,7 +32,7 @@ python3 -m pip install re_edge_gpt --upgrade
 ## 環境需求
 
 - python 3.9+
-- 可以訪問此網址 <https://bing.com/chat> 的微軟帳號  (可選，主要看地區)
+- 可以訪問此網址 <https://copilot.microsoft.com/> 的微軟帳號  (可選，主要看地區)
 - 可以使用 Bing 聊天功能的地區 (中國需使用 VPN)
 
 ## 驗證
@@ -53,10 +53,10 @@ python3 -m pip install re_edge_gpt --upgrade
 - b) (進階) 或者使用任何瀏覽器但設置 user-agent (例如 `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.51`)你可以使用 "User-Agent Switcher and Manager" 來簡單的做到這一點 [Chrome](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg) 或者 [Firefox](https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher/).
 
 1. 讓一個瀏覽器看起來像是 Edge.
-2. 開啟 [bing.com/chat](https://bing.com/chat)
+2. 開啟 [copilot](https://copilot.microsoft.com/)
 3. 如果有聊天功能則可以繼續
 4. 安裝 Cookie editor 擴充套件 [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) 或者 [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
-5. 開啟 [bing.com/chat]([https://bing.com](https://bing.com/chat))
+5. 開啟 [copilot](https://copilot.microsoft.com/)
 6. 打開擴充套件
 7. 點擊 "Export" 然後點擊 "Export as JSON" (這將會複製 Cookie 到你的剪貼版)
 8. 貼上 Cookie 到檔案 `bing_cookies.json`.
@@ -186,17 +186,17 @@ if __name__ == "__main__":
 
 ## 取得驗證
 > ### Chromium 基礎的瀏覽器 (Edge, Opera, Vivaldi, Brave)
-> * 開啟 https://bing.com/
+> * 開啟 https://copilot.microsoft.com/
 > * 按 F12 打開 console
 > * 在 JavaScript console, 輸入 **cookieStore.get("_U").then(result => console.log(result.value))** 然後按 enter
 > * 複製輸出這將會用在 --U or auth_cookie.
 
 > ### Firefox
-> * 開啟 https://bing.com/.
+> * 開啟 https://copilot.microsoft.com/.
 > * 按　F12 開啟開發者工具
 > * 找到 storage 標籤
 > * 打開 cookies 標籤
-> * 點擊 https://bing.com cookie
+> * 點擊 https://copilot.microsoft.com/ cookie
 > * 複製 _U　的值
 
 ```python

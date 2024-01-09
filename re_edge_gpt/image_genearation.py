@@ -31,13 +31,12 @@ HEADERS = {
     "cache-control": "max-age=0",
     "content-type": "application/x-www-form-urlencoded",
     "referrer": "https://www.bing.com/images/create/",
-    "origin": "https://www.bing.com",
+    "origin": "https://copilot.microsoft.com/",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/119.0.0.0 "
+                  "Chrome/120.0.0.0 "
                   "Safari/537.36 "
-                  "Edg/119.0.0.0",
-    "x-forwarded-for": FORWARDED_IP,
+                  "Edg/120.0.2210.91",
 }
 
 # Error messages
