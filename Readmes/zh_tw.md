@@ -12,7 +12,7 @@ _對 Bing 聊天功能的逆向工程_
 
 <details open>
 
-[简体中文](/Readmes/zh_cn.md) / [繁體中文](/Readmes/zh_tw.md)
+[英文](README.md) / [繁體中文](/Readmes/zh_tw.md)
 
 </details>
 
