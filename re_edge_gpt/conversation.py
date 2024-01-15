@@ -47,7 +47,9 @@ class Conversation:
         # Send GET request
         response = self.session.get(
             url=os.environ.get("BING_PROXY_URL")
-                or "https://copilot.microsoft.com/turing/conversation/create",
+            or f"https://www.bing.com/turing/userconsent?"
+               f"bundleVersion={BUNDLE_VERSION}"
+               f"&isStartOfConversation=true",
         )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
