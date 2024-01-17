@@ -62,3 +62,19 @@ HEADERS_INIT_CONVER = {
 }
 
 BUNDLE_VERSION = "1.1482.4"
+
+SYDNEY_INIT_HEADER = HEADERS_INIT_CONVER.update(
+    {
+        "Referer": "https://copilot.microsoft.com/",
+        "X-Edge-Shopping-Flag": "0",
+    }
+)
+
+SYDNEY_HEADER = HEADERS.update(
+    {
+        "Cache-Control": "no-cache",
+        "Connection": "Upgrade",
+        "Origin": "https://copilot.microsoft.com",
+        "Pragma": "no-cache",
+    }
+)

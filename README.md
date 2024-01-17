@@ -10,7 +10,7 @@ If you have any problem watch bottom Q&A first.
 
 ## Another README
 
-<details open>
+<details>
 
 [繁體中文](/Readmes/zh_tw.md)
 
@@ -84,7 +84,7 @@ async def create_bot():
 
 </summary>
 
-<details open>
+<details>
 
 ## Run from Command Line
 
@@ -178,11 +178,92 @@ if __name__ == "__main__":
 
 <summary>
 
+# Using copilot as default mode
+
+</summary>
+
+<details>
+
+### Collect cookies
+
+- a) (Easy) Install the latest version of Microsoft Edge
+- b) (Advanced) Alternatively, you can use any browser and set the user-agent to look like you're using Edge (e.g., `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.51`). You can do this easily with an extension like "User-Agent Switcher and Manager" for [Chrome](https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/user-agent-string-switcher/).
+
+1. Get a browser that looks like Microsoft Edge.
+2. Open [copilot.microsoft.com](https://copilot.microsoft.com/)
+3. If you see a chat feature, you are good to continue...
+4. Install the cookie editor extension for [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
+5. Go to [copilot.microsoft.com](https://copilot.microsoft.com/))
+6. Open the extension
+7. Click "Export" on the bottom right, then "Export as JSON" (This saves your cookies to clipboard)
+8. Paste your cookies into a file `copilot_cookies.json`.
+   - NOTE: The **cookies file name MUST follow the regex pattern `copilot_cookies.json`**, so that they could be recognized by internal cookie processing mechanisms
+
+### Use cookies in code:
+
+```python
+import asyncio
+import json
+from pathlib import Path
+
+from re_edge_gpt import Chatbot
+from re_edge_gpt import ConversationStyle
+
+
+# If you are using jupyter pls install this package
+# from nest_asyncio import apply
+
+
+async def test_ask() -> None:
+   bot = None
+   try:
+      mode = "Copilot"
+      if mode == "Bing":
+         cookies: list[dict] = json.loads(open(
+            str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+      else:
+         cookies: list[dict] = json.loads(open(
+            str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
+      # Notice when mode != "Bing" (Bing is default) will set mode is copilot
+      bot = await Chatbot.create(cookies=cookies, mode=mode)
+      response = await bot.ask(
+         prompt="Is your name Copilot",
+         conversation_style=ConversationStyle.balanced,
+         simplify_response=True
+      )
+      # If you are using non ascii char you need set ensure_ascii=False
+      print(json.dumps(response, indent=2, ensure_ascii=False))
+      # Raw response
+      # print(response)
+      assert response
+   except Exception as error:
+      raise error
+   finally:
+      if bot is not None:
+         await bot.close()
+
+
+if __name__ == "__main__":
+   # If you are using jupyter pls use nest_asyncio apply()
+   # apply()
+   try:
+      loop = asyncio.get_running_loop()
+   except RuntimeError:
+      loop = asyncio.get_event_loop()
+   loop.run_until_complete(test_ask())
+```
+### When u ask copilot what is your name
+![are_u_bing.png](images/are_u_bing.png)
+
+</details>
+
+<summary>
+
 # How to generate image
 
 </summary>
 
-<details open>
+<details>
 
 ## Getting authentication
 > ### Chromium based browsers (Edge, Opera, Vivaldi, Brave)
@@ -243,7 +324,7 @@ if __name__ == "__main__":
 
 # Q&A
 
-<details open>
+<details>
 
 > * Q: Exception: Throttled: Request is throttled.
 >   * A: Bing's chat rate limit.

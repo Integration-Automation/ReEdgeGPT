@@ -7,7 +7,6 @@ from .chathub import *
 from .conversation import *
 from .request import *
 from .utilities import *
-from rich.markdown import Markdown
 
 
 class Chatbot:
@@ -31,16 +30,18 @@ class Chatbot:
     async def create(
             proxy: str | None = None,
             cookies: list[dict] | None = None,
+            mode: str = "Bing"
     ) -> Chatbot:
         self = Chatbot.__new__(Chatbot)
         self.proxy = proxy
+        self.mode = mode
         self.chat_hub = ChatHub(
-            await Conversation.create(self.proxy, cookies=cookies),
+            await Conversation.create(self.proxy, cookies=cookies, mode=mode),
             proxy=self.proxy,
             cookies=cookies,
+            mode=mode
         )
         return self
-
 
     async def ask(
             self,

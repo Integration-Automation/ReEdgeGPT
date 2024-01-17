@@ -160,3 +160,4 @@ cython_debug/
 .idea/*
 
 **/bing_cookies.*
+**/copilot_cookies.*

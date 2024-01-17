@@ -13,11 +13,16 @@ from re_edge_gpt import ConversationStyle
 async def test_ask() -> None:
     bot = None
     try:
-        cookies: list[dict] = json.loads(open(
-            str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
-        bot = await Chatbot.create(cookies=cookies)
+        mode = "Copilot"
+        if mode == "Bing":
+            cookies: list[dict] = json.loads(open(
+                str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+        else:
+            cookies: list[dict] = json.loads(open(
+                str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
+        bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
-            prompt=r"""HELLO""",
+            prompt="Is your name Copilot",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )
@@ -27,7 +32,7 @@ async def test_ask() -> None:
         # print(response)
         assert response
     except Exception as error:
-        raise
+        raise error
     finally:
         if bot is not None:
             await bot.close()

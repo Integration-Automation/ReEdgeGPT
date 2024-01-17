@@ -12,7 +12,7 @@ import aiohttp
 import certifi
 import httpx
 
-from .constants import DELIMITER
+from .constants import DELIMITER, SYDNEY_INIT_HEADER, SYDNEY_HEADER
 from .constants import HEADERS
 from .constants import HEADERS_INIT_CONVER
 from .conversation import Conversation
@@ -39,11 +39,13 @@ class ChatHub:
             conversation: Conversation,
             proxy: str = None,
             cookies: Union[List[dict], None] = None,
+            mode: str = "Bing"
     ) -> None:
         self.aio_session = None
         self.request: ChatHubRequest
         self.loop: bool
         self.task: asyncio.Task
+        self.mode = mode
         self.request = ChatHubRequest(
             conversation_signature=conversation.struct["conversationSignature"],
             client_id=conversation.struct["clientId"],
@@ -52,10 +54,14 @@ class ChatHub:
         self.conversation_id = conversation.struct["conversationId"] or self.request.conversation_id
         self.cookies = cookies
         self.proxy: str = get_proxy(proxy)
+        if self.mode == "Bing":
+            header = HEADERS_INIT_CONVER
+        else:
+            header = SYDNEY_INIT_HEADER
         self.session = httpx.AsyncClient(
             proxies=self.proxy,
             timeout=900,
-            headers=HEADERS_INIT_CONVER,
+            headers=header,
         )
         if conversation.struct.get("encryptedConversationSignature"):
             self.encrypted_conversation_signature = conversation.struct["encryptedConversationSignature"]
@@ -84,11 +90,15 @@ class ChatHub:
             for cookie in self.cookies:
                 cookies[cookie["name"]] = cookie["value"]
         self.aio_session = aiohttp.ClientSession(cookies=cookies)
+        if self.mode == "Bing":
+            header = HEADERS
+        else:
+            header = SYDNEY_HEADER
         # Check if websocket is closed
         wss = await self.aio_session.ws_connect(
             wss_link or "wss://sydney.bing.com/sydney/ChatHub",
             ssl=ssl_context,
-            headers=HEADERS,
+            headers=header,
             proxy=self.proxy,
         )
         await _initial_handshake(wss)
