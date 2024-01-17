@@ -3,7 +3,7 @@ import asyncio
 import contextlib
 import json
 import os
-import socket
+import random
 import sys
 import time
 from functools import partial
@@ -17,17 +17,14 @@ import requests
 
 from re_edge_gpt.proxy import get_proxy
 
-take_ip_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-take_ip_socket.connect(("8.8.8.8", 80))
-FORWARDED_IP: str = take_ip_socket.getsockname()[0]
-take_ip_socket.close()
+FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 
 BING_URL = os.getenv("BING_URL", "https://www.bing.com")
 
 HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,"
               "image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.77",
-    "accept-language": "en,zh-TW;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+    "accept-language": "en;q=0.9,en-US;q=0.8",
     "cache-control": "max-age=0",
     "content-type": "application/x-www-form-urlencoded",
     "referrer": "https://www.bing.com/images/create/",

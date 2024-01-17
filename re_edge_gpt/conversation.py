@@ -5,7 +5,7 @@ from typing import Union
 
 import httpx
 
-from .constants import HEADERS_INIT_CONVER, BUNDLE_VERSION
+from .constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
 from .exceptions import NotAllowedToAccess
 from .proxy import get_proxy
 
@@ -16,6 +16,7 @@ class Conversation:
             proxy: Union[str, None] = None,
             async_mode: bool = False,
             cookies: Union[List[dict], None] = None,
+            mode: str = "Bing"
     ) -> None:
         if async_mode:
             return
@@ -36,19 +37,31 @@ class Conversation:
         )
         if proxy is not None and proxy.startswith("socks5h://"):
             proxy = "socks5://" + proxy[len("socks5h://"):]
+        if mode == "Bing":
+            header = HEADERS_INIT_CONVER
+        else:
+            header = SYDNEY_INIT_HEADER
         self.session = httpx.Client(
             proxies=proxy,
             timeout=900,
-            headers=HEADERS_INIT_CONVER,
+            headers=header,
         )
         if cookies:
             for cookie in cookies:
                 self.session.cookies.set(cookie["name"], cookie["value"])
         # Send GET request
-        response = self.session.get(
-            url=os.environ.get("BING_PROXY_URL")
-            or f"https://www.bing.com/turing/conversation/create?bundleVersion={BUNDLE_VERSION}",
-        )
+        if mode == "Bing":
+            response = self.session.get(
+                url=os.environ.get("BING_PROXY_URL")
+                or f"https://www.bing.com/turing/conversation/create"
+                   f"?bundleVersion={BUNDLE_VERSION}",
+            )
+        else:
+            response = self.session.get(
+                url=os.environ.get("BING_PROXY_URL")
+                or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
+                   f"?bundleVersion={BUNDLE_VERSION}",
+            )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
             print(response.text)
@@ -71,6 +84,7 @@ class Conversation:
     async def create(
             proxy: Union[str, None] = None,
             cookies: Union[List[dict], None] = None,
+            mode: str = "Bing"
     ) -> "Conversation":
         self = Conversation(async_mode=True)
         self.struct = {
@@ -95,11 +109,20 @@ class Conversation:
                 cookies=formatted_cookies,
         ) as client:
             # Send GET request
-            response = await client.get(
-                url=os.environ.get("BING_PROXY_URL")
-                    or f"https://www.bing.com/turing/conversation/create?bundleVersion={BUNDLE_VERSION}",
-                follow_redirects=True,
-            )
+            if mode == "Bing":
+                response = await client.get(
+                    url=os.environ.get("BING_PROXY_URL")
+                    or f"https://www.bing.com/turing/conversation/create"
+                       f"?bundleVersion={BUNDLE_VERSION}",
+                    follow_redirects=True,
+                )
+            else:
+                response = await client.get(
+                    url=os.environ.get("BING_PROXY_URL")
+                    or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
+                       f"?bundleVersion={BUNDLE_VERSION}",
+                    follow_redirects=True,
+                )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
             print(response.text)
