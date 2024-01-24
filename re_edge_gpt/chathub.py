@@ -204,7 +204,7 @@ class ChatHub:
     async def close(self) -> None:
         await self.session.aclose()
 
-    async def get_conversation(self):
+    async def get_conversation(self) -> dict:
         return {
             "conversation_id": self.conversation_id,
             "client_id": self.request.client_id,
@@ -212,7 +212,7 @@ class ChatHub:
             "conversation_signature": self.request.conversation_signature,
         }
 
-    async def set_conversation(self, conversation_dict: dict):
+    async def set_conversation(self, conversation_dict: dict) -> None:
         self.conversation.struct["conversationId"] = conversation_dict.get("conversation_id")
         self.conversation.struct["client_id"] = conversation_dict.get("client_id")
         self.conversation.struct[

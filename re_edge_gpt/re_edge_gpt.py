@@ -56,16 +56,21 @@ class Chatbot:
     ):
         """
         Ask a question to the bot
-        Response:
-            {
-                item (dict):
-                    messages (list[dict]):
-                        adaptiveCards (list[dict]):
-                            body (list[dict]):
-                                text (str): Response
-            }
-        To get the response, you can do:
-            response["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
+        :param prompt: The prompt to ask Bing
+        :param wss_link: The link to the Bing web service
+        :param conversation_style: The style of the Bing chat
+        :param webpage_context: U don't need use this param in normal use
+        :param search_result: Search web True or False
+        :param locale: Bing service locale
+        :param simplify_response: Simplify response True or False
+        :param attachment: Send image
+            attachment example:
+                For url using
+                attachment={"image_url": r"<image_url>"})
+                For local file using
+                attachment={"filename": r"<file_path>"})
+                For base64 image using
+                attachment={"base64_image": r"<base64_image_str>"})
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,

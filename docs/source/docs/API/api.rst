@@ -3,31 +3,35 @@ ReEdgeGPT API
 
 .. code-block:: python
 
-    async def save_conversation(self, filename: str) -> None:
-        """
-        Save the conversation to a file
-        """
-
-.. code-block:: python
-
-    async def load_conversation(self, filename: str) -> None:
-        """
-        Load the conversation from a file
-        """
-
-.. code-block:: python
-
     async def get_conversation(self) -> dict:
-        """
-        Gets the conversation history from conversation_id (requires load_conversation)
-        """
+    """
+    Save the conversation to a dict
+    conversation_dict: use to save conversation
+    bot: ReEdgeGPT instance
+    cookies: cookie dict
+    example below:
+    """
+    conversation_dict = {}
+    bot = None
+    cookies: list[dict] = json.loads(open(
+        str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+    bot = await Chatbot.create(cookies=cookies)
+    conversation_dict.update(await bot.chat_hub.get_conversation())
 
 .. code-block:: python
 
-    async def get_activity(self) -> dict:
-        """
-        Gets the recent activity (requires cookies)
-        """
+    async def set_conversation(self, conversation_dict: dict):
+    """
+    Load the conversation from a dict
+    bot: ReEdgeGPT instance
+    cookies: cookie dict
+    example below:
+    """
+    bot = None
+    cookies: list[dict] = json.loads(open(
+        str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+    bot = await Chatbot.create(cookies=cookies)
+    await bot.chat_hub.set_conversation(conversation_dict=conversation_dict)
 
 .. code-block:: python
 
@@ -40,35 +44,25 @@ ReEdgeGPT API
             search_result: bool = False,
             locale: str = guess_locale(),
             simplify_response: bool = False,
+            attachment: dict[str, str] = None
     ):
         """
         Ask a question to the bot
-        Response:
-            {
-                item (dict):
-                    messages (list[dict]):
-                        adaptiveCards (list[dict]):
-                            body (list[dict]):
-                                text (str): Response
-            }
-        To get the response, you can do:
-            response["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
-        """
-
-.. code-block:: python
-
-    async def ask_stream(
-            self,
-            prompt: str,
-            wss_link: str = "wss://sydney.bing.com/sydney/ChatHub",
-            conversation_style: CONVERSATION_STYLE_TYPE = None,
-            raw: bool = False,
-            webpage_context: str | None = None,
-            search_result: bool = False,
-            locale: str = guess_locale(),
-    ) -> Generator[bool, dict | str, None]:
-        """
-        Ask a question to the bot
+        :param prompt: The prompt to ask Bing
+        :param wss_link: The link to the Bing web service
+        :param conversation_style: The style of the Bing chat
+        :param webpage_context: U don't need use this param in normal use
+        :param search_result: Search web True or False
+        :param locale: Bing service locale
+        :param simplify_response: Simplify response True or False
+        :param attachment: Send image
+            attachment example:
+                For url using
+                attachment={"image_url": r"<image_url>"})
+                For local file using
+                attachment={"filename": r"<file_path>"})
+                For base64 image using
+                attachment={"base64_image": r"<base64_image_str>"})
         """
 
 .. code-block:: python
@@ -76,18 +70,6 @@ ReEdgeGPT API
     async def close(self) -> None:
         """
         Close the connection
-        """
-
-.. code-block:: python
-
-    async def delete_conversation(
-            self,
-            conversation_id: str = None,
-            conversation_signature: str = None,
-            client_id: str = None,
-    ) -> None:
-        """
-        Delete the chat in the server
         """
 
 .. code-block:: python
