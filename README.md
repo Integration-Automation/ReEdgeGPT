@@ -178,7 +178,7 @@ if __name__ == "__main__":
 
 <summary>
 
-# Using copilot as default mode
+# Use copilot as default mode
 
 </summary>
 
