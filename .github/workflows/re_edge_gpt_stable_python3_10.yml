@@ -2,13 +2,11 @@ name: ReEdgeGPT Stable Python3.10
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "dev", "main"]
   schedule:
     - cron: "0 8 * * *"
   pull_request_target:
-    types: [ ready_for_review, review_requested, edited]
+    types: [assigned, opened, synchronize, reopened]
 
 permissions:
   contents: read
