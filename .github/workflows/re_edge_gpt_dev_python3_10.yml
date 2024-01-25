@@ -2,13 +2,11 @@ name: ReEdgeGPT Dev Python3.10
 
 on:
   push:
-    branches: [ "dev" ]
-  pull_request:
-    branches: [ "dev" ]
+    branches: [ "dev", "main"]
   schedule:
     - cron: "0 8 * * *"
   pull_request_target:
-    types: [ ready_for_review, review_requested, edited]
+    types: [assigned, opened, synchronize, reopened]
 
 permissions:
   contents: read
