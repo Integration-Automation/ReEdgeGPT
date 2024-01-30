@@ -218,3 +218,12 @@ class ChatHub:
         self.conversation.struct[
             "encrypted_conversation_signature"] = conversation_dict.get("encrypted_conversation_signature")
         self.conversation.struct["conversation_signature"] = conversation_dict.get("conversation_signature")
+
+    async def delete_conversation(self, conversation_id: str = None, client_id: str = None,
+                                  encrypted_conversation_signature: str = None, conversation_signature: str = None
+                                  ) -> None:
+        self.conversation.struct["conversationId"] = conversation_id
+        self.conversation.struct["client_id"] = client_id
+        self.conversation.struct[
+            "encrypted_conversation_signature"] = encrypted_conversation_signature
+        self.conversation.struct["conversation_signature"] = conversation_signature
