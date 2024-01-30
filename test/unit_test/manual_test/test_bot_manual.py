@@ -22,9 +22,8 @@ async def test_ask() -> None:
                 str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
-            prompt="Beef wellington recipe",
+            prompt="Chicken nuget recipe",
             conversation_style=ConversationStyle.balanced,
-            simplify_response=True,
             search_result=True
         )
         # If you are using non ascii char you need set ensure_ascii=False
