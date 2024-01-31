@@ -5,8 +5,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "re_edge_gpt"
-version = "0.0.26"
+name = "re_edge_gpt_dev"
+version = "0.0.28"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },
 ]
@@ -39,3 +39,6 @@ license-files = ["LICENSE"]
 
 [tool.setuptools.packages]
 find = { namespaces = false }
+
+[project.optional-dependencies]
+gui = ["Pyside6", "SpeechRecognition", "pyttsx3"]

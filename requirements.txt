@@ -4,11 +4,7 @@ httpx
 prompt_toolkit
 requests
 rich
-re-edge-gpt
 regex
-PySide6
-qt-material
-gunicorn
-flask
 build
 twine
+re-edge-gpt

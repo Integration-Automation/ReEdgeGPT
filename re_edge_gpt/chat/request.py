@@ -2,11 +2,11 @@ import uuid
 from datetime import datetime
 from typing import Union
 
-from .conversation_style import CONVERSATION_STYLE_TYPE
-from .conversation_style import ConversationStyle
-from .utilities import get_location_hint_from_locale
-from .utilities import get_ran_hex
-from .utilities import guess_locale
+from re_edge_gpt.utils.conversation_style import CONVERSATION_STYLE_TYPE
+from re_edge_gpt.utils.conversation_style import ConversationStyle
+from re_edge_gpt.utils.utilities import get_location_hint_from_locale
+from re_edge_gpt.utils.utilities import get_ran_hex
+from re_edge_gpt.utils.utilities import guess_locale
 
 
 class ChatHubRequest:

@@ -13,7 +13,7 @@ from prompt_toolkit.key_binding import KeyBindings
 from rich.live import Live
 from rich.markdown import Markdown
 
-from re_edge_gpt.re_edge_gpt import Chatbot
+from re_edge_gpt.chat.re_edge_gpt import Chatbot
 
 
 def create_session() -> PromptSession:

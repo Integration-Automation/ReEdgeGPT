@@ -6,7 +6,7 @@ from __future__ import annotations
 from .chathub import *
 from .conversation import *
 from .request import *
-from .utilities import *
+from re_edge_gpt.utils.utilities import *
 
 
 class Chatbot:
