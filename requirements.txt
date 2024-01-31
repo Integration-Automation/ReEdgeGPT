@@ -5,6 +5,4 @@ prompt_toolkit
 requests
 rich
 regex
-build
-twine
 re-edge-gpt

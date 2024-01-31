@@ -4,17 +4,19 @@ httpx
 prompt_toolkit
 requests
 rich
-flask[async]
 regex
+re-edge-gpt-dev
+# GUI
+PySide6
+qt-material
+SpeechRecognition
+# API
+flask[async]
 apispec
 apispec-webframeworks
 marshmallow
 Flask-CORS
-PySide6
-qt-material
 gunicorn
-flask
-re-edge-gpt-dev
-SpeechRecognition
+# Build
 build
 twine

@@ -41,4 +41,5 @@ license-files = ["LICENSE"]
 find = { namespaces = false }
 
 [project.optional-dependencies]
-gui = ["Pyside6", "SpeechRecognition", "pyttsx3"]
+gui = ["Pyside6", "qt-material","SpeechRecognition", "pyttsx3"]
+api = ["flask[async]", "Flask-CORS", "apispec", "apispec-webframeworks", "marshmallow", "gunicorn"]
