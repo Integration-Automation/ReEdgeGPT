@@ -326,6 +326,10 @@ if __name__ == "__main__":
 
 # Optional extend
 
+</summary>
+
+<details>
+
 Install re-edge-gpt with Pyside GUI
 ```
 pip install re-edge-gpt[gui] 
@@ -359,11 +363,6 @@ else:
     app.secret_key = os.urandom(24)
 
 ```
-
-
-</summary>
-
-<details>
 
 </details>
 
