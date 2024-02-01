@@ -5,9 +5,9 @@ from typing import Union
 
 import httpx
 
-from .constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
-from .exceptions import NotAllowedToAccess
-from .proxy import get_proxy
+from re_edge_gpt.utils.constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
+from re_edge_gpt.utils.exceptions import NotAllowedToAccess
+from re_edge_gpt.utils.proxy import get_proxy
 
 
 class Conversation:

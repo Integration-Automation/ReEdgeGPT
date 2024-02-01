@@ -15,7 +15,7 @@ import httpx
 import regex
 import requests
 
-from re_edge_gpt.proxy import get_proxy
+from re_edge_gpt.utils.proxy import get_proxy
 
 FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 

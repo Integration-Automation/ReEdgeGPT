@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "re_edge_gpt_dev"
-version = "0.0.26"
+version = "0.0.30"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },
 ]
@@ -39,3 +39,7 @@ license-files = ["LICENSE"]
 
 [tool.setuptools.packages]
 find = { namespaces = false }
+
+[project.optional-dependencies]
+gui = ["Pyside6", "qt-material","SpeechRecognition", "pyttsx3"]
+api = ["flask[async]", "Flask-CORS", "apispec", "apispec-webframeworks", "marshmallow", "gunicorn"]

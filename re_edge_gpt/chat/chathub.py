@@ -12,16 +12,16 @@ import aiohttp
 import certifi
 import httpx
 
-from .constants import DELIMITER, SYDNEY_INIT_HEADER, SYDNEY_HEADER
-from .constants import HEADERS
-from .constants import HEADERS_INIT_CONVER
+from re_edge_gpt.image.upload_image import upload_image, upload_image_url
+from re_edge_gpt.utils.constants import DELIMITER, SYDNEY_INIT_HEADER, SYDNEY_HEADER
+from re_edge_gpt.utils.constants import HEADERS
+from re_edge_gpt.utils.constants import HEADERS_INIT_CONVER
+from re_edge_gpt.utils.conversation_style import CONVERSATION_STYLE_TYPE
+from re_edge_gpt.utils.proxy import get_proxy
+from re_edge_gpt.utils.utilities import append_identifier
+from re_edge_gpt.utils.utilities import guess_locale
 from .conversation import Conversation
-from .conversation_style import CONVERSATION_STYLE_TYPE
-from .proxy import get_proxy
 from .request import ChatHubRequest
-from .upload_image import upload_image, upload_image_url
-from .utilities import append_identifier
-from .utilities import guess_locale
 
 ssl_context = ssl.create_default_context()
 ssl_context.load_verify_locations(certifi.where())
@@ -227,3 +227,15 @@ class ChatHub:
         self.conversation.struct[
             "encrypted_conversation_signature"] = encrypted_conversation_signature
         self.conversation.struct["conversation_signature"] = conversation_signature
+        delete_conversation_url = "https://sydney.bing.com/sydney/DeleteSingleConversation"
+        await self.session.post(
+            delete_conversation_url,
+            json={
+                "conversationId": conversation_id,
+                "conversationSignature": conversation_signature,
+                "encrypted_conversation_signature": encrypted_conversation_signature,
+                "participant": {"id": client_id},
+                "source": "cib",
+                "optionsSets": ["autosave"],
+            },
+        )
