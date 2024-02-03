@@ -24,7 +24,8 @@ async def test_ask() -> None:
         response = await bot.ask(
             prompt="Beef noodle recipe",
             conversation_style=ConversationStyle.balanced,
-            search_result=True
+            search_result=True,
+            autosave=False
         )
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS
 
 from re_edge_gpt.api.re_edge_gpt_blueprint import re_edge_gpt_blueprint_instance
@@ -13,7 +13,7 @@ def create_app() -> Flask:
 
     @flask_app.route("/", methods=["GET"])
     async def index():
-        return "INDEX"
+        return render_template("index.html")
 
     CORS(flask_app)
     bind_swagger(flask_app)
