@@ -113,7 +113,7 @@ class ChatHub:
             if response:
                 image_url = f"https://www.bing.com/images/blob?bcid={response}"
         # Construct a ChatHub request
-        if autosave is False:
+        if autosave is False and "autosave" in conversation_style.value:
             conversation_style.value.remove("autosave")
         self.request.update(
             prompt=prompt,
