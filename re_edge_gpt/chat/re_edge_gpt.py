@@ -52,7 +52,8 @@ class Chatbot:
             search_result: bool = False,
             locale: str = guess_locale(),
             simplify_response: bool = False,
-            attachment: dict[str, str] = None
+            attachment: dict[str, str] = None,
+            autosave: bool = True
     ):
         """
         Ask a question to the bot
@@ -71,6 +72,7 @@ class Chatbot:
                 attachment={"filename": r"<file_path>"})
                 For base64 image using
                 attachment={"base64_image": r"<base64_image_str>"})
+        :param autosave: add autosave on request
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,
@@ -80,6 +82,7 @@ class Chatbot:
                 search_result=search_result,
                 locale=locale,
                 attachment=attachment,
+                autosave=autosave
         ):
             if final:
                 if not simplify_response:

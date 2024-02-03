@@ -100,6 +100,8 @@ async def chat():
     }.get(conversation_style, ConversationStyle.balanced)
     simplify_response = request.get_json()["simplify_response"]
     attachment = request.get_json()["attachment"]
+    if simplify_response is None:
+        simplify_response = True
     if bot.get("chatbot") is None:
         chatbot = await setup_chatbot()
     else:
