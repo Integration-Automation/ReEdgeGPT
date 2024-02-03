@@ -139,6 +139,7 @@ class Chatbot:
             webpage_context: str | None = None,
             search_result: bool = False,
             locale: str = guess_locale(),
+            autosave: bool = True        
     ) -> Generator[bool, dict | str, None]:
         """
         Ask a question to the bot
@@ -151,6 +152,7 @@ class Chatbot:
                 webpage_context=webpage_context,
                 search_result=search_result,
                 locale=locale,
+                autosave=autosave
         ):
             yield response
 
