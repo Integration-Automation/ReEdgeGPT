@@ -3,6 +3,8 @@ import json
 
 import aiohttp
 
+from re_edge_gpt.utils.constants import IMAGE_HEADER
+
 payload = {
     "imageInfo": {},
     "knowledgeRequest": {
@@ -17,9 +19,10 @@ payload = {
 }
 
 
-async def upload_image_url(image_url: str, conversation_id: str, proxy: str = None, face_blur: bool = True):
+async def upload_image_url(image_url: str, conversation_id: str, cookies: dict,
+                           proxy: str = None, face_blur: bool = True):
     async with aiohttp.ClientSession(
-            headers={"Referer": "https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx"},
+            headers=IMAGE_HEADER, cookies=cookies
     ) as session:
         url = "https://www.bing.com/images/kblob"
 
@@ -31,17 +34,22 @@ async def upload_image_url(image_url: str, conversation_id: str, proxy: str = No
         data = aiohttp.FormData()
         data.add_field('knowledgeRequest', json.dumps(new_payload), content_type="application/json")
         async with session.post(url, data=data, proxy=proxy) as resp:
+            if not resp.status == 200:
+                raise Exception("Upload image failed")
             return (await resp.json())["blobId"]
 
 
-async def upload_image(filename: str = None, base64_image: str = None, proxy: str = None, face_blur: bool = True):
+async def upload_image(conversation_id: str, cookies: dict, filename: str = None,
+                       base64_image: str = None, proxy: str = None, face_blur: bool = True):
     async with aiohttp.ClientSession(
-            headers={"Referer": "https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx"},
+            headers=IMAGE_HEADER, cookies=cookies
     ) as session:
         url = "https://www.bing.com/images/kblob"
 
-        new_payload = payload.get("knowledgeRequest").update(
+        new_payload = payload
+        new_payload.get("knowledgeRequest").update(
             {"invokedSkillsRequestData": {"enableFaceBlur": face_blur}})
+        new_payload.get("knowledgeRequest").get("convoData").update({"convoid": conversation_id})
 
         if filename is not None:
             with open(filename, 'rb') as f:
@@ -55,6 +63,7 @@ async def upload_image(filename: str = None, base64_image: str = None, proxy: st
         data = aiohttp.FormData()
         data.add_field('knowledgeRequest', json.dumps(new_payload), content_type="application/json")
         data.add_field('imageBase64', image_base64, content_type="application/octet-stream")
-
         async with session.post(url, data=data, proxy=proxy) as resp:
+            if not resp.status == 200:
+                raise Exception("Upload image failed")
             return (await resp.json())["blobId"]

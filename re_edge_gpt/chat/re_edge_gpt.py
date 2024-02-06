@@ -6,7 +6,6 @@ from __future__ import annotations
 from .chathub import *
 from .conversation import *
 from .request import *
-from re_edge_gpt.utils.utilities import *
 
 
 class Chatbot:
@@ -53,7 +52,8 @@ class Chatbot:
             locale: str = guess_locale(),
             simplify_response: bool = False,
             attachment: dict[str, str] = None,
-            autosave: bool = True
+            remove_options: list = None,
+            add_options: list = None
     ):
         """
         Ask a question to the bot
@@ -72,7 +72,8 @@ class Chatbot:
                 attachment={"filename": r"<file_path>"})
                 For base64 image using
                 attachment={"base64_image": r"<base64_image_str>"})
-        :param autosave: add autosave on request
+        :param remove_options remove options from Style
+        :param add_options add options to Style
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,
@@ -82,46 +83,51 @@ class Chatbot:
                 search_result=search_result,
                 locale=locale,
                 attachment=attachment,
-                autosave=autosave
+                remove_options=remove_options,
+                add_options=add_options
         ):
             if final:
                 if not simplify_response:
                     return response
-                messages_left = response["item"]["throttling"][
-                                    "maxNumUserMessagesInConversation"
-                                ] - response["item"]["throttling"].get(
+                messages_left = (response.get("item").get("throttling").get("maxNumUserMessagesInConversation")
+                                 - response.get("item").get("throttling").get(
                     "numUserMessagesInConversation",
                     0,
-                )
+                ))
                 if messages_left == 0:
                     raise Exception("Max messages reached")
-                message = ""
-                for msg in reversed(response["item"]["messages"]):
-                    if msg.get("adaptiveCards") and msg["adaptiveCards"][0]["body"][
-                        0
-                    ].get("text"):
-                        message = msg
-                        break
+                message = {}
+                for msg in reversed(response.get("item").get("messages")):
+                    if msg.get("author") == "bot":
+                        old_message = message.get("text")
+                        if old_message:
+                            old_message = old_message + " \n "
+                        else:
+                            old_message = ""
+                        message.update({
+                            "author": "bot",
+                            "text": old_message + msg.get("text")
+                        })
                 if not message:
                     raise Exception("No message found")
-                suggestions = [
-                    suggestion["text"]
-                    for suggestion in message.get("suggestedResponses", [])
-                ]
-                adaptive_cards = message.get("adaptiveCards", [])
-                sources = (
-                    adaptive_cards[0]["body"][0].get("text") if adaptive_cards else None
-                )
-                sources_link = (
-                    adaptive_cards[0]["body"][-1].get("text")
-                    if adaptive_cards
-                    else None
-                )
+                suggestions = []
+                source_texts = []
+                source_links = []
+                for detail in reversed(response.get("item").get("messages")):
+                    suggestion_responses = detail.get("suggestedResponses", {})
+                    source_attr = detail.get("sourceAttributions", {})
+                    if suggestion_responses:
+                        for suggestion in suggestion_responses:
+                            suggestions.append(suggestion.get("text"))
+                    if source_attr:
+                        for source in source_attr:
+                            source_texts.append(source.get("providerDisplayName"))
+                            source_links.append(source.get("seeMoreUrl"))
                 return {
                     "text": message["text"],
                     "author": message["author"],
-                    "sources": sources,
-                    "sources_link": sources_link,
+                    "source_texts": source_texts,
+                    "source_links": source_links,
                     "suggestions": suggestions,
                     "messages_left": messages_left,
                     "max_messages": response["item"]["throttling"][
@@ -139,7 +145,8 @@ class Chatbot:
             webpage_context: str | None = None,
             search_result: bool = False,
             locale: str = guess_locale(),
-            autosave: bool = True        
+            remove_options: list = None,
+            add_options: list = None
     ) -> Generator[bool, dict | str, None]:
         """
         Ask a question to the bot
@@ -152,7 +159,8 @@ class Chatbot:
                 webpage_context=webpage_context,
                 search_result=search_result,
                 locale=locale,
-                autosave=autosave
+                remove_options=remove_options,
+                add_options=add_options
         ):
             yield response
 

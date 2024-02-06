@@ -80,7 +80,8 @@ class ChatHub:
             locale: str = guess_locale(),
             # Use for attachment
             attachment: dict = None,
-            autosave: bool = True
+            remove_options: list = None,
+            add_options: list = None
     ) -> Generator[bool, Union[dict, str], None]:
         """ """
         if self.encrypted_conversation_signature is not None:
@@ -107,14 +108,21 @@ class ChatHub:
         image_url = None
         if attachment is not None:
             if attachment.get("image_url") is not None:
-                response = await upload_image_url(**attachment, conversation_id=self.conversation_id)
+                response = await upload_image_url(
+                    **attachment, conversation_id=self.conversation_id, cookies=cookies)
             else:
-                response = await upload_image(**attachment)
+                response = await upload_image(
+                    **attachment, conversation_id=self.conversation_id, cookies=cookies)
             if response:
                 image_url = f"https://www.bing.com/images/blob?bcid={response}"
         # Construct a ChatHub request
-        if autosave is False and "autosave" in conversation_style.value:
-            conversation_style.value.remove("autosave")
+        if remove_options is not None:
+            for option in remove_options:
+                if option in remove_options:
+                    conversation_style.value.remove(option)
+        if add_options is not None:
+            for option in add_options:
+                conversation_style.value.append(option)
         self.request.update(
             prompt=prompt,
             conversation_style=conversation_style,
