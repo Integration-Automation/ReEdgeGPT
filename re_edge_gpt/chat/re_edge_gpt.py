@@ -110,6 +110,7 @@ class Chatbot:
                         })
                 if not message:
                     raise Exception("No message found")
+                image_create_text = ""
                 suggestions = []
                 source_texts = []
                 source_links = []
@@ -123,12 +124,15 @@ class Chatbot:
                         for source in source_attr:
                             source_texts.append(source.get("providerDisplayName"))
                             source_links.append(source.get("seeMoreUrl"))
+                    if detail.get("contentType") == "IMAGE" and detail.get("messageType") == "GenerateContentQuery":
+                        image_create_text = detail.get("text")
                 return {
                     "text": message["text"],
                     "author": message["author"],
                     "source_texts": source_texts,
                     "source_links": source_links,
                     "suggestions": suggestions,
+                    "image_create_text": image_create_text,
                     "messages_left": messages_left,
                     "max_messages": response["item"]["throttling"][
                         "maxNumUserMessagesInConversation"

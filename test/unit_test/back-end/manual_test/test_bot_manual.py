@@ -22,7 +22,7 @@ async def test_ask() -> None:
                 str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
-            prompt="Cake recipe",
+            prompt="Can u generate some food image",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True,
             search_result=True
