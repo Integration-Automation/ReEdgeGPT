@@ -63,15 +63,14 @@ class ChatHubRequest:
                     "allowedMessageTypes": [
                         "ActionRequest",
                         "Chat",
-                        "ConfirmationCard",
                         "Context",
-                        "Disengaged",
+                        "InternalSearchQuery",
+                        "InternalSearchResult",
+                        "InternalLoaderMessage",
                         "Progress",
-                        "RenderContentRequest",
-                        "AdsQuery",
-                        "SemanticSerp",
                         "GenerateContentQuery",
-                        "SearchQuery"
+                        "SearchQuery",
+                        "GeneratedCode",
                     ],
                     "sliceIds": [
                         "schurmsg",

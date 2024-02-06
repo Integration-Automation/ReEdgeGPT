@@ -11,15 +11,15 @@ HEADERS = {
     "accept-language": "en;q=0.9,en-US;q=0.8",
     "accept-encoding": "gzip, deflate, br, zsdch",
     "content-type": "application/json",
-    "sec-ch-ua": '"Microsoft Edge";v="120", '
-                 '"Chromium";v="120", '
-                 '"Not?A_Brand";v="8"',
+    "sec-ch-ua": '"Not A(Brand";v="99", '
+                 '"Microsoft Edge";v="121", '
+                 '"Chromium";v="121"',
     "sec-ch-ua-arch": '"x86"',
     "sec-ch-ua-bitness": '"64"',
-    "sec-ch-ua-full-version": '"1-120.0.2210.133"',
-    "sec-ch-ua-full-version-list": '"Not_A Brand";v="8.0.0.0", '
-                                   '"Chromium";v="120.0.6099.217", '
-                                   '"Microsoft Edge";v="120.0.2210.133',
+    "sec-ch-ua-full-version": '"121.0.2277.83"',
+    "sec-ch-ua-full-version-list": '"Not A(Brand";v="99.0.0.0", '
+                                   '"Microsoft Edge";v="121.0.2277.83", '
+                                   '"Chromium";v="121.0.6167.85"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-model": "",
     "sec-ch-ua-platform": '"Windows"',
@@ -39,13 +39,15 @@ HEADERS_INIT_CONVER = {
     "accept": "application/json",
     "accept-language": "en;q=0.9,en-US;q=0.8",
     "cache-control": "max-age=0",
-    "sec-ch-ua": '"Not_A Brand";v="8.0.0.0", "Chromium";v="120.0.6099.217", "Microsoft Edge";v="120.0.2210.133',
+    "sec-ch-ua": '"Not A(Brand";v="99", '
+                 '"Microsoft Edge";v="121", '
+                 '"Chromium";v="121"',
     "sec-ch-ua-arch": '"x86"',
     "sec-ch-ua-bitness": '"64"',
-    "sec-ch-ua-full-version": '"1-120.0.2210.133"',
-    "sec-ch-ua-full-version-list": '"Not_A Brand";v="8.0.0.0", '
-                                   '"Chromium";v="120.0.6099.217", '
-                                   '"Microsoft Edge";v="120.0.2210.133',
+    "sec-ch-ua-full-version": '"121.0.2277.83"',
+    "sec-ch-ua-full-version-list": '"Not A(Brand";v="99.0.0.0", '
+                                   '"Microsoft Edge";v="121.0.2277.83", '
+                                   '"Chromium";v="121.0.6167.85"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-model": '""',
     "sec-ch-ua-platform": '"Windows"',
@@ -59,6 +61,32 @@ HEADERS_INIT_CONVER = {
     "x-edge-shopping-flag": "1",
     "X-Ms-Useragent": "azsdk-js-api-client-factory/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS/Windows",
     "x-forwarded-for": FORWARDED_IP,
+}
+
+IMAGE_HEADER = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Content-Type": "multipart/form-data",
+    "Referer": "https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx",
+    "sec-ch-ua": '"Not A(Brand";v="99", '
+                 '"Microsoft Edge";v="121", '
+                 '"Chromium";v="121"',
+    "sec-ch-ua-arch": '"x86"',
+    "sec-ch-ua-bitness": '"64"',
+    "sec-ch-ua-full-version": '"121.0.2277.83"',
+    "sec-ch-ua-full-version-list": '"Not A(Brand";v="99.0.0.0", '
+                                   '"Microsoft Edge";v="121.0.2277.83", '
+                                   '"Chromium";v="121.0.6167.85"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": "Windows",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-origin",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/120.0.0.0 "
+                  "Safari/537.36 "
+                  "Edg/120.0.0.0",
 }
 
 BUNDLE_VERSION = "1.1498.1"

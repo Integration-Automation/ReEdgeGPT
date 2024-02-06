@@ -1,0 +1,195 @@
+{
+  "type": 2,
+  "invocationId": "3",
+  "item": {
+    "messages": [
+      {
+        "text": "Can u generate some food image",
+        "author": "user",
+        "from": {
+          "id": "914798280546316",
+          "name": null,
+          "partnerId": null
+        },
+        "createdAt": "2024-02-06T01:35:56.0009996+00:00",
+        "timestamp": "2024-02-06T09:35:54+08:00",
+        "locale": "en-us",
+        "market": "en-us",
+        "region": "us",
+        "locationInfo": {
+          "country": "Australia",
+          "state": "South Australia",
+          "city": "Adelaide",
+          "sourceType": 1,
+          "isImplicitLocationIntent": false
+        },
+        "locationHints": [
+          {
+            "country": "United States",
+            "countryConfidence": 8,
+            "state": "California",
+            "city": "Los Angeles",
+            "timeZoneOffset": 8,
+            "sourceType": 1,
+            "center": {
+              "latitude": 34.05369,
+              "longitude": -118.24277,
+              "height": null
+            },
+            "regionType": 2
+          }
+        ],
+        "messageId": "c5044fee-d168-45dd-b644-9c22c6fc0743",
+        "requestId": "c5044fee-d168-45dd-b644-9c22c6fc0743",
+        "nlu": {
+          "scoredClassification": {
+            "classification": "CHAT_GPT",
+            "score": null
+          },
+          "classificationRanking": [
+            {
+              "classification": "CHAT_GPT",
+              "score": null
+            }
+          ],
+          "qualifyingClassifications": null,
+          "ood": null,
+          "metaData": null,
+          "entities": null
+        },
+        "offense": "None",
+        "feedback": {
+          "tag": null,
+          "updatedOn": null,
+          "type": "None"
+        },
+        "contentOrigin": "cib",
+        "scores": [
+          {
+            "component": "UserOffense",
+            "score": 0.0064882697
+          },
+          {
+            "component": "suicide_help",
+            "score": 0.01621503
+          }
+        ],
+        "inputMethod": "Keyboard"
+      },
+      {
+        "contentType": "IMAGE",
+        "text": "food",
+        "author": "bot",
+        "createdAt": "2024-02-06T01:35:57.4047391+00:00",
+        "timestamp": "2024-02-06T01:35:57.4047391+00:00",
+        "messageId": "06836583-aa88-43de-b1f7-8eaf9e527a95",
+        "requestId": "c5044fee-d168-45dd-b644-9c22c6fc0743",
+        "messageType": "GenerateContentQuery",
+        "offense": "None",
+        "feedback": {
+          "tag": null,
+          "updatedOn": null,
+          "type": "None"
+        },
+        "contentOrigin": "DeepLeo",
+        "invocation": "graphic_art(prompt=\"food\")"
+      },
+      {
+        "text": "I'll try to create that.",
+        "author": "bot",
+        "createdAt": "2024-02-06T01:35:58.0076269+00:00",
+        "timestamp": "2024-02-06T01:35:58.0076269+00:00",
+        "messageId": "ebe1e06f-e47d-470f-97ef-bda48a3d257c",
+        "requestId": "c5044fee-d168-45dd-b644-9c22c6fc0743",
+        "offense": "None",
+        "adaptiveCards": [
+          {
+            "type": "AdaptiveCard",
+            "version": "1.0",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "I'll try to create that.\n",
+                "wrap": true
+              }
+            ]
+          }
+        ],
+        "sourceAttributions": [],
+        "feedback": {
+          "tag": null,
+          "updatedOn": null,
+          "type": "None"
+        },
+        "contentOrigin": "DeepLeo",
+        "suggestedResponses": [
+          {
+            "text": "Can you draw a picture of a pizza?",
+            "author": "user",
+            "createdAt": "2024-02-06T01:35:59.1695507+00:00",
+            "timestamp": "2024-02-06T01:35:59.1695507+00:00",
+            "messageId": "aa8d3cb2-92e7-43d2-981e-173380ec5eea",
+            "messageType": "Suggestion",
+            "offense": "Unknown",
+            "feedback": {
+              "tag": null,
+              "updatedOn": null,
+              "type": "None"
+            },
+            "contentOrigin": "SuggestionChipsFalconService"
+          },
+          {
+            "text": "How about drawing an image of sushi?",
+            "author": "user",
+            "createdAt": "2024-02-06T01:35:59.1695517+00:00",
+            "timestamp": "2024-02-06T01:35:59.1695517+00:00",
+            "messageId": "ae4581c4-b21a-418e-8964-60c37450b68d",
+            "messageType": "Suggestion",
+            "offense": "Unknown",
+            "feedback": {
+              "tag": null,
+              "updatedOn": null,
+              "type": "None"
+            },
+            "contentOrigin": "SuggestionChipsFalconService"
+          },
+          {
+            "text": "Draw me some fruits",
+            "author": "user",
+            "createdAt": "2024-02-06T01:35:59.169552+00:00",
+            "timestamp": "2024-02-06T01:35:59.169552+00:00",
+            "messageId": "16d9139c-922e-45d4-8234-40560f29ee0d",
+            "messageType": "Suggestion",
+            "offense": "Unknown",
+            "feedback": {
+              "tag": null,
+              "updatedOn": null,
+              "type": "None"
+            },
+            "contentOrigin": "SuggestionChipsFalconService"
+          }
+        ]
+      }
+    ],
+    "firstNewMessageIndex": 1,
+    "defaultChatName": null,
+    "conversationId": "51D|BingProd|BD37D1DE4DBC113C0C68AB4439EDD367C4162BA398653EACD73368321C8D1D2F",
+    "requestId": "c5044fee-d168-45dd-b644-9c22c6fc0743",
+    "conversationExpiryTime": "2024-02-06T07:35:59.2109401Z",
+    "shouldInitiateConversation": true,
+    "telemetry": {
+      "startTime": "2024-02-06T01:35:55.9945813Z"
+    },
+    "throttling": {
+      "maxNumUserMessagesInConversation": 30,
+      "numUserMessagesInConversation": 1,
+      "maxNumLongDocSummaryUserMessagesInConversation": 50,
+      "numLongDocSummaryUserMessagesInConversation": 0
+    },
+    "result": {
+      "value": "Success",
+      "message": "I'll try to create that.",
+      "serviceVersion": "20240203.114"
+    }
+  }
+}
