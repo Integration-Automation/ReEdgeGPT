@@ -13,15 +13,16 @@ import certifi
 import httpx
 
 from re_edge_gpt.image.upload_image import upload_image, upload_image_url
-from re_edge_gpt.utils.constants import DELIMITER, SYDNEY_INIT_HEADER, SYDNEY_HEADER
-from re_edge_gpt.utils.constants import HEADERS
-from re_edge_gpt.utils.constants import HEADERS_INIT_CONVER
-from re_edge_gpt.utils.conversation_style import CONVERSATION_STYLE_TYPE
-from re_edge_gpt.utils.proxy import get_proxy
+from re_edge_gpt.chat.constants import DELIMITER, SYDNEY_INIT_HEADER, SYDNEY_HEADER
+from re_edge_gpt.chat.constants import HEADERS
+from re_edge_gpt.chat.constants import HEADERS_INIT_CONVER
+from re_edge_gpt.chat.conversation_style import CONVERSATION_STYLE_TYPE
+from re_edge_gpt.chat.proxy import get_proxy
 from re_edge_gpt.utils.utilities import append_identifier
 from re_edge_gpt.utils.utilities import guess_locale
 from .conversation import Conversation
 from .request import ChatHubRequest
+from ..utils.exception.exceptions import NoResultsFound, ResponseError
 
 ssl_context = ssl.create_default_context()
 ssl_context.load_verify_locations(certifi.where())
@@ -142,7 +143,7 @@ class ChatHub:
             if not msg:
                 retry_count -= 1
                 if retry_count == 0:
-                    raise Exception("No response from server")
+                    raise NoResultsFound("No response from server")
                 continue
             if isinstance(msg, str):
                 objects = msg.split(DELIMITER)
@@ -187,7 +188,7 @@ class ChatHub:
                 elif response.get("type") == 2:
                     if response["item"]["result"].get("error"):
                         await self.close()
-                        raise Exception(
+                        raise ResponseError(
                             f"{response['item']['result']['value']}: {response['item']['result']['message']}",
                         )
                     if response["item"]["messages"][-1]["contentOrigin"] == "Apology" and resp_txt:

@@ -3,7 +3,7 @@ import json
 
 import aiohttp
 
-from re_edge_gpt.utils.constants import IMAGE_HEADER
+from re_edge_gpt.chat.constants import IMAGE_HEADER
 
 payload = {
     "imageInfo": {},

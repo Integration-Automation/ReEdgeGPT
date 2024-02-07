@@ -6,6 +6,7 @@ from __future__ import annotations
 from .chathub import *
 from .conversation import *
 from .request import *
+from ..utils.exception.exceptions import LimitExceeded
 
 
 class Chatbot:
@@ -95,7 +96,7 @@ class Chatbot:
                     0,
                 ))
                 if messages_left == 0:
-                    raise Exception("Max messages reached")
+                    raise LimitExceeded("Max messages reached")
                 message = {}
                 for msg in reversed(response.get("item").get("messages")):
                     if msg.get("author") == "bot":
@@ -109,7 +110,7 @@ class Chatbot:
                             "text": old_message + msg.get("text")
                         })
                 if not message:
-                    raise Exception("No message found")
+                    raise NoResultsFound("No message found")
                 image_create_text = ""
                 suggestions = []
                 source_texts = []

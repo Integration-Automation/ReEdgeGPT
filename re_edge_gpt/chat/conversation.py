@@ -5,9 +5,9 @@ from typing import Union
 
 import httpx
 
-from re_edge_gpt.utils.constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
-from re_edge_gpt.utils.exceptions import NotAllowedToAccess
-from re_edge_gpt.utils.proxy import get_proxy
+from re_edge_gpt.chat.constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
+from re_edge_gpt.utils.exception.exceptions import NotAllowedToAccess, NoAuthCookieFound
+from re_edge_gpt.chat.proxy import get_proxy
 
 
 class Conversation:
@@ -66,7 +66,7 @@ class Conversation:
             print(f"Status code: {response.status_code}")
             print(response.text)
             print(response.url)
-            raise Exception("Authentication failed")
+            raise NoAuthCookieFound("Authentication failed")
         try:
             self.struct = response.json()
             if self.struct.get("conversationSignature") is None:
@@ -74,7 +74,7 @@ class Conversation:
                 self.struct["encryptedConversationSignature"] = response.headers[
                     "X-Sydney-Encryptedconversationsignature"]
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
-            raise Exception(
+            raise NoAuthCookieFound(
                 "Authentication failed. You have not been accepted into the beta.",
             ) from exc
         if self.struct["result"]["value"] == "UnauthorizedRequest":
@@ -127,7 +127,7 @@ class Conversation:
             print(f"Status code: {response.status_code}")
             print(response.text)
             print(response.url)
-            raise Exception("Authentication failed")
+            raise NoAuthCookieFound("Authentication failed")
         try:
             self.struct = response.json()
             if self.struct.get("conversationSignature") is None:
@@ -136,7 +136,7 @@ class Conversation:
                     "X-Sydney-Encryptedconversationsignature"]
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
             print(response.text)
-            raise Exception(
+            raise NoAuthCookieFound(
                 "Authentication failed. You have not been accepted into the beta.",
             ) from exc
         if self.struct["result"]["value"] == "UnauthorizedRequest":
