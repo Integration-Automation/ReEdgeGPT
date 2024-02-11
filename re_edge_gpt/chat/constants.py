@@ -1,8 +1,11 @@
-import random
+import socket
 import uuid
 
+take_ip_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+take_ip_socket.connect(("8.8.8.8", 80))
+FORWARDED_IP: str = take_ip_socket.getsockname()[0]
+take_ip_socket.close()
 
-FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 
 DELIMITER = "\x1e"
 

@@ -92,9 +92,9 @@ class Chatbot:
                     return response
                 messages_left = (response.get("item").get("throttling").get("maxNumUserMessagesInConversation")
                                  - response.get("item").get("throttling").get(
-                    "numUserMessagesInConversation",
-                    0,
-                ))
+                            "numUserMessagesInConversation",
+                            0,
+                        ))
                 if messages_left == 0:
                     raise LimitExceeded("Max messages reached")
                 message = {}
@@ -107,14 +107,14 @@ class Chatbot:
                             old_message = ""
                         message.update({
                             "author": "bot",
-                            "text": old_message + msg.get("text")
+                            "text": old_message + msg.get("text", "")
                         })
                 if not message:
                     raise NoResultsFound("No message found")
                 image_create_text = ""
                 suggestions = []
-                source_texts = []
-                source_links = []
+                source_keys = []
+                source_values = []
                 for detail in reversed(response.get("item").get("messages")):
                     suggestion_responses = detail.get("suggestedResponses", {})
                     source_attr = detail.get("sourceAttributions", {})
@@ -122,16 +122,22 @@ class Chatbot:
                         for suggestion in suggestion_responses:
                             suggestions.append(suggestion.get("text"))
                     if source_attr:
-                        for source in source_attr:
-                            source_texts.append(source.get("providerDisplayName"))
-                            source_links.append(source.get("seeMoreUrl"))
+                        if isinstance(source_attr, dict):
+                            for key, value in source_attr.items():
+                                source_keys.append(key)
+                                source_values.append(value)
+                        if isinstance(source_attr, list):
+                            for source_dict in source_attr:
+                                if isinstance(source_dict, dict):
+                                    source_keys.append(source_dict.get("providerDisplayName", ""))
+                                    source_values.append(source_dict.get("seeMoreUrl", ""))
                     if detail.get("contentType") == "IMAGE" and detail.get("messageType") == "GenerateContentQuery":
                         image_create_text = detail.get("text")
                 return {
                     "text": message["text"],
                     "author": message["author"],
-                    "source_texts": source_texts,
-                    "source_links": source_links,
+                    "source_keys": source_keys,
+                    "source_values": source_values,
                     "suggestions": suggestions,
                     "image_create_text": image_create_text,
                     "messages_left": messages_left,

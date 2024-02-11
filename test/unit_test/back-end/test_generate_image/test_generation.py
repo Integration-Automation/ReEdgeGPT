@@ -43,7 +43,7 @@ if __name__ == "__main__":
         loop.run_until_complete(test_generate_image_async())
         shutil.rmtree(test_output_dir)
     except Exception as error:
-        raise error
+        print(repr(error))
     finally:
         sys.exit(0)
 
