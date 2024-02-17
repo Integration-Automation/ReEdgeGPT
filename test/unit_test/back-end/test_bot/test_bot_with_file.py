@@ -21,7 +21,7 @@ async def test_ask() -> None:
             simplify_response=True,
             attachment={"filename": "test.jpg"})
         # If you are using non ascii char you need set ensure_ascii=False
-        print(json.dumps(response, indent=2, ensure_ascii=False))
+        print(json.dumps(response, indent=2, ensure_ascii=False).encode("utf-8"))
         # Raw response
         # print(response)
         assert response

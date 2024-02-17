@@ -88,7 +88,7 @@ On 20 September 1870 the capture of Rome, during the reign of Pope Pius IX, and 
             search_result=True
         )
         # If you are using non ascii char you need set ensure_ascii=False
-        print(json.dumps(response, indent=2, ensure_ascii=False))
+        print(json.dumps(response, indent=2, ensure_ascii=False).encode("utf-8"))
     except Exception as error:
         raise error
     finally:
