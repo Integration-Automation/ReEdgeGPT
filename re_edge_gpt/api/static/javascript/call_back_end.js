@@ -31,20 +31,4 @@ function sendChatPrompt() {
     }
 }
 
-function senImagePrompt() {
-    const inputTextArea = document.getElementById("inputTextArea")
-    console.log(inputTextArea.value)
-    inputTextArea.value = ""
-    const httpRequest = new XMLHttpRequest();
-    httpRequest.open("GET", "/ReEdgeGPT/image", true)
-    httpRequest.setRequestHeader("content-type", "application/json");
-    httpRequest.send(
-        JSON.stringify({
-            "prompt": prompt
-        })
-    )
-    httpRequest.onreadystatechange = function () {
-    }
-}
-
 

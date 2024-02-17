@@ -15,7 +15,12 @@ import httpx
 import regex
 import requests
 
-from re_edge_gpt.utils.proxy import get_proxy
+from re_edge_gpt.chat.proxy import get_proxy
+from re_edge_gpt.utils.exception.exception_message import sending_message, error_being_reviewed_prompt, \
+    error_blocked_prompt, \
+    error_unsupported_lang, error_timeout, error_noresults, error_no_images, download_message, error_image_create_failed
+from re_edge_gpt.utils.exception.exceptions import UnSupportLanguage, PromptBlocked, ImageCreateFailed, NoResultsFound, \
+    NoAuthCookieFound, LimitExceeded, InappropriateContentType, ResponseError
 
 FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 
@@ -36,28 +41,35 @@ HEADERS = {
                   "Edg/120.0.2210.91",
 }
 
-# Error messages
-error_timeout = "Your request has timed out."
-error_redirect = "Redirect failed"
-error_blocked_prompt = (
-    "Your prompt has been blocked by Bing. Try to change any bad words and try again."
-)
-error_being_reviewed_prompt = "Your prompt is being reviewed by Bing. Try to change any sensitive words and try again."
-error_noresults = "Could not get results"
-error_unsupported_lang = "\nthis language is currently not supported by bing"
-error_bad_images = "Bad images"
-error_no_images = "No images"
-# Action messages
-sending_message = "Sending request..."
-wait_message = "Waiting for results..."
-download_message = "\nDownloading images..."
-
 
 def debug(debug_file, text_var):
     """helper function for debug"""
     with open(f"{debug_file}", "a", encoding="utf-8") as f:
         f.write(str(text_var))
         f.write("\n")
+
+
+def check_response(response, debug_file: Union[str, None] = None):
+    # check for content waring message
+    if "this prompt is being reviewed" in response.text.lower():
+        if debug_file:
+            debug(f"ERROR: {error_being_reviewed_prompt}")
+        raise UnSupportLanguage(
+            error_being_reviewed_prompt,
+        )
+    if "this prompt has been blocked" in response.text.lower():
+        if debug_file:
+            debug(f"ERROR: {error_blocked_prompt}")
+        raise PromptBlocked(
+            error_blocked_prompt,
+        )
+    if (
+            "we're working hard to offer image creator in more languages"
+            in response.text.lower()
+    ):
+        if debug_file:
+            debug(f"ERROR: {error_unsupported_lang}")
+        raise UnSupportLanguage(error_unsupported_lang)
 
 
 class ImageGen:
@@ -121,33 +133,13 @@ class ImageGen:
             data=payload,
             timeout=timeout,
         )
-        # check for content waring message
-        if "this prompt is being reviewed" in response.text.lower():
-            if self.debug_file:
-                self.debug(f"ERROR: {error_being_reviewed_prompt}")
-            raise Exception(
-                error_being_reviewed_prompt,
-            )
-        if "this prompt has been blocked" in response.text.lower():
-            if self.debug_file:
-                self.debug(f"ERROR: {error_blocked_prompt}")
-            raise Exception(
-                error_blocked_prompt,
-            )
-        if (
-                "we're working hard to offer image creator in more languages"
-                in response.text.lower()
-        ):
-            if self.debug_file:
-                self.debug(f"ERROR: {error_unsupported_lang}")
-            raise Exception(error_unsupported_lang)
+        check_response(response, self.debug_file)
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = self.session.post(url, allow_redirects=False, timeout=timeout)
             if response.status_code != 302:
-                print("Image create failed pls check cookie or old image still creating", flush=True)
-                return
+                raise ImageCreateFailed(error_image_create_failed)
                 # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
@@ -165,14 +157,14 @@ class ImageGen:
             if int(time.time() - start_wait) > 200:
                 if self.debug_file:
                     self.debug(f"ERROR: {error_timeout}")
-                raise Exception(error_timeout)
+                raise TimeoutError(error_timeout)
             if not self.quiet:
                 print(".", end="", flush=True)
             response = self.session.get(polling_url)
             if response.status_code != 200:
                 if self.debug_file:
                     self.debug(f"ERROR: {error_noresults}")
-                raise Exception(error_noresults)
+                raise NoResultsFound(error_noresults)
             if not response.text or response.text.find("errorMessage") != -1:
                 time.sleep(1)
                 time_sec = time_sec + 1
@@ -195,10 +187,10 @@ class ImageGen:
         ]
         for img in normal_image_links:
             if img in bad_images:
-                raise Exception("Bad images")
+                raise NoResultsFound("Bad images")
         # No images
         if not normal_image_links:
-            raise Exception(error_no_images)
+            raise NoResultsFound(error_no_images)
         return normal_image_links
 
     def save_images(
@@ -236,7 +228,7 @@ class ImageGen:
                     jpeg_index += 1
                 response = self.session.get(link)
                 if response.status_code != 200:
-                    raise Exception(f"Could not download image response code {response.status_code}")
+                    raise ResponseError(f"Could not download image response code {response.status_code}")
                 # save response to file
                 with open(
                         os.path.join(output_dir, f"{fn}{jpeg_index}.jpeg"), "wb"
@@ -245,7 +237,7 @@ class ImageGen:
                 jpeg_index += 1
 
         except requests.exceptions.MissingSchema as url_exception:
-            raise Exception(
+            raise InappropriateContentType(
                 "Inappropriate contents found in the generated images. Please try again or try another prompt.",
             ) from url_exception
 
@@ -270,7 +262,7 @@ class ImageGenAsync:
             proxy: str = None
     ) -> None:
         if auth_cookie is None and not all_cookies:
-            raise Exception("No auth cookie provided")
+            raise NoAuthCookieFound("No auth cookie provided")
         self.proxy: str = get_proxy(proxy)
         self.session = httpx.AsyncClient(
             proxies=self.proxy,
@@ -315,11 +307,7 @@ class ImageGenAsync:
             data={"q": url_encoded_prompt, "qs": "ds"},
             timeout=timeout
         )
-        content = response.text
-        if "this prompt has been blocked" in content.lower():
-            raise Exception(
-                "Your prompt has been blocked by Bing. Try to change any bad words and try again.",
-            )
+        check_response(response, self.debug_file)
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
@@ -329,8 +317,7 @@ class ImageGenAsync:
                 timeout=timeout,
             )
         if response.status_code != 302:
-            print("Image create failed pls check cookie or old image still creating", flush=True)
-            return None
+            raise ImageCreateFailed(error_image_create_failed)
         # Get redirect URL
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
@@ -347,7 +334,7 @@ class ImageGenAsync:
             # By default, timeout is 300s, change as needed
             response = await self.session.get(polling_url)
             if response.status_code != 200:
-                raise Exception("Could not get results")
+                raise NoResultsFound("Could not get results")
             content = response.text
             if content and content.find("errorMessage") == -1:
                 break
@@ -371,10 +358,10 @@ class ImageGenAsync:
         ]
         for im in normal_image_links:
             if im in bad_images:
-                raise Exception("Bad images")
+                raise NoResultsFound("Bad images")
         # No images
         if not normal_image_links:
-            raise Exception("No images")
+            raise NoResultsFound("No images")
         return normal_image_links
 
 
@@ -454,10 +441,10 @@ def main():
                 cookie_json = json.load(file)
 
     if args.U is None and args.cookie_file is None:
-        raise Exception("Could not find auth cookie")
+        raise NoAuthCookieFound("Could not find auth cookie")
 
     if args.download_count > 4:
-        raise Exception("The number of downloads must be less than five")
+        raise LimitExceeded("The number of downloads must be less than five")
 
     if not args.asyncio:
         # Create image generator
