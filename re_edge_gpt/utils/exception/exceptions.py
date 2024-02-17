@@ -18,7 +18,7 @@ class NoResultsFound(Exception):
     pass
 
 
-class NoAuthCookieFound(Exception):
+class AuthCookieError(Exception):
     pass
 
 

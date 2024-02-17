@@ -1,8 +1,6 @@
 import asyncio
 import json
 from pathlib import Path
-from random import choice
-from string import ascii_uppercase
 
 from re_edge_gpt import Chatbot
 from re_edge_gpt import ConversationStyle

@@ -20,7 +20,7 @@ from re_edge_gpt.utils.exception.exception_message import sending_message, error
     error_blocked_prompt, \
     error_unsupported_lang, error_timeout, error_noresults, error_no_images, download_message, error_image_create_failed
 from re_edge_gpt.utils.exception.exceptions import UnSupportLanguage, PromptBlocked, ImageCreateFailed, NoResultsFound, \
-    NoAuthCookieFound, LimitExceeded, InappropriateContentType, ResponseError
+    AuthCookieError, LimitExceeded, InappropriateContentType, ResponseError
 
 FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 
@@ -262,7 +262,7 @@ class ImageGenAsync:
             proxy: str = None
     ) -> None:
         if auth_cookie is None and not all_cookies:
-            raise NoAuthCookieFound("No auth cookie provided")
+            raise AuthCookieError("No auth cookie provided")
         self.proxy: str = get_proxy(proxy)
         self.session = httpx.AsyncClient(
             proxies=self.proxy,
@@ -441,7 +441,7 @@ def main():
                 cookie_json = json.load(file)
 
     if args.U is None and args.cookie_file is None:
-        raise NoAuthCookieFound("Could not find auth cookie")
+        raise AuthCookieError("Could not find auth cookie")
 
     if args.download_count > 4:
         raise LimitExceeded("The number of downloads must be less than five")
