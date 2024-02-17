@@ -20,10 +20,7 @@ async def test_ask() -> None:
             prompt="What does this image show?",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True,
-            attachment={
-                "image_url":
-                    r"https://images.yourstory.com/cs/2/96eabe90392211eb93f18319e8c07a74/Image54nh-1683225460858.jpg"}
-        )
+            attachment={"filename": "test.jpg"})
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
         # Raw response
