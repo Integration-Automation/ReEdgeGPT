@@ -9,6 +9,16 @@ take_ip_socket.close()
 
 DELIMITER = "\x1e"
 
+PLUGINS = {
+    "notebook": "c310c353-b9f0-4d76-ab0d-1dd5e979cf68",
+    "instacart": "46664d33-1591-4ce8-b3fb-ba1022b66c11",
+    "kayak": "d6be744c-2bd9-432f-95b7-76e103946e34",
+    "klarna": "5f143ea3-8c80-4efd-9515-185e83b7cf8a",
+    "opentable": "543a7b1b-ebc6-46f4-be76-00c202990a1b",
+    "shop": "39e3566a-d481-4d99-82b2-6d739b1e716e",
+    "suno": "22b7f79d-8ea4-437e-b5fd-3e21f09f7bc1"
+}
+
 HEADERS = {
     "accept": "application/json",
     "accept-language": "en;q=0.9,en-US;q=0.8",
