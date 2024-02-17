@@ -33,3 +33,6 @@ class InappropriateContentType(Exception):
 class ResponseError(Exception):
     pass
 
+
+class PluginError(Exception):
+    pass

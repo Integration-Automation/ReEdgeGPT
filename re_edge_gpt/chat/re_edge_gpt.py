@@ -4,9 +4,11 @@ Main.py
 from __future__ import annotations
 
 from .chathub import *
+from .constants import APP_ID
 from .conversation import *
 from .request import *
-from ..utils.exception.exceptions import LimitExceeded
+from ..utils.exception.exception_message import add_plugin_failed_message
+from ..utils.exception.exceptions import LimitExceeded, PluginError
 
 
 class Chatbot:
@@ -17,7 +19,7 @@ class Chatbot:
     def __init__(
             self,
             proxy: str | None = None,
-            cookies: list[dict] | None = None,
+            cookies: list[dict] | None = None
     ) -> None:
         self.proxy: str | None = proxy
         self.chat_hub: ChatHub = ChatHub(
@@ -26,17 +28,50 @@ class Chatbot:
             cookies=cookies,
         )
 
+    async def add_plugins(self, cookies: list[dict], mode: str, conversation_id: str,
+                          plugin_ids: Union[None, List[str]] = None) -> None:
+        cookies_dict = {}
+        if cookies is not None:
+            for cookie in cookies:
+                cookies_dict[cookie["name"]] = cookie["value"]
+
+        async with httpx.AsyncClient(
+                proxies=self.proxy,
+                timeout=30,
+                headers=HEADERS_INIT_CONVER,
+                cookies=cookies_dict
+        ) as client:
+            if plugin_ids is not None:
+                for plugin_id in plugin_ids:
+                    if mode == "Bing":
+                        response = await client.post(
+                            f"https://www.bing.com/codex/plugins/conversation/add"
+                            f"?conversationId={conversation_id}"
+                            f"&appid={APP_ID}&pluginId={plugin_id}"
+                        )
+                    else:
+                        response = await client.post(
+                            f"https://copilot.microsoft.com/turing/plugins/conversation/add"
+                            f"?conversationId={conversation_id}"
+                            f"&appid={APP_ID}&pluginId={plugin_id}"
+                        )
+                    if response.status_code != 200:
+                        raise PluginError(add_plugin_failed_message)
+
     @staticmethod
     async def create(
             proxy: str | None = None,
             cookies: list[dict] | None = None,
-            mode: str = "Bing"
+            mode: str = "Bing",
+            plugin_ids: Union[None, List[str]] = None
     ) -> Chatbot:
         self = Chatbot.__new__(Chatbot)
         self.proxy = proxy
         self.mode = mode
+        conversation = await Conversation.create(self.proxy, cookies=cookies, mode=mode)
+        await self.add_plugins(cookies, mode, conversation.struct["conversationId"], plugin_ids)
         self.chat_hub = ChatHub(
-            await Conversation.create(self.proxy, cookies=cookies, mode=mode),
+            conversation,
             proxy=self.proxy,
             cookies=cookies,
             mode=mode

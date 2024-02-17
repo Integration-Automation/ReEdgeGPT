@@ -1,5 +1,6 @@
 import asyncio
 import json
+from os import getenv
 from pathlib import Path
 
 from re_edge_gpt import Chatbot
@@ -13,20 +14,12 @@ from re_edge_gpt import ConversationStyle
 async def test_ask() -> None:
     bot = None
     try:
-        mode = "Bing"
-        if mode == "Bing":
-            cookies: list[dict] = json.loads(open(
-                str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
-        else:
-            cookies: list[dict] = json.loads(open(
-                str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
-        bot = await Chatbot.create(cookies=cookies, mode=mode)
+        bot = await Chatbot.create(cookies=json.loads(getenv("EDGE_COOKIES")))
         response = await bot.ask(
-            prompt="HELLO",
+            prompt="What does this image show?",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True,
-            search_result=True
-        )
+            attachment={"filename": "test.jpg"})
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
         # Raw response

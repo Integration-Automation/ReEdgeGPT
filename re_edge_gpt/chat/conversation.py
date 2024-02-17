@@ -6,8 +6,8 @@ from typing import Union
 import httpx
 
 from re_edge_gpt.chat.constants import HEADERS_INIT_CONVER, BUNDLE_VERSION, SYDNEY_INIT_HEADER
-from re_edge_gpt.utils.exception.exceptions import NotAllowedToAccess, NoAuthCookieFound
 from re_edge_gpt.chat.proxy import get_proxy
+from re_edge_gpt.utils.exception.exceptions import NotAllowedToAccess, NoAuthCookieFound
 
 
 class Conversation:
@@ -53,14 +53,14 @@ class Conversation:
         if mode == "Bing":
             response = self.session.get(
                 url=os.environ.get("BING_PROXY_URL")
-                or f"https://www.bing.com/turing/conversation/create"
-                   f"?bundleVersion={BUNDLE_VERSION}",
+                    or f"https://www.bing.com/turing/conversation/create"
+                       f"?bundleVersion={BUNDLE_VERSION}",
             )
         else:
             response = self.session.get(
                 url=os.environ.get("BING_PROXY_URL")
-                or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
-                   f"?bundleVersion={BUNDLE_VERSION}",
+                    or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
+                       f"?bundleVersion={BUNDLE_VERSION}",
             )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
@@ -112,15 +112,15 @@ class Conversation:
             if mode == "Bing":
                 response = await client.get(
                     url=os.environ.get("BING_PROXY_URL")
-                    or f"https://www.bing.com/turing/conversation/create"
-                       f"?bundleVersion={BUNDLE_VERSION}",
+                        or f"https://www.bing.com/turing/conversation/create"
+                           f"?bundleVersion={BUNDLE_VERSION}",
                     follow_redirects=True,
                 )
             else:
                 response = await client.get(
                     url=os.environ.get("BING_PROXY_URL")
-                    or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
-                       f"?bundleVersion={BUNDLE_VERSION}",
+                        or f"https://copilot.microsoft.com/turing/conversation/create"
+                           f"?bundleVersion={BUNDLE_VERSION}",
                     follow_redirects=True,
                 )
         if response.status_code != 200:
