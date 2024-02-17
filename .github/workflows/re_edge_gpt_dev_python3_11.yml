@@ -28,10 +28,7 @@ jobs:
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: |
-        chcp 65001 #set code page to utf-8
-        set PYTHONUTF8=1
-        python ./test/unit_test/back-end/test_bot/test_bot.py
+      run: python ./test/unit_test/back-end/test_bot/test_bot.py
     - name: Test Generation Image
       env:
         IMAGE_COOKIE: ${{ secrets.IMAGE_COOKIE }}
@@ -39,14 +36,8 @@ jobs:
     - name: Test chat with plugins
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: |
-        chcp 65001 #set code page to utf-8
-        set PYTHONUTF8=1
-        python ./test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
+      run: python ./test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
     - name: Test chat with file
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: |
-        chcp 65001 #set code page to utf-8
-        set PYTHONUTF8=1
-        python ./test/unit_test/back-end/test_bot/test_bot_with_file.py
+      run: python ./test/unit_test/back-end/test_bot/test_bot_with_file.py
