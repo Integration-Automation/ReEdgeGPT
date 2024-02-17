@@ -4,7 +4,7 @@ Main.py
 from __future__ import annotations
 
 from .chathub import *
-from .constants import APP_ID
+from .constants import APP_ID, PLUGINS
 from .conversation import *
 from .request import *
 from ..utils.exception.exception_message import add_plugin_failed_message
@@ -69,6 +69,7 @@ class Chatbot:
         self.proxy = proxy
         self.mode = mode
         conversation = await Conversation.create(self.proxy, cookies=cookies, mode=mode)
+        plugins_id = [PLUGINS[plugin] if plugin in PLUGINS else plugin for plugin in plugins_id]
         await self.add_plugins(cookies, mode, conversation.struct["conversationId"], plugin_ids)
         self.chat_hub = ChatHub(
             conversation,
