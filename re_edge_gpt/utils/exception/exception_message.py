@@ -14,3 +14,4 @@ error_image_create_failed = "Image create failed pls check cookie or old image s
 sending_message = "Sending request..."
 wait_message = "Waiting for results..."
 download_message = "\nDownloading images..."
+add_plugin_failed_message = "Can't add plugin, something wrong"

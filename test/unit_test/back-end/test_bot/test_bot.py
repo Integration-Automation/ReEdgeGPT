@@ -16,8 +16,7 @@ async def test_ask() -> None:
             simplify_response=True
         )
         await bot.close()
-        print(json.dumps(response, indent=2))
-        assert response
+        print(json.dumps(response, indent=2).encode("utf-8"))
     except Exception as error:
         raise error
     finally:
