@@ -1,4 +1,4 @@
-name: ReEdgeGPT Dev Python3.11
+name: ReEdgeGPT Dev Python3.9
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        pip install -r ./test/dev_requirements.txt
+        pip install -r ./test/self_test_requirements.txt
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}

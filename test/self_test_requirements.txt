@@ -1,0 +1,18 @@
+aiohttp
+certifi
+httpx
+prompt_toolkit
+requests
+rich
+regex
+# GUI
+PySide6
+qt-material
+SpeechRecognition
+# API
+flask[async]
+apispec
+apispec-webframeworks
+marshmallow
+Flask-CORS
+gunicorn
