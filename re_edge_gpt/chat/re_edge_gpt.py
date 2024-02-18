@@ -69,8 +69,8 @@ class Chatbot:
         self.proxy = proxy
         self.mode = mode
         conversation = await Conversation.create(self.proxy, cookies=cookies, mode=mode)
-        new_plugin_ids = [PLUGINS[plugin] if plugin in PLUGINS else plugin for plugin in plugin_ids]
-        await self.add_plugins(cookies, mode, conversation.struct["conversationId"], new_plugin_ids)
+        new_plugin_list = [PLUGINS.get(plugin, plugin) for plugin in plugin_ids]
+        await self.add_plugins(cookies, mode, conversation.struct["conversationId"], new_plugin_list)
         self.chat_hub = ChatHub(
             conversation,
             proxy=self.proxy,
