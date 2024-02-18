@@ -1,8 +1,6 @@
 import asyncio
 import json
 from pathlib import Path
-from random import choice
-from string import ascii_uppercase
 
 from re_edge_gpt import Chatbot
 from re_edge_gpt import ConversationStyle
@@ -17,7 +15,7 @@ async def test_ask() -> None:
     try:
         cookies: list[dict] = json.loads(open(
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
-        bot = await Chatbot.create(cookies=cookies, mode="Bing", plugin_ids=["c310c353-b9f0-4d76-ab0d-1dd5e979cf68"])
+        bot = await Chatbot.create(cookies=cookies, mode="Bing", plugin_ids=["notebook"])
         prompt = """Rome (Italian and Latin: Roma, Italian: [ˈroːma] ⓘ) is the capital city of Italy. It is also the capital of the Lazio region, the centre of the Metropolitan City of Rome Capital, and a special comune (municipality) named Comune di Roma Capitale. With 2,860,009 residents in 1,285 km2 (496.1 sq mi),[2] Rome is the country's most populated comune and the third most populous city in the European Union by population within city limits. The Metropolitan City of Rome, with a population of 4,355,725 residents, is the most populous metropolitan city in Italy.[3] Its metropolitan area is the third-most populous within Italy.[5] Rome is located in the central-western portion of the Italian Peninsula, within Lazio (Latium), along the shores of the Tiber. Vatican City (the smallest country in the world)[6] is an independent country inside the city boundaries of Rome, the only existing example of a country within a city. Rome is often referred to as the City of Seven Hills due to its geographic location, and also as the "Eternal City". Rome is generally considered to be the cradle of Western civilization and Western Christian culture, and the centre of the Catholic Church.[7][8][9]
 
 Rome's history spans 28 centuries. While Roman mythology dates the founding of Rome at around 753 BC, the site has been inhabited for much longer, making it a major human settlement for almost three millennia and one of the oldest continuously occupied cities in Europe.[10] The city's early population originated from a mix of Latins, Etruscans, and Sabines. Eventually, the city successively became the capital of the Roman Kingdom, the Roman Republic and the Roman Empire, and is regarded by many as the first-ever Imperial city and metropolis.[11] It was first called The Eternal City (Latin: Urbs Aeterna; Italian: La Città Eterna) by the Roman poet Tibullus in the 1st century BC, and the expression was also taken up by Ovid, Virgil, and Livy.[12][13] Rome is also called "Caput Mundi" (Capital of the World).
