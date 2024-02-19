@@ -28,28 +28,28 @@ jobs:
         virtualenv venv
         python -m pip install --upgrade pip wheel
         source venv/bin/activate
-        pip install -r ./test/self_test_requirements.txt
+        pip install -r /test/self_test_requirements.txt
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
       run: |
         source venv/bin/activate
-        python ./test/unit_test/back-end/test_bot/test_bot.py
+        python /test/unit_test/back-end/test_bot/test_bot.py
     - name: Test Generation Image
       env:
         IMAGE_COOKIE: ${{ secrets.IMAGE_COOKIE }}
       run: |
         source venv/bin/activate
-        python ./test/unit_test/back-end/test_generate_image/test_generation.py
+        python /test/unit_test/back-end/test_generate_image/test_generation.py
     - name: Test chat with plugins
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
       run: |
         source venv/bin/activate
-        python ./test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
+        python /test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
     - name: Test chat with file
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
       run: |
         source venv/bin/activate
-        python ./test/unit_test/back-end/test_bot/test_bot_with_file.py
+        python /test/unit_test/back-end/test_bot/test_bot_with_file.py
