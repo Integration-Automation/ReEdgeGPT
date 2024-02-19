@@ -28,6 +28,7 @@ jobs:
         virtualenv venv
         source venv/bin/activate
         pip install -r ./test/self_test_requirements.txt
+        cd $GITHUB_WORKSPACE
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
