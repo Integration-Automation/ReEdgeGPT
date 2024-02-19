@@ -28,6 +28,7 @@ jobs:
         virtualenv venv
         python -m pip install --upgrade pip wheel
         source venv/bin/activate
+        ls
         pip install -r /test/self_test_requirements.txt
     - name: Test Bot
       env:
