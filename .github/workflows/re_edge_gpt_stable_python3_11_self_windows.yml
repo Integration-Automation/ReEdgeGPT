@@ -1,4 +1,4 @@
-name: ReEdgeGPT Stable Python3.10
+name: ReEdgeGPT Self Test Ubuntu Python3.11
 
 on:
   push:
@@ -13,31 +13,42 @@ permissions:
 
 jobs:
   build_dev_version:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+    - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
+        python-version: "3.11"
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
+        pip install virtualenv
+        virtualenv venv
+        venv\Scripts\activate.bat
         pip install -r requirements.txt
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: python ./test/unit_test/back-end/test_bot/test_bot.py
+      run: |
+        venv\Scripts\activate.bat
+        python ./test/unit_test/back-end/test_bot/test_bot.py
     - name: Test Generation Image
       env:
         IMAGE_COOKIE: ${{ secrets.IMAGE_COOKIE }}
-      run: python ./test/unit_test/back-end/test_generate_image/test_generation.py
+      run: |
+        venv\Scripts\activate.bat
+        python ./test/unit_test/back-end/test_generate_image/test_generation.py
     - name: Test chat with plugins
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: python ./test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
+      run: |
+        venv\Scripts\activate.bat
+        python ./test/unit_test/back-end/test_bot/test_bot_with_plugins_manual.py
     - name: Test chat with file
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
-      run: python ./test/unit_test/back-end/test_bot/test_bot_with_file.py
+      run: |
+        venv\Scripts\activate.bat
+        python ./test/unit_test/back-end/test_bot/test_bot_with_file.py

@@ -449,9 +449,9 @@ def main():
     if not args.asyncio:
         # Create image generator
         image_generator = ImageGen(
-            args.U,
-            args.debug_file,
-            args.quiet,
+            auth_cookie=args.U,
+            debug_file=args.debug_file,
+            quiet=args.quiet,
             all_cookies=cookie_json,
         )
         image_generator.save_images(
@@ -462,12 +462,10 @@ def main():
     else:
         asyncio.run(
             async_image_gen(
-                args.prompt,
-                args.download_count,
-                args.output_dir,
-                args.U,
-                args.debug_file,
-                args.quiet,
+                prompt=args.prompt,
+                u_cookie=args.U,
+                debug_file=args.debug_file,
+                quiet=args.quiet,
                 all_cookies=cookie_json,
             ),
         )
