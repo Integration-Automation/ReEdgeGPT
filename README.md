@@ -544,6 +544,8 @@ else:
 > * Q: Exception: Throttled: Request is throttled.
 >   * A: Bing's chat rate limit.
 >   * ![rate_limit.png](images/rate_limit.png)
+>   * B: Perhaps your cookie needs to be refreshed.
+>   * https://github.com/Integration-Automation/ReEdgeGPT/issues/117
 > * Q: RuntimeError: This event loop is already running
 >   * A: If you are using Jupyter, pls use nest_asyncio.apply()
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/30
