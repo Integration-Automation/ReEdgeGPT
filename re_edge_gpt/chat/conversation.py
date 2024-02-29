@@ -125,8 +125,6 @@ class Conversation:
                 )
         if response.status_code != 200:
             print(f"Status code: {response.status_code}")
-            print(response.text)
-            print(response.url)
             raise AuthCookieError("Authentication failed")
         try:
             self.struct = response.json()
