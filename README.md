@@ -547,7 +547,7 @@ else:
 > * Q: RuntimeError: This event loop is already running
 >   * A: If you are using Jupyter, pls use nest_asyncio.apply()
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/30
-> * Q: json.dumps return non utf-8 char
+> * Q: json.dumps return non ascii char
 >   * A: json.dumps(response, ensure_ascii=False)
 >   * Like: https://github.com/Integration-Automation/ReEdgeGPT/issues/32
 > * Q: Exception: UnauthorizedRequest: Cannot retrieve user status.
