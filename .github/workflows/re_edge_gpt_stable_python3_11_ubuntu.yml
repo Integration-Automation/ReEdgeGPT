@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build_dev_version:
-    runs-on: re_edge_gpt_stable_python3_11_win.yml
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
