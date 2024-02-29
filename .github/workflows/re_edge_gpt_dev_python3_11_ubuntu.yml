@@ -1,4 +1,4 @@
-name: ReEdgeGPT Stable Python3.11
+name: ReEdgeGPT Dev Ubuntu Python3.11
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build_dev_version:
-    runs-on: windows-2019
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip wheel
-        pip install -r requirements.txt
+        pip install -r ./test/dev_requirements.txt
     - name: Test Bot
       env:
         EDGE_COOKIES: ${{ secrets.EDGE_COOKIES }}
