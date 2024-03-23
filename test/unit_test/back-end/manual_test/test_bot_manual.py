@@ -1,13 +1,11 @@
 import asyncio
 import json
+# If you are using jupyter pls install this package
+# from nest_asyncio import apply
 from pathlib import Path
 
 from re_edge_gpt import Chatbot
 from re_edge_gpt import ConversationStyle
-
-
-# If you are using jupyter pls install this package
-# from nest_asyncio import apply
 
 
 async def test_ask() -> None:
@@ -22,10 +20,10 @@ async def test_ask() -> None:
                 str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
-            prompt="HELLO",
-            conversation_style=ConversationStyle.balanced,
+            prompt="What version u are using GPT-4 turbo?",
+            conversation_style=ConversationStyle.creative_classic,
             simplify_response=True,
-            search_result=True
+            search_result=True,
         )
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
