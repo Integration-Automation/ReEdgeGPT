@@ -40,7 +40,7 @@ class ChatHub:
             conversation: Conversation,
             proxy: str = None,
             cookies: Union[List[dict], None] = None,
-            mode: str = "Bing"
+            mode: str = "Bing",
     ) -> None:
         self.aio_session = None
         self.request: ChatHubRequest
@@ -84,7 +84,7 @@ class ChatHub:
             # Use for attachment
             attachment: dict = None,
             remove_options: list = None,
-            add_options: list = None
+            add_options: list = None,
     ) -> Generator[bool, Union[dict, str], None]:
         """ """
         if self.encrypted_conversation_signature is not None:

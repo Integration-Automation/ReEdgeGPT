@@ -19,7 +19,7 @@ class Chatbot:
     def __init__(
             self,
             proxy: str | None = None,
-            cookies: list[dict] | None = None
+            cookies: list[dict] | None = None,
     ) -> None:
         self.proxy: str | None = proxy
         self.chat_hub: ChatHub = ChatHub(

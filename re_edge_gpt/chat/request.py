@@ -55,47 +55,64 @@ class ChatHubRequest:
 
         # Get current time
         timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + offset_string
+        style = conversation_style.name.capitalize()  # Make first letter uppercase
+        not_in_style = {"creative_classic": "CreativeClassic"}
         self.struct = {
             "arguments": [
                 {
-                    "source": "cib",
+                    "source": "cib-ccp",
                     "optionsSets": conversation_style.value,
                     "allowedMessageTypes": [
                         "ActionRequest",
                         "Chat",
+                        "ConfirmationCard",
                         "Context",
                         "InternalSearchQuery",
                         "InternalSearchResult",
+                        "Disengaged",
                         "InternalLoaderMessage",
                         "Progress",
+                        "RenderCardRequest",
+                        "RenderContentRequest",
+                        "AdsQuery",
+                        "SemanticSerp",
                         "GenerateContentQuery",
                         "SearchQuery",
                         "GeneratedCode",
+                        "InternalTasksMessage"
                     ],
                     "sliceIds": [
-                        "schurmsg",
-                        "ntbkcf",
-                        "rankcf",
-                        "bgstreamcf",
-                        "cmcallapptf",
-                        "vnextvoicecf",
-                        "tts5cf",
-                        "abv2mobcf",
-                        "ctvismctrl",
-                        "suppsm240rev10-t",
-                        "suppsm240-t",
-                        "translrefctrl",
-                        "1215perscs0",
-                        "0212bops0",
-                        "116langwb",
-                        "0112wtlsts0",
-                        "118wcsmw",
-                        "1201reasons0",
-                        "0116trimgd",
-                        "cacfastapis"
+                        "disbotgrtcf",
+                        "ntbkgold2",
+                        "ntbkf1",
+                        "qna10",
+                        "thdnsrch",
+                        "slangcf",
+                        "vnextr100",
+                        "vnext100",
+                        "vnextvoice",
+                        "rdlidncf",
+                        "semserpnomlbg",
+                        "semserpnoml",
+                        "srchqryfix",
+                        "cacntjndcae",
+                        "edgenorrwrap",
+                        "cmcpupsalltf",
+                        "sunoupsell",
+                        "313dynaplfs0",
+                        "0312hrthrots0",
+                        "0317immslotsc",
+                        "228pyfiles0",
+                        "kcclickthrucf",
+                        "sportsatis0",
+                        "0317dc1pro",
+                        "defgrey",
+                        "ssadsv4chtiidnoifbm",
+                        "adsltmdsc",
+                        "ssadsv2nocm"
                     ],
                     "verbosity": "verbose",
-                    "scenario":"SERP",
+                    "scenario": "SERP",
                     "traceId": get_ran_hex(32),
                     "isStartOfSession": self.invocation_id == 3,
                     "message": {
@@ -113,7 +130,8 @@ class ChatHubRequest:
                         "imageUrl": image_url if image_url else None,
                         "originalImageUrl": image_url if image_url else None,
                     },
-                    "tone": conversation_style.name.capitalize(),  # Make first letter uppercase
+                    "tone": style if style not in not_in_style.keys()
+                    else not_in_style.get(style),
                     "requestId": message_id,
                     "conversationSignature": self.conversation_signature,
                     "participant": {
