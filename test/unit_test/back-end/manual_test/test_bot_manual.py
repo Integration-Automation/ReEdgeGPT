@@ -21,7 +21,7 @@ async def test_ask() -> None:
         bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
             prompt="What version u are using GPT-4 turbo?",
-            conversation_style=ConversationStyle.creative_classic,
+            conversation_style=ConversationStyle.creative_classic, # ConversationStyle.creative
             simplify_response=True,
             search_result=True,
         )
