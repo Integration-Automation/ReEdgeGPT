@@ -121,7 +121,7 @@ class ChatHub:
         # Construct a ChatHub request
         if remove_options is not None:
             for option in remove_options:
-                if option in remove_options:
+                if option in conversation_style.value:
                     conversation_style.value.remove(option)
         if add_options is not None:
             for option in add_options:
