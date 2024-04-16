@@ -82,18 +82,8 @@ async def async_main(args: argparse.Namespace) -> None:
     completer = create_completer(["!help", "!exit", "!reset"])
     initial_prompt = args.prompt
 
-    # Log chat history
-    def p_hist(*args, **kwargs) -> None:
-        pass
-
-    if args.history_file:
-        history_file_path = Path(args.history_file)
-        f = history_file_path.open("a+", encoding="utf-8")
-        p_hist = _create_history_logger(f)
-
     while True:
         print("\nYou:")
-        p_hist("\nYou:")
         if initial_prompt:
             question = initial_prompt
             print(question)
@@ -105,7 +95,6 @@ async def async_main(args: argparse.Namespace) -> None:
                 else await get_input_async(session=session, completer=completer)
             )
         print()
-        p_hist(question + "\n")
         if question == "!exit":
             await bot.close()
             break
@@ -122,62 +111,14 @@ async def async_main(args: argparse.Namespace) -> None:
             await bot.reset()
             continue
         print("Bot:")
-        p_hist("Bot:")
-        if args.no_stream:
-            response = (
-                await bot.ask(
-                    prompt=question,
-                    conversation_style=args.style,
-                    wss_link=args.wss_link,
-                    search_result=args.search_result,
-                    locale=args.locale,
-                )
-            )["item"]["messages"][-1]["adaptiveCards"][0]["body"][0]["text"]
-            print(response)
-            p_hist(response)
-        else:
-            wrote = 0
-            if args.rich:
-                md = Markdown("")
-                with Live(md, auto_refresh=False) as live:
-                    async for final, response in bot.ask_stream(
-                            prompt=question,
-                            conversation_style=args.style,
-                            wss_link=args.wss_link,
-                            search_result=args.search_result,
-                            locale=args.locale,
-                    ):
-                        if not final:
-                            if not wrote:
-                                p_hist(response, end="")
-                            else:
-                                p_hist(response[wrote:], end="")
-                            if wrote > len(response):
-                                print(md)
-                                print(Markdown("***Bing revoked the response.***"))
-                            wrote = len(response)
-                            md = Markdown(response)
-                            live.update(md, refresh=True)
-            else:
-                async for final, response in bot.ask_stream(
-                        prompt=question,
-                        conversation_style=args.style,
-                        wss_link=args.wss_link,
-                        search_result=args.search_result,
-                        locale=args.locale,
-                ):
-                    if not final:
-                        if not wrote:
-                            print(response, end="", flush=True)
-                            p_hist(response, end="")
-                        else:
-                            print(response[wrote:], end="", flush=True)
-                            p_hist(response[wrote:], end="")
-                        wrote = len(response)
-                print()
-                p_hist()
-    if args.history_file:
-        f.close()
+        response = await bot.ask(
+                prompt=question,
+                conversation_style=args.style,
+                wss_link=args.wss_link,
+                locale=args.locale,
+                simplify_response=True
+            )
+        print(response.get("text", "No response"))
     await bot.close()
 
 
@@ -225,13 +166,6 @@ def main() -> None:
         default="",
         required=False,
         help="path to cookie file",
-    )
-    parser.add_argument(
-        "--history-file",
-        type=str,
-        default="",
-        required=False,
-        help="path to history file",
     )
     parser.add_argument(
         "--locale",
