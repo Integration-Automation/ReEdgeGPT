@@ -60,7 +60,6 @@ class ChatHubRequest:
         self.struct = {
             "arguments": [
                 {
-                    "source": "cib-ccp",
                     "optionsSets": conversation_style.value,
                     "allowedMessageTypes": [
                         "ActionRequest",
@@ -111,9 +110,6 @@ class ChatHubRequest:
                         "adsltmdsc",
                         "ssadsv2nocm"
                     ],
-                    "verbosity": "verbose",
-                    "scenario": "SERP",
-                    "traceId": get_ran_hex(32),
                     "isStartOfSession": self.invocation_id == 3,
                     "message": {
                         "locale": locale,
@@ -124,7 +120,6 @@ class ChatHubRequest:
                         "author": "user",
                         "inputMethod": "Keyboard",
                         "text": prompt,
-                        "messageType": "Chat",
                         "messageId": message_id,
                         "requestId": message_id,
                         "imageUrl": image_url if image_url else None,
@@ -134,9 +129,6 @@ class ChatHubRequest:
                     else not_in_style.get(style),
                     "requestId": message_id,
                     "conversationSignature": self.conversation_signature,
-                    "participant": {
-                        "id": self.client_id,
-                    },
                     "conversationId": self.conversation_id,
                 },
             ],

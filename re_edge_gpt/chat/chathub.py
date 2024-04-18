@@ -22,6 +22,7 @@ from re_edge_gpt.utils.utilities import append_identifier
 from re_edge_gpt.utils.utilities import guess_locale
 from .conversation import Conversation
 from .request import ChatHubRequest
+from ..plugins.suno import generate_suno_music
 from ..utils.exception.exceptions import NoResultsFound, ResponseError
 
 ssl_context = ssl.create_default_context()

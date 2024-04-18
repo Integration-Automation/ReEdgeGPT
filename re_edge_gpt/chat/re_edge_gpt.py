@@ -7,6 +7,7 @@ from .chathub import *
 from .constants import APP_ID, PLUGINS
 from .conversation import *
 from .request import *
+from ..plugins.suno import generate_suno_music
 from ..utils.exception.exception_message import add_plugin_failed_message
 from ..utils.exception.exceptions import LimitExceeded, PluginError
 
@@ -122,9 +123,10 @@ class Chatbot:
                 locale=locale,
                 attachment=attachment,
                 remove_options=remove_options,
-                add_options=add_options
+                add_options=add_options,
         ):
             if final:
+                print(response)
                 if not simplify_response:
                     return response
                 messages_left = (response.get("item").get("throttling").get("maxNumUserMessagesInConversation")
@@ -181,6 +183,8 @@ class Chatbot:
                     "max_messages": response["item"]["throttling"][
                         "maxNumUserMessagesInConversation"
                     ],
+                    "messageId": response.get("item").get("messages")[0]["messageId"],
+                    "requestId": response.get("item").get("messages")[0]["requestId"]
                 }
         return {}
 
