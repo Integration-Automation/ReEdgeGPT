@@ -86,6 +86,8 @@ class ChatHub:
             attachment: dict = None,
             remove_options: list = None,
             add_options: list = None,
+            plugins: list = None,
+            message_type: str = "Chat"
     ) -> Generator[bool, Union[dict, str], None]:
         """ """
         if self.encrypted_conversation_signature is not None:
@@ -134,6 +136,8 @@ class ChatHub:
             search_result=search_result,
             locale=locale,
             image_url=image_url,
+            plugins=plugins,
+            message_type=message_type,
         )
         # Send request
         await wss.send_str(append_identifier(self.request.struct))

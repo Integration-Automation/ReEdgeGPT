@@ -92,7 +92,9 @@ class Chatbot:
             simplify_response: bool = False,
             attachment: dict[str, str] = None,
             remove_options: list = None,
-            add_options: list = None
+            add_options: list = None,
+            plugins: list = None,
+            message_type: str = "Chat"
     ):
         """
         Ask a question to the bot
@@ -113,6 +115,8 @@ class Chatbot:
                 attachment={"base64_image": r"<base64_image_str>"})
         :param remove_options remove options from Style
         :param add_options add options to Style
+        :param plugins:
+        :param chat_mode:
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,
@@ -124,6 +128,8 @@ class Chatbot:
                 attachment=attachment,
                 remove_options=remove_options,
                 add_options=add_options,
+                plugins=plugins,
+                message_type=message_type,
         ):
             if final:
                 print(response)

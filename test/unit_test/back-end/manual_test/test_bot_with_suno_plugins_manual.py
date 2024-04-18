@@ -22,6 +22,9 @@ async def test_ask() -> None:
             prompt=prompt,
             conversation_style=ConversationStyle.balanced,
             simplify_response=True,
+            add_options=["014CB21D"],
+            plugins=[{"Id": "c310c353-b9f0-4d76-ab0d-1dd5e979cf68", "Category": 1}],
+            message_type="GenerateContentQuery"
         )
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
