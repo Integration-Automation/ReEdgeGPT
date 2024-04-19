@@ -17,7 +17,6 @@ async def generate_suno_music(cookies: list[dict], iframe_id: str, request_id: s
     ) as session:
         generate_url = f"https://www.bing.com/videos/music?vdpp=suno&kseed=7500&SFX=2&q=&" \
                        f"iframeid={iframe_id}&requestid={request_id}"
-        print(generate_url)
         response = await session.get(generate_url)
         if response.status != 200:
             raise Exception("Generate suno music failed")
@@ -37,11 +36,11 @@ async def generate_suno_music(cookies: list[dict], iframe_id: str, request_id: s
                 response = await real_session.get(real_generate_url)
                 suno_response: dict = json.loads(await response.text())
                 suno_response = {"RawResponse": json.loads(suno_response.get("RawResponse"))}
-                print(suno_response)
                 if suno_response.get("RawResponse").get("status") == "running":
                     continue
                 if suno_response.get("RawResponse").get("status") != "complete":
                     raise Exception("Generate suno music failed cause by: status error")
+                suno_response = suno_response.get("RawResponse")
                 return {
                     "Image": f"https://th.bing.com/th?&id={suno_response.get('imageKey')}",
                     "Audio": f"https://th.bing.com/th?&id={suno_response.get('audioKey')}",

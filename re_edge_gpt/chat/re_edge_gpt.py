@@ -7,7 +7,6 @@ from .chathub import *
 from .constants import APP_ID, PLUGINS
 from .conversation import *
 from .request import *
-from ..plugins.suno import generate_suno_music
 from ..utils.exception.exception_message import add_plugin_failed_message
 from ..utils.exception.exceptions import LimitExceeded, PluginError
 
@@ -132,7 +131,6 @@ class Chatbot:
                 message_type=message_type,
         ):
             if final:
-                print(response)
                 if not simplify_response:
                     return response
                 messages_left = (response.get("item").get("throttling").get("maxNumUserMessagesInConversation")
@@ -143,6 +141,7 @@ class Chatbot:
                 if messages_left == 0:
                     raise LimitExceeded("Max messages reached")
                 message = {}
+                return_data = {}
                 for msg in reversed(response.get("item").get("messages")):
                     if msg.get("author") == "bot":
                         old_message = message.get("text")
@@ -154,6 +153,10 @@ class Chatbot:
                             "author": "bot",
                             "text": old_message + msg.get("text", "")
                         })
+                        if msg.get("hiddenText") is not None:
+                            hidden_text = msg.get("hiddenText")
+                            hidden_text = hidden_text.replace("RequestId=", "")
+                            return_data.update({"requestId": hidden_text})
                 if not message:
                     raise NoResultsFound("No message found")
                 image_create_text = ""
@@ -178,7 +181,7 @@ class Chatbot:
                                     source_values.append(source_dict.get("seeMoreUrl", ""))
                     if detail.get("contentType") == "IMAGE" and detail.get("messageType") == "GenerateContentQuery":
                         image_create_text = detail.get("text")
-                return {
+                return_data.update({
                     "text": message["text"],
                     "author": message["author"],
                     "source_keys": source_keys,
@@ -190,8 +193,8 @@ class Chatbot:
                         "maxNumUserMessagesInConversation"
                     ],
                     "messageId": response.get("item").get("messages")[0]["messageId"],
-                    "requestId": response.get("item").get("messages")[0]["requestId"]
-                }
+                })
+                return return_data
         return {}
 
     async def ask_stream(
