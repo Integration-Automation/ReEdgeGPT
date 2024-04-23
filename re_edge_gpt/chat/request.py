@@ -31,12 +31,15 @@ class ChatHubRequest:
             webpage_context: Union[str, None] = None,
             search_result: bool = False,
             locale: str = guess_locale(),
-            image_url: str = None
+            image_url: str = None,
+            plugins: list = None,
+            message_type: str = "Chat"
     ) -> None:
         if conversation_style:
             if not isinstance(conversation_style, ConversationStyle):
                 conversation_style = getattr(ConversationStyle, conversation_style)
         message_id = str(uuid.uuid4())
+        request_id = str(uuid.uuid4())
         # Get the current local time
         now_local = datetime.now()
 
@@ -60,7 +63,6 @@ class ChatHubRequest:
         self.struct = {
             "arguments": [
                 {
-                    "source": "cib-ccp",
                     "optionsSets": conversation_style.value,
                     "allowedMessageTypes": [
                         "ActionRequest",
@@ -111,9 +113,7 @@ class ChatHubRequest:
                         "adsltmdsc",
                         "ssadsv2nocm"
                     ],
-                    "verbosity": "verbose",
-                    "scenario": "SERP",
-                    "traceId": get_ran_hex(32),
+                    "plugins": plugins,
                     "isStartOfSession": self.invocation_id == 3,
                     "message": {
                         "locale": locale,
@@ -124,15 +124,15 @@ class ChatHubRequest:
                         "author": "user",
                         "inputMethod": "Keyboard",
                         "text": prompt,
-                        "messageType": "Chat",
+                        "messageType": message_type,
                         "messageId": message_id,
-                        "requestId": message_id,
+                        "requestId": request_id,
                         "imageUrl": image_url if image_url else None,
                         "originalImageUrl": image_url if image_url else None,
                     },
                     "tone": style if style not in not_in_style.keys()
                     else not_in_style.get(style),
-                    "requestId": message_id,
+                    "requestId": request_id,
                     "conversationSignature": self.conversation_signature,
                     "participant": {
                         "id": self.client_id,

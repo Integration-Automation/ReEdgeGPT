@@ -4,6 +4,7 @@ from pathlib import Path
 
 from re_edge_gpt import Chatbot
 from re_edge_gpt import ConversationStyle
+from re_edge_gpt.plugins.suno import generate_suno_music
 
 
 # If you are using jupyter pls install this package
@@ -16,18 +17,18 @@ async def test_ask() -> None:
         cookies: list[dict] = json.loads(open(
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies, mode="Bing", plugin_ids=["suno"])
-        prompt = """EPIC Music"""
-        print(f"prompt len is: {len(prompt)}")
+        prompt = """Can you create some epic music"""
         response = await bot.ask(
             prompt=prompt,
             conversation_style=ConversationStyle.balanced,
             simplify_response=True,
-            search_result=True
+            add_options=["014CB21D"],
+            plugins=[{"Id": "c310c353-b9f0-4d76-ab0d-1dd5e979cf68", "Category": 1}],
+            message_type="GenerateContentQuery"
         )
-        print(bot.chat_hub.request.struct)
-        print(bot.chat_hub.conversation.struct)
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
+        print(await generate_suno_music(cookies, response.get("messageId"), response.get("requestId")))
     except Exception as error:
         raise error
     finally:

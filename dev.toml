@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "re_edge_gpt_dev"
-version = "0.0.45"
+version = "0.0.46"
 authors = [
     { name = "JE-Chen", email = "jechenmailman@gmail.com" },
 ]

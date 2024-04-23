@@ -91,7 +91,9 @@ class Chatbot:
             simplify_response: bool = False,
             attachment: dict[str, str] = None,
             remove_options: list = None,
-            add_options: list = None
+            add_options: list = None,
+            plugins: list = None,
+            message_type: str = "Chat"
     ):
         """
         Ask a question to the bot
@@ -112,6 +114,8 @@ class Chatbot:
                 attachment={"base64_image": r"<base64_image_str>"})
         :param remove_options remove options from Style
         :param add_options add options to Style
+        :param plugins:
+        :param chat_mode:
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,
@@ -122,7 +126,9 @@ class Chatbot:
                 locale=locale,
                 attachment=attachment,
                 remove_options=remove_options,
-                add_options=add_options
+                add_options=add_options,
+                plugins=plugins,
+                message_type=message_type,
         ):
             if final:
                 if not simplify_response:
@@ -135,6 +141,7 @@ class Chatbot:
                 if messages_left == 0:
                     raise LimitExceeded("Max messages reached")
                 message = {}
+                return_data = {}
                 for msg in reversed(response.get("item").get("messages")):
                     if msg.get("author") == "bot":
                         old_message = message.get("text")
@@ -146,6 +153,10 @@ class Chatbot:
                             "author": "bot",
                             "text": old_message + msg.get("text", "")
                         })
+                        if msg.get("hiddenText") is not None:
+                            hidden_text = msg.get("hiddenText")
+                            hidden_text = hidden_text.replace("RequestId=", "")
+                            return_data.update({"requestId": hidden_text})
                 if not message:
                     raise NoResultsFound("No message found")
                 image_create_text = ""
@@ -170,7 +181,7 @@ class Chatbot:
                                     source_values.append(source_dict.get("seeMoreUrl", ""))
                     if detail.get("contentType") == "IMAGE" and detail.get("messageType") == "GenerateContentQuery":
                         image_create_text = detail.get("text")
-                return {
+                return_data.update({
                     "text": message["text"],
                     "author": message["author"],
                     "source_keys": source_keys,
@@ -181,7 +192,9 @@ class Chatbot:
                     "max_messages": response["item"]["throttling"][
                         "maxNumUserMessagesInConversation"
                     ],
-                }
+                    "messageId": response.get("item").get("messages")[0]["messageId"],
+                })
+                return return_data
         return {}
 
     async def ask_stream(

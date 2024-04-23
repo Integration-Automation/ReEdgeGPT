@@ -104,9 +104,6 @@ IMAGE_HEADER = {
                   "Edg/121.0.0.0",
 }
 
-BUNDLE_VERSION = "1.1642.1"
-APP_ID = "6c0f12ef-97d3-4869-bc42-c1d9bdb4a759"
-
 SYDNEY_INIT_HEADER = HEADERS_INIT_CONVER.update(
     {
         "Referer": "https://copilot.microsoft.com/",
@@ -123,3 +120,10 @@ SYDNEY_HEADER = HEADERS.update(
         "Pragma": "no-cache",
     }
 )
+
+SUNO_HEADER = {
+  "Referer": "https://www.bing.com/search?q=Bing+AI&showconv=1&wlexpsignin=1"
+}
+
+BUNDLE_VERSION = "1.1642.1"
+APP_ID = "6c0f12ef-97d3-4869-bc42-c1d9bdb4a759"
