@@ -18,12 +18,13 @@ async def test_ask() -> None:
             str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies)
         response = await bot.ask(
-            prompt="Translate next word what I say to english",
+            prompt="Hello there",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
+        print(bot.chat_hub.conversation.struct)
         print(await bot.chat_hub.get_conversation())
         conversation_dict.update(await bot.chat_hub.get_conversation())
     except Exception as error:
@@ -41,12 +42,14 @@ async def test_ask_conversation() -> None:
         bot = await Chatbot.create(cookies=cookies)
         await bot.chat_hub.set_conversation(conversation_dict=conversation_dict)
         response = await bot.ask(
-            prompt="піца",
+            prompt="What did I say before?",
             conversation_style=ConversationStyle.balanced,
             simplify_response=True
         )
         # If you are using non ascii char you need set ensure_ascii=False
         print(json.dumps(response, indent=2, ensure_ascii=False))
+        print(bot.chat_hub.conversation.struct)
+        print(await bot.chat_hub.get_conversation())
     except Exception as error:
         raise error
     finally:
