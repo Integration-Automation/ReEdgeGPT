@@ -22,7 +22,6 @@ from re_edge_gpt.utils.utilities import append_identifier
 from re_edge_gpt.utils.utilities import guess_locale
 from .conversation import Conversation
 from .request import ChatHubRequest
-from ..plugins.suno import generate_suno_music
 from ..utils.exception.exceptions import NoResultsFound, ResponseError
 
 ssl_context = ssl.create_default_context()
@@ -226,27 +225,27 @@ class ChatHub:
 
     async def get_conversation(self) -> dict:
         return {
-            "conversation_id": self.conversation_id,
-            "client_id": self.request.client_id,
-            "encrypted_conversation_signature": self.encrypted_conversation_signature,
-            "conversation_signature": self.request.conversation_signature,
+            "conversationId": self.conversation.struct["conversationId"],
+            "clientId": self.conversation.struct["clientId"],
+            "encryptedConversationSignature": self.conversation.struct["encryptedConversationSignature"],
+            "conversationSignature": self.conversation.struct["conversationSignature"],
         }
 
     async def set_conversation(self, conversation_dict: dict) -> None:
-        self.conversation.struct["conversationId"] = conversation_dict.get("conversation_id")
-        self.conversation.struct["client_id"] = conversation_dict.get("client_id")
+        self.conversation.struct["conversationId"] = conversation_dict.get("conversationId")
+        self.conversation.struct["clientId"] = conversation_dict.get("clientId")
         self.conversation.struct[
-            "encrypted_conversation_signature"] = conversation_dict.get("encrypted_conversation_signature")
-        self.conversation.struct["conversation_signature"] = conversation_dict.get("conversation_signature")
+            "encryptedConversationSignature"] = conversation_dict.get("encryptedConversationSignature")
+        self.conversation.struct["conversationSignature"] = conversation_dict.get("conversationSignature")
 
     async def delete_conversation(self, conversation_id: str = None, client_id: str = None,
                                   encrypted_conversation_signature: str = None, conversation_signature: str = None
                                   ) -> None:
         self.conversation.struct["conversationId"] = conversation_id
-        self.conversation.struct["client_id"] = client_id
+        self.conversation.struct["clientId"] = client_id
         self.conversation.struct[
-            "encrypted_conversation_signature"] = encrypted_conversation_signature
-        self.conversation.struct["conversation_signature"] = conversation_signature
+            "encryptedConversationSignature"] = encrypted_conversation_signature
+        self.conversation.struct["conversationSignature"] = conversation_signature
         delete_conversation_url = "https://sydney.bing.com/sydney/DeleteSingleConversation"
         await self.session.post(
             delete_conversation_url,
