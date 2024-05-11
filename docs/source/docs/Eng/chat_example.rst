@@ -5,26 +5,30 @@ ReEdgeGPT Chat Example
 
     import asyncio
     import json
+    # If you are using jupyter pls install this package
+    # from nest_asyncio import apply
     from pathlib import Path
 
     from re_edge_gpt import Chatbot
     from re_edge_gpt import ConversationStyle
 
 
-    # If you are using jupyter pls install this package
-    # from nest_asyncio import apply
-
-
     async def test_ask() -> None:
         bot = None
         try:
-            cookies: list[dict] = json.loads(open(
-                str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
-            bot = await Chatbot.create(cookies=cookies)
+            mode = "Bing"
+            if mode == "Bing":
+                cookies: list[dict] = json.loads(open(
+                    str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+            else:
+                cookies: list[dict] = json.loads(open(
+                    str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
+            bot = await Chatbot.create(cookies=cookies, mode=mode)
             response = await bot.ask(
-                prompt="How do I know when my pizza is done?",
-                conversation_style=ConversationStyle.balanced,
-                simplify_response=True
+                prompt="What version u are using GPT-4 turbo?",
+                conversation_style=ConversationStyle.creative_classic, # ConversationStyle.creative
+                simplify_response=True,
+                search_result=True,
             )
             # If you are using non ascii char you need set ensure_ascii=False
             print(json.dumps(response, indent=2, ensure_ascii=False))
