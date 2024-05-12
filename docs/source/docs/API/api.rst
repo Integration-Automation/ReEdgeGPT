@@ -44,7 +44,11 @@ ReEdgeGPT API
             search_result: bool = False,
             locale: str = guess_locale(),
             simplify_response: bool = False,
-            attachment: dict[str, str] = None
+            attachment: dict[str, str] = None,
+            remove_options: list = None,
+            add_options: list = None,
+            plugins: list = None,
+            message_type: str = "Chat"
     ):
         """
         Ask a question to the bot
@@ -63,7 +67,10 @@ ReEdgeGPT API
                 attachment={"filename": r"<file_path>"})
                 For base64 image using
                 attachment={"base64_image": r"<base64_image_str>"})
-        """
+        :param remove_options remove options from Style
+        :param add_options add options to Style
+        :param plugins: plugin name as list of strings
+        :param message_type: Bing chat's message type
 
 .. code-block:: python
 

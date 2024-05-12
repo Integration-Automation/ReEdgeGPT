@@ -114,8 +114,8 @@ class Chatbot:
                 attachment={"base64_image": r"<base64_image_str>"})
         :param remove_options remove options from Style
         :param add_options add options to Style
-        :param plugins:
-        :param chat_mode:
+        :param plugins: plugin name as list of strings
+        :param message_type: Bing chat's message type
         """
         async for final, response in self.chat_hub.ask_stream(
                 prompt=prompt,
