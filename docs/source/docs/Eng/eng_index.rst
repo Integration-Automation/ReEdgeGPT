@@ -9,3 +9,4 @@ ReEdgeGPT English Documentation
     chat_with_file.rst
     save_conversation.rst
     using_plugins.rst
+    optional_extend.rst
