@@ -15,7 +15,7 @@ test_image_url = "https://picsum.photos/200"
 auth_cooker = open("bing_cookies.txt", "r+").read()
 ssl_context = ssl.create_default_context()
 ssl_context.load_verify_locations(certifi.where())
-async_gen = ImageGenAsync(auth_cookie=auth_cooker, proxy="http://WfJu9DjPeWsHgjI3So6q3A@smartproxy.crawlbase.com:8012")
+async_gen = ImageGenAsync(auth_cookie=auth_cooker)
 
 
 # Generate image list async
