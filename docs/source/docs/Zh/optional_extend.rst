@@ -8,6 +8,8 @@ ReEdgeGPT 可以使用在以下系統上 [GUI, API, Dockerfile] 等等.
 - API & Dockerfiles 範例
  - Dockerfiles/Flask
  - test/unit_test/api
+ - re_edge_gpt/api
 
 - UI 範例
-  - test/unit_test/ui
+ - test/unit_test/ui
+ - re_edge_gpt/ui
