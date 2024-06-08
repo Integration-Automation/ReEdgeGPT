@@ -1,5 +1,7 @@
 # ReEdgeGPT
 
+[![Downloads](https://static.pepy.tech/badge/re_edge_gpt)](https://pepy.tech/project/re_edge_gpt)
+
 _The reverse engineering the chat feature of the new version of Bing_
 
 [![Documentation Status](https://readthedocs.org/projects/reedgegpt/badge/?version=latest)](https://reedgegpt.readthedocs.io/en/latest/?badge=latest)
