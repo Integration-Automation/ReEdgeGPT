@@ -1,4 +1,4 @@
-ReEdgeGPT Extend Example
+ReEdgeGPT 擴充範例
 ----
 
 ReEdgeGPT 可以使用在以下系統上 [GUI, API, Dockerfile] 等等.
@@ -15,7 +15,9 @@ ReEdgeGPT 可以使用在以下系統上 [GUI, API, Dockerfile] 等等.
  - re_edge_gpt/ui
 
 - Discord 機器人範例
+
 .. code-block:: python
+
     import json
     import socket
     from pathlib import Path
