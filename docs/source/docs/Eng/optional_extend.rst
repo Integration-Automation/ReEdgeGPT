@@ -15,7 +15,9 @@ Below is some example on this project:
  - re_edge_gpt/ui
 
 - Discord bot example
+
 .. code-block:: python
+
     import json
     import socket
     from pathlib import Path
