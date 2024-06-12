@@ -10,7 +10,7 @@ from re_edge_gpt import ImageGen, ImageGenAsync
 test_output_dir = "test_output"
 # download a test image
 test_image_url = "https://picsum.photos/200"
-auth_cooker = open("bing_cookies.txt", "r+").read()
+auth_cooker = open("bing_cookies.txt", "r+").read().strip()
 sync_gen = ImageGen(auth_cookie=auth_cooker)
 async_gen = ImageGenAsync(auth_cookie=auth_cooker)
 

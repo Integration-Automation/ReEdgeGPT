@@ -1,0 +1,154 @@
+servers:
+- url: http://localhost:8888
+paths:
+  /ReEdgeGPT/chat:
+    post:
+      description: Chat with bing
+      tags:
+      - GPT
+      requestBody:
+        description: Data that Chat needed
+        content:
+          application/json:
+            schema:
+              properties:
+                prompt:
+                  type: string
+                  example: Hello
+                  required: true
+                  description: Chat prompt
+                wss_link:
+                  type: string
+                  default: wss://sydney.bing.com/sydney/ChatHub
+                  description: Connect to Bing endpoint wss link
+                  required: false
+                conversation_style:
+                  type: string
+                  enum:
+                  - creative_classic
+                  - creative
+                  - balanced
+                  - precise
+                  default: balanced
+                  description: Chat conversation style
+                  required: false
+                webpage_context:
+                  type: string
+                  default: null
+                  description: Chat webpage context
+                  required: false
+                search_result:
+                  type: boolean
+                  default: false
+                  description: Chat search result?
+                  required: false
+                locale:
+                  type: string
+                  description: User locale
+                  required: false
+                simplify_response:
+                  type: boolean
+                  default: true
+                  description: Chat simplify response?
+                  required: false
+                attachment:
+                  type: object
+                  description: Chat attachment
+                  required: false
+                  properties:
+                    image_url:
+                      type: string
+                      default: null
+                      description: Attached image url
+                    base64_image:
+                      type: string
+                      default: null
+                      description: Attached base64 string
+                remove_options:
+                  type: array
+                  required: false
+                  description: Remove chat options
+                add_options:
+                  type: array
+                  required: false
+                  description: Chat add options
+                plugins:
+                  type: array
+                  required: false
+                  description: Chat plugins
+                message_type:
+                  type: string
+                  required: false
+                  default: Chat
+                  description: Message type
+      responses:
+        '200':
+          description: Success chat
+          content:
+            application/json:
+              schema:
+                properties:
+                  author:
+                    type: string
+                    description: Chat Author
+                  image_create_text:
+                    type: string
+                    description: Use to create image
+                  max_messages:
+                    type: integer
+                    description: Maximum number of messages
+                  messageId:
+                    type: string
+                    description: Chat message id
+                  messages_left:
+                    type: integer
+                    description: Number of messages left
+                  source_keys:
+                    type: array
+                    description: Source title
+                  source_values:
+                    type: array
+                    description: Source link that GPT using
+                  suggestions:
+                    type: array
+                    description: GPT suggestions
+                  text:
+                    type: string
+                    description: Chat response
+  /ReEdgeGPT/image:
+    post:
+      description: Generate image using DALL3-E
+      tags:
+      - GPT
+      requestBody:
+        description: prompt
+        content:
+          application/json:
+            schema:
+              properties:
+                prompt:
+                  type: string
+                  description: Image generation prompt
+                timeout:
+                  type: integer
+                  default: 200
+                max_generate_time_sec:
+                  type: integer
+                  default: 60
+      responses:
+        '200':
+          description: Success generate image
+          content:
+            application/json:
+              schema:
+                properties:
+                  images:
+                    type: array
+                    example:
+                    - image_url1
+                    - image_url2
+                    - image_url3
+info:
+  title: ReEdgeGPT Example API Doc
+  version: 1.0.0
+openapi: 3.0.2
