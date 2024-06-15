@@ -1,5 +1,4 @@
 # ReEdgeGPT
-
 [![Downloads](https://static.pepy.tech/badge/re_edge_gpt)](https://pepy.tech/project/re_edge_gpt)
 
 _The reverse engineering the chat feature of the new version of Bing_
@@ -9,6 +8,10 @@ _The reverse engineering the chat feature of the new version of Bing_
 [ReEdgeGPT Doc Click Here!](https://reedgegpt.readthedocs.io/en/latest/)
 
 If you have any problem watch bottom Q&A first.
+
+* Notice! Copilot now easier to raise CaptchaChallenge: User needs to solve CAPTCHA to continue. 
+  * Pls manual send message to Copilot and retry.
+
 
 ## Another README
 
