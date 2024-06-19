@@ -11,7 +11,7 @@ If you have any problem watch bottom Q&A first.
 
 * Notice! Copilot now easier to raise CaptchaChallenge: User needs to solve CAPTCHA to continue. 
   * Pls manual send message to Copilot and retry.
-
+  * Microsoft change cookie expiration time from one week to only 3 days.
 
 ## Another README
 
