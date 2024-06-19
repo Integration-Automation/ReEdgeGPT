@@ -10,7 +10,8 @@ class ChatMainUI(QMainWindow, QtStyleTools):
 
     def __init__(self):
         super().__init__()
-        self.setCentralWidget(ChatWidget())
+        self.central_widget = ChatWidget()
+        self.setCentralWidget(self.central_widget)
 
 
 def start_chat_ui() -> None:
