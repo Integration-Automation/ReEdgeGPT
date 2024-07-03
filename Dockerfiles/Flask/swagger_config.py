@@ -11,8 +11,8 @@ def write_swagger_doc(openapi_yaml_content: str):
 
 
 def bind_swagger(flask_app: Flask):
-    from Dockerfiles.Flask.re_edge_gpt_blueprint import chat
-    from Dockerfiles.Flask.re_edge_gpt_blueprint import image
+    from re_edge_gpt_blueprint import chat
+    from re_edge_gpt_blueprint import image
 
     flask_api_docs_view = [
         chat, image
