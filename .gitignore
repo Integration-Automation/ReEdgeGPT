@@ -159,6 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/*
 
-Dockerfiles/Flask/bing_cookies.json
+bing_cookies.json
 **/copilot_cookies.*
 **/bing_cookies.*

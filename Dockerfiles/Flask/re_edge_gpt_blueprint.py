@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 from re_edge_gpt import Chatbot, ConversationStyle, ImageGenAsync
 from re_edge_gpt.utils.utilities import guess_locale
 
-re_edge_gpt_blueprint_instance = Blueprint("re_edge_gpt_blueprint", __name__, url_prefix="/ReEdgeGPT")
+re_edge_gpt_blueprint_instance = Blueprint("re_edge_gpt_blueprint", __name__, url_prefix="")
 
 bot = {
 
@@ -14,7 +14,7 @@ bot = {
 
 
 async def setup_chatbot():
-    cookies = json.loads(open(str(Path(str(Path.cwd()) + "/bing_cookies.json")), encoding="utf-8").read())
+    cookies = json.loads(open("bing_cookies.json", encoding="utf-8").read())
     chatbot = await Chatbot.create(cookies=cookies)
     bot.update({"chatbot": chatbot})
     return chatbot

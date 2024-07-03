@@ -3,8 +3,8 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-from Dockerfiles.Flask.re_edge_gpt_blueprint import re_edge_gpt_blueprint_instance
-from Dockerfiles.Flask.swagger_config import bind_swagger
+from re_edge_gpt_blueprint import re_edge_gpt_blueprint_instance
+from swagger_config import bind_swagger
 
 
 def create_app() -> Flask:

@@ -1,0 +1,22 @@
+# Folder
+venv
+tests
+info
+.idea
+.github
+images
+Readmes
+exe
+docs
+# File
+.gitlab-ci.yml
+.gitignore
+.dockerignore
+daemon.json
+README.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+dev.toml
+pyproject.toml
+stable.toml
+requirements.txt

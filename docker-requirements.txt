@@ -1,0 +1,9 @@
+gunicorn
+aiohttp
+certifi
+httpx
+requests
+rich
+regex
+re-edge-gpt[api]
+Brotli
