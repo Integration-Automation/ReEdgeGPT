@@ -16,7 +16,7 @@ daemon.json
 README.md
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
-dev.toml
 pyproject.toml
+stable.toml
 stable.toml
 requirements.txt

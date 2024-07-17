@@ -34,8 +34,8 @@ async def upload_image_url(image_url: str, conversation_id: str, cookies: dict,
         data = aiohttp.FormData()
         data.add_field('knowledgeRequest', json.dumps(new_payload), content_type="application/json")
         async with session.post(url, data=data, proxy=proxy) as resp:
-            if not resp.status == 200:
-                raise Exception("Upload image failed")
+            if resp.status != 200:
+                raise ConnectionError("Upload image failed")
             return (await resp.json())["blobId"]
 
 
@@ -58,12 +58,12 @@ async def upload_image(conversation_id: str, cookies: dict, filename: str = None
         elif base64_image is not None:
             image_base64 = base64_image
         else:
-            raise Exception('no image provided')
+            raise ConnectionRefusedError('no image provided')
 
         data = aiohttp.FormData()
         data.add_field('knowledgeRequest', json.dumps(new_payload), content_type="application/json")
         data.add_field('imageBase64', image_base64, content_type="application/octet-stream")
         async with session.post(url, data=data, proxy=proxy) as resp:
-            if not resp.status == 200:
-                raise Exception("Upload image failed")
+            if resp.status != 200:
+                raise ConnectionError("Upload image failed")
             return (await resp.json())["blobId"]
