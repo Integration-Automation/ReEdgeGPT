@@ -31,12 +31,8 @@ async def generate_suno_music(cookies: list[dict], iframe_id: str, request_id: s
         async with aiohttp.ClientSession(
                 headers={"Referer": real_generate_url}, cookies=new_cookies
         ) as real_session:
-            count = 0
             while True:
                 await asyncio.sleep(3)
-                count += 1
-                if count >= 20:
-                    break
                 response = await real_session.get(real_generate_url)
                 suno_response: dict = json.loads(await response.text())
                 suno_response = {"RawResponse": json.loads(suno_response.get("RawResponse"))}
