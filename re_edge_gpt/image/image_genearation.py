@@ -6,7 +6,6 @@ import os
 import random
 import sys
 import time
-from functools import partial
 from typing import Dict
 from typing import List
 from typing import Union
@@ -14,13 +13,14 @@ from typing import Union
 import httpx
 import regex
 import requests
+from requests.utils import requote_uri
 
 from re_edge_gpt.chat.proxy import get_proxy
 from re_edge_gpt.utils.exception.exception_message import sending_message, error_being_reviewed_prompt, \
     error_blocked_prompt, \
     error_unsupported_lang, error_timeout, error_noresults, error_no_images, download_message, error_image_create_failed
-from re_edge_gpt.utils.exception.exceptions import UnSupportLanguage, PromptBlocked, ImageCreateFailed, NoResultsFound, \
-    AuthCookieError, LimitExceeded, InappropriateContentType, ResponseError
+from re_edge_gpt.utils.exception.exceptions import UnSupportLanguage, PromptBlocked, ImageCreateFailed, \
+    NoResultsFound, AuthCookieError, LimitExceeded, InappropriateContentType, ResponseError
 
 FORWARDED_IP = f"1.0.0.{random.randint(0, 255)}"
 
@@ -42,24 +42,13 @@ HEADERS = {
 }
 
 
-def debug(debug_file, text_var):
-    """helper function for debug"""
-    with open(f"{debug_file}", "a", encoding="utf-8") as f:
-        f.write(str(text_var))
-        f.write("\n")
-
-
-def check_response(response, debug_file: Union[str, None] = None):
+def check_response(response):
     # check for content waring message
     if "this prompt is being reviewed" in response.text.lower():
-        if debug_file:
-            debug(f"ERROR: {error_being_reviewed_prompt}")
         raise UnSupportLanguage(
             error_being_reviewed_prompt,
         )
     if "this prompt has been blocked" in response.text.lower():
-        if debug_file:
-            debug(f"ERROR: {error_blocked_prompt}")
         raise PromptBlocked(
             error_blocked_prompt,
         )
@@ -67,8 +56,6 @@ def check_response(response, debug_file: Union[str, None] = None):
             "we're working hard to offer image creator in more languages"
             in response.text.lower()
     ):
-        if debug_file:
-            debug(f"ERROR: {error_unsupported_lang}")
         raise UnSupportLanguage(error_unsupported_lang)
 
 
@@ -86,7 +73,6 @@ class ImageGen:
     def __init__(
             self,
             auth_cookie: str,
-            debug_file: Union[str, None] = None,
             quiet: bool = False,
             all_cookies: List[Dict] = None,
             proxy: str = None,
@@ -107,9 +93,6 @@ class ImageGen:
             for cookie in all_cookies:
                 self.session.cookies.set(cookie["name"], cookie["value"])
         self.quiet = quiet
-        self.debug_file = debug_file
-        if self.debug_file:
-            self.debug = partial(debug, self.debug_file)
 
     def get_images(self, prompt: str, timeout: int = 200, max_generate_time_sec: int = 60) -> Union[list, None]:
         """
@@ -121,11 +104,8 @@ class ImageGen:
         """
         if not self.quiet:
             print(sending_message)
-        if self.debug_file:
-            self.debug(sending_message)
-        url_encoded_prompt = requests.utils.quote(prompt)
+        url_encoded_prompt = requote_uri(prompt)
         payload = f"q={url_encoded_prompt}&qs=ds"
-        # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
         url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
         response = self.session.post(
             url,
@@ -133,7 +113,7 @@ class ImageGen:
             data=payload,
             timeout=timeout,
         )
-        check_response(response, self.debug_file)
+        check_response(response)
         if response.status_code != 302:
             # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
@@ -147,30 +127,23 @@ class ImageGen:
         # https://www.bing.com/images/create/async/results/{ID}?q={PROMPT}
         polling_url = f"{BING_URL}/images/create/async/results/{request_id}?q={url_encoded_prompt}"
         # Poll for results
-        if self.debug_file:
-            self.debug("Polling and waiting for result")
         if not self.quiet:
             print("Waiting for results...")
         start_wait = time.time()
         time_sec = 0
         while True:
             if int(time.time() - start_wait) > 200:
-                if self.debug_file:
-                    self.debug(f"ERROR: {error_timeout}")
                 raise TimeoutError(error_timeout)
             if not self.quiet:
                 print(".", end="", flush=True)
             response = self.session.get(polling_url)
             if response.status_code != 200:
-                if self.debug_file:
-                    self.debug(f"ERROR: {error_noresults}")
                 raise NoResultsFound(error_noresults)
             if not response.text or response.text.find("errorMessage") != -1:
                 time.sleep(1)
                 time_sec = time_sec + 1
                 if time_sec >= max_generate_time_sec:
                     raise TimeoutError("Out of generate time")
-                continue
             else:
                 break
         # Use regex to search for src=""
@@ -208,8 +181,6 @@ class ImageGen:
             file_name: str
             download_count: int
         """
-        if self.debug_file:
-            self.debug(download_message)
         if not self.quiet:
             print(download_message)
         with contextlib.suppress(FileExistsError):
@@ -256,7 +227,6 @@ class ImageGenAsync:
     def __init__(
             self,
             auth_cookie: str = None,
-            debug_file: Union[str, None] = None,
             quiet: bool = False,
             all_cookies: List[Dict] = None,
             proxy: str = None
@@ -277,9 +247,6 @@ class ImageGenAsync:
                     {cookie["name"]: cookie["value"]},
                 )
         self.quiet = quiet
-        self.debug_file = debug_file
-        if self.debug_file:
-            self.debug = partial(debug, self.debug_file)
 
     async def __aenter__(self):
         return self
@@ -297,19 +264,16 @@ class ImageGenAsync:
         """
         if not self.quiet:
             print("Sending request...")
-        url_encoded_prompt = requests.utils.quote(prompt)
-        # https://www.bing.com/images/create?q=<PROMPT>&rt=3&FORM=GENCRE
+        url_encoded_prompt = requote_uri(prompt)
         url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=4&FORM=GUH2CR"
-        # payload = f"q={url_encoded_prompt}&qs=ds"
         response = await self.session.post(
             url,
             follow_redirects=False,
             data={"q": url_encoded_prompt, "qs": "ds"},
             timeout=timeout
         )
-        check_response(response, self.debug_file)
+        check_response(response)
         if response.status_code != 302:
-            # if rt4 fails, try rt3
             url = f"{BING_URL}/images/create?q={url_encoded_prompt}&rt=3&FORM=GUH2CR"
             response = await self.session.post(
                 url,
@@ -322,7 +286,6 @@ class ImageGenAsync:
         redirect_url = response.headers["Location"].replace("&nfy=1", "")
         request_id = redirect_url.split("id=")[-1]
         await self.session.get(f"{BING_URL}{redirect_url}")
-        # https://www.bing.com/images/create/async/results/{ID}?q={PROMPT}
         polling_url = f"{BING_URL}/images/create/async/results/{request_id}?q={url_encoded_prompt}"
         # Poll for results
         if not self.quiet:
@@ -343,7 +306,6 @@ class ImageGenAsync:
             time_sec = time_sec + 1
             if time_sec >= max_generate_time_sec:
                 raise TimeoutError("Out of generate time")
-            continue
         # Use regex to search for src=""
         image_links = regex.findall(r'src="([^"]+)"', content)
         # Remove size limit
@@ -368,13 +330,11 @@ class ImageGenAsync:
 async def async_image_gen(
         prompt: str,
         u_cookie=None,
-        debug_file=None,
         quiet=False,
         all_cookies=None,
 ):
     async with ImageGenAsync(
             u_cookie,
-            debug_file=debug_file,
             quiet=quiet,
             all_cookies=all_cookies,
     ) as image_generator:
@@ -450,7 +410,6 @@ def main():
         # Create image generator
         image_generator = ImageGen(
             auth_cookie=args.U,
-            debug_file=args.debug_file,
             quiet=args.quiet,
             all_cookies=cookie_json,
         )
@@ -464,7 +423,6 @@ def main():
             async_image_gen(
                 prompt=args.prompt,
                 u_cookie=args.U,
-                debug_file=args.debug_file,
                 quiet=args.quiet,
                 all_cookies=cookie_json,
             ),

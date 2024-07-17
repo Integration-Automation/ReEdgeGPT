@@ -10,8 +10,6 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.key_binding import KeyBindings
-from rich.live import Live
-from rich.markdown import Markdown
 
 from re_edge_gpt.chat.re_edge_gpt import Chatbot
 
@@ -67,6 +65,17 @@ async def get_input_async(
 async def async_main(args: argparse.Namespace) -> None:
     """
     Main function
+    options:
+        enter-once
+        search-result
+        no-stream
+        rich
+        proxy: Proxy service
+        wss-link: websocket link to connect to ChatHub
+        style: Copilot Chat style
+        prompt: Chat prompt
+        cookie-file: cookie file path
+        locale: locale ISO Language Codes
     """
     print("Initializing...")
     print("Enter `alt+enter` or `escape+enter` to send a message")

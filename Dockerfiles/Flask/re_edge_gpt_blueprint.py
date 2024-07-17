@@ -181,8 +181,6 @@ async def chat():
             message_type=message_type
         )
         return jsonify(response)
-    except Exception as error:
-        raise error
     finally:
         if chatbot is not None:
             await chatbot.close()

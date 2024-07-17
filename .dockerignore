@@ -18,5 +18,5 @@ CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 dev.toml
 pyproject.toml
-stable.toml
+pyproject.toml
 requirements.txt

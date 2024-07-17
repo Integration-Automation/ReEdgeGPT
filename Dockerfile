@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.10
 LABEL authors="JE-Chen"
 ARG DEBIAN_FRONTEND=noninteractive
 # Copy
@@ -16,9 +16,12 @@ COPY /Dockerfiles/Flask/main_flask.py /ReEdgeGPT_Flask
 # Workdir
 WORKDIR /ReEdgeGPT_Flask
 # Install dependency
-RUN apt update -y && apt upgrade -y && \
+RUN apt update -y &&  \
+    apt upgrade -y && \
     apt-get install -y python3 python3-pip python3-venv && \
-    python3 -m venv venv && . venv/bin/activate && \
+    apt-get clean && \
+    python3 -m venv venv &&  \
+    . venv/bin/activate && \
     pip install -r docker-requirements.txt
 # Os path
 ENV PATH="/venv/bin:$PATH"
