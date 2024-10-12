@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Union
 
 from re_edge_gpt.chat.conversation_style import CONVERSATION_STYLE_TYPE
@@ -44,7 +44,7 @@ class ChatHubRequest:
         now_local = datetime.now()
 
         # Get the current UTC time
-        now_utc = datetime.utcnow()
+        now_utc = datetime.now(UTC)
 
         # Calculate the time difference between local and UTC time
         timezone_offset = now_local - now_utc

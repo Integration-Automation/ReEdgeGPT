@@ -45,9 +45,8 @@ class Chatbot:
                 for plugin_id in plugin_ids:
                     if mode == "Bing":
                         response = await client.post(
-                            f"https://www.bing.com/codex/plugins/conversation/add"
-                            f"?conversationId={conversation_id}"
-                            f"&appid={APP_ID}&pluginId={plugin_id}"
+                            f"https://www.bing.com/codex/plugins/user/add?"
+                            f"pluginId={plugin_id}&appid={APP_ID}"
                         )
                     else:
                         response = await client.post(
