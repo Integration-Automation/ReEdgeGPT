@@ -1,4 +1,10 @@
 # ReEdgeGPT
+
+# Notice!
+> Please switch to new package to use copilot v2
+> 
+> [re_copilot](https://github.com/Integration-Automation/ReCopilot)
+
 [![Downloads](https://static.pepy.tech/badge/re_edge_gpt)](https://pepy.tech/project/re_edge_gpt)
 
 _The reverse engineering the chat feature of the new version of Bing_
