@@ -53,7 +53,7 @@ class Conversation:
         if mode == "Bing":
             response = self.session.get(
                 url=os.environ.get("BING_PROXY_URL")
-                    or f"https://www.bing.com/turing/conversation/create"
+                    or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
                        f"?bundleVersion={BUNDLE_VERSION}",
             )
         else:
@@ -112,14 +112,14 @@ class Conversation:
             if mode == "Bing":
                 response = await client.get(
                     url=os.environ.get("BING_PROXY_URL")
-                        or f"https://www.bing.com/turing/conversation/create"
+                        or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
                            f"?bundleVersion={BUNDLE_VERSION}",
                     follow_redirects=True,
                 )
             else:
                 response = await client.get(
                     url=os.environ.get("BING_PROXY_URL")
-                        or f"https://copilot.microsoft.com/turing/conversation/create"
+                        or f"https://edgeservices.bing.com/edgesvc/turing/conversation/create"
                            f"?bundleVersion={BUNDLE_VERSION}",
                     follow_redirects=True,
                 )
