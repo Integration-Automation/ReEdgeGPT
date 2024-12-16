@@ -20,7 +20,7 @@ async def test_ask() -> None:
                 str(Path(str(Path.cwd()) + "/copilot_cookies.json")), encoding="utf-8").read())
         bot = await Chatbot.create(cookies=cookies, mode=mode)
         response = await bot.ask(
-            prompt="What version u are using GPT-4 turbo?",
+            prompt="What about today weather",
             conversation_style=ConversationStyle.creative_classic, # ConversationStyle.creative
             simplify_response=True,
             search_result=True,

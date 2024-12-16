@@ -5,7 +5,6 @@ from typing import Union
 from re_edge_gpt.chat.conversation_style import CONVERSATION_STYLE_TYPE
 from re_edge_gpt.chat.conversation_style import ConversationStyle
 from re_edge_gpt.utils.utilities import get_location_hint_from_locale
-from re_edge_gpt.utils.utilities import get_ran_hex
 from re_edge_gpt.utils.utilities import guess_locale
 
 
@@ -44,7 +43,7 @@ class ChatHubRequest:
         now_local = datetime.now()
 
         # Get the current UTC time
-        now_utc = datetime.now(UTC)
+        now_utc = datetime.utcnow()
 
         # Calculate the time difference between local and UTC time
         timezone_offset = now_local - now_utc
